@@ -1,0 +1,5 @@
+.DS_Store
+/emacs.d/*
+!/emacs.d/config.org
+!/emacs.d/custom
+!/emacs.d/themes
