@@ -1,0 +1,502 @@
+#+TITLE: Emacs configuration
+#+AUTHOR: Lava Kumar Bokam
+#+Date: <2017-04-02 Sun>
+
+* Personal Information
+
+#+BEGIN_SRC emacs-lisp
+     (setq user-full-name "Lava Kumar Bokam")
+      (setq user-mail-address "lavajnv@gmail.com")
+#+END_SRC
+
+* Package Management
+#+BEGIN_SRC emacs-lisp
+
+  (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
+  (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+  (add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/"))
+  (package-initialize)
+
+  (unless (package-installed-p 'use-package)
+    (package-refresh-contents)
+    (package-install 'use-package))
+
+  (setq use-package-verbose t
+      use-package-always-ensure t)
+
+  (eval-when-compile
+    (require 'use-package))
+    (require 'diminish)                ;; if you use :diminish
+    (require 'bind-key)                ;; if you use any :bind variant
+
+#+END_SRC
+* Sensible Defaults
+  Load sensible defaults configuration for emacs
+#+BEGIN_SRC emacs-lisp
+
+  (load-file "~/.emacs.d/custom/sensible-defaults.el")
+  (sensible-defaults/use-all-settings)
+  (sensible-defaults/use-all-keybindings)
+
+#+END_SRC
+
+* User Interface Preferences
+** Emacs Themes
+   Laod blackboard theme
+#+BEGIN_SRC emacs-lisp
+  (load-file "~/.emacs.d/themes/blackboard-theme.el")
+  (load-theme 'blackboard t)
+#+END_SRC
+
+** Font Family and Size
+#+BEGIN_SRC  emacs-lisp
+  (setq lava/default-font "Courier New")
+  (setq lava/default-font-size 14)
+  (setq lava/current-font-size lava/default-font-size)
+  (defun lava/set-font-size ()
+    "Set the font to `hrs/default-font' at `hrs/current-font-size'."
+    (set-frame-font
+      (concat lava/default-font "-" (number-to-string lava/current-font-size))))
+  (lava/set-font-size)
+#+END_SRC
+** Mode Line
+#+BEGIN_SRC emacs-lisp
+(use-package smart-mode-line-powerline-theme :ensure t)
+(use-package smart-mode-line
+  :init
+  (progn
+    (setq sml/theme 'respectful)
+    (setq sml/no-confirm-load-theme t)
+    (set-face-attribute 'mode-line nil
+                         :box nil)
+    (sml/setup))
+   :config
+      (display-time-mode t)
+      (column-number-mode t))
+#+END_SRC
+** Lines
+#+BEGIN_SRC emacs-lisp
+  ;; Display line numbers
+  (load-file "~/.emacs.d/custom/linumoff.el")
+  (set-face-attribute 'linum nil :height 100)
+  (global-linum-mode)
+
+  ;; Highlight line
+  (when window-system
+    (global-hl-line-mode))
+#+END_SRC
+
+** Menu bar, Tool bar, Scroll bar
+#+BEGIN_SRC emacs-lisp
+  (menu-bar-mode 1)
+  (tool-bar-mode -1)
+  (when window-system
+    (scroll-bar-mode -1))
+
+#+END_SRC
+** Auto fill  and Spell Check
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'text-mode-hook 'turn-on-auto-fill)
+  (add-hook 'gfm-mode-hook 'turn-on-auto-fill)
+  (add-hook 'org-mode-hook 'turn-on-auto-fill)
+  ;; Toggle auto file mode
+  (global-set-key (kbd "C-c q") 'auto-fill-mode)
+
+  (setq ispell-program-name  "/usr/local/bin/ispell")
+
+  (add-to-list 'ispell-skip-region-alist '(":\\(PROPERTIES\\|LOGBOOK\\):" . ":END:"))
+  (add-to-list 'ispell-skip-region-alist '("#\\+BEGIN_SRC" . "#\\+END_SRC"))
+  (add-to-list 'ispell-skip-region-alist '("#\\+BEGIN_EXAMPLE" . "#\\+END_EXAMPLE"))
+
+  (defun lava/spell-check ()
+    (flyspell-mode 1)
+    (ispell-minor-mode 1))
+
+  (add-hook 'text-mode-hook 'lava/spell-check)
+  (add-hook 'org-mode-hook 'lava/spell-check)
+  (add-hook 'gfm-mode-hook 'lava/spell-check)
+#+END_SRC
+** Key Hints - Which key
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'load-path "~/emacs.d/plugins/which-key/")
+  (require 'which-key)
+  (which-key-mode)
+#+END_SRC
+
+** Custom Settings
+#+BEGIN_SRC emacs-lisp
+
+  (setq-default cursor-in-non-selected-windows 'hollow)
+  (setq-default tab-width 2)
+  ;; Camel case word treat differntly
+  (global-subword-mode 1)
+  (setq compilation-scroll-output t)
+  ;; Never Use Tabs, Tabs are Devil's white spaces
+  (setq-default indent-tabs-mode nil)
+  ;; High light uncommited changes
+  (use-package diff-hl
+    :defer 1
+    :ensure t
+    :init
+    (add-hook 'prog-mode-hook 'turn-on-diff-hl-mode)
+    (add-hook 'vc-dir-mode-hook 'turn-on-diff-hl-mode))
+
+  ;; Full screen emacs start
+  (set-frame-parameter nil 'fullscreen 'fullboth)
+#+END_SRC
+
+* EVIL Mode
+	Use of evil mode for vim related bindings
+ #+BEGIN_SRC emacs-lisp
+   (use-package evil
+     :ensure t
+     :defer 1
+     :no-require t
+     :init (evil-mode +1)
+     :config
+     (evil-set-initial-state 'term-mode 'emacs)
+     (setq evil-emacs-state-cursor '("red" box))
+     (setq evil-normal-state-cursor '("green" box))
+     (setq evil-visual-state-cursor '("orange" box))
+     (setq evil-insert-state-cursor '("red" bar))
+     (setq evil-replace-state-cursor '("red" bar))
+     (setq evil-operator-state-cursor '("red" hollow))
+     (progn (define-key evil-insert-state-map (kbd "C-a") 'move-beginning-of-line) ;; was 'evil-paste-last-insertion
+           (define-key evil-insert-state-map (kbd "C-e") 'end-of-line)    ;; was 'evil-copy-from-below
+           (define-key evil-insert-state-map (kbd "C-n") 'next-line)      ;; was 'evil-complete-next
+           (define-key evil-insert-state-map (kbd "C-p") 'previous-line)  ;; was 'evil-complete-previous
+           (define-key evil-ex-map "e" 'helm-find-files)
+           (define-key evil-ex-map "b" 'helm-buffers-list)
+           (define-key evil-ex-map "x" 'kill-buffer-and-window)
+           (define-key evil-ex-map "w" 'save-buffer)
+           (define-key evil-ex-map "!" 'shell-command))
+
+     (use-package evil-leader
+       :ensure t
+       :config
+       (setq evil-leader/in-all-states t)
+       (global-evil-leader-mode)
+
+       (evil-leader/set-leader ";")
+       (evil-leader/set-key
+          "e" 'helm-find-files
+          "b" 'switch-to-buffer
+          "w" 'save-buffer
+          "c" 'delete-window
+          "k" 'kill-buffer
+          "!" 'shell-command
+          "v" 'split-window-horizontally
+          "s" 'split-window-vertically
+          "o" 'other-window
+          "h" 'evil-window-left
+          "j" 'evil-window-down
+          "k" 'evil-window-top
+          "l" 'evil-window-right
+          "n" 'evil-window-next
+          "p" 'evil-window-prev))
+
+     (use-package evil-surround
+       :ensure t
+       :config
+       (global-evil-surround-mode))
+
+     (use-package evil-indent-textobject
+       :ensure t))
+ #+END_SRC
+
+* Helm , Projectile, Dired
+** Helm
+#+BEGIN_SRC emacs-lisp
+
+  (use-package helm
+    :ensure t
+    :diminish helm-mode
+    :init
+    (progn
+      (require 'helm-config)
+      (setq helm-candidate-number-limit 100)
+      ;; From https://gist.github.com/antifuchs/9238468
+      (setq helm-idle-delay 0.0 ; update fast sources immediately (doesn't).
+            helm-input-idle-delay 0.01  ; this actually updates things
+                                          ; reeeelatively quickly.
+            helm-yas-display-key-on-candidate t
+            helm-quick-update t
+            helm-M-x-requires-pattern nil
+            helm-ff-skip-boring-files t)
+      (helm-mode)
+      (helm-autoresize-mode) )
+    :bind (("C-c h" . helm-mini)
+           ("C-h a" . helm-apropos)
+           ("C-x C-b" . helm-buffers-list)
+           ("C-x C-f" . helm-find-files)
+           ("C-x b" . helm-buffers-list)
+           ("M-y" . helm-show-kill-ring)
+           ("M-x" . helm-M-x)
+           ("C-x c o" . helm-occur)
+           ("C-x c s" . helm-swoop)
+           ("C-x c y" . helm-yas-complete)
+           ("C-x c Y" . helm-yas-create-snippet-on-region)
+           ("C-x c SPC" . helm-all-mark-rings)))
+     (ido-mode -1) ;; Turn off ido mode in case I enabled it accidentally
+
+#+END_SRC
+** Helm Projectile
+#+BEGIN_SRC emacs-lisp
+
+  (use-package helm-projectile
+    :ensure t
+    :init
+      (setq projectile-completion-system 'helm)
+      (setq projectile-switch-project-action 'helm-projectile-find-file)
+      (setq projectile-switch-project-action 'helm-projectile)
+      (setq projectile-enable-caching t)
+    :config
+      (helm-projectile-on))
+
+
+#+END_SRC
+** Helm Dash for Documentation
+#+BEGIN_SRC emacs-lisp
+  (use-package helm-dash
+     :ensure t
+     :defer 1
+     :init
+        (progn
+         (setq helm-dash-docsets-path "~/dotfiles/docsets")
+         (setq helm-dash-browser-func 'eww)))
+
+
+#+END_SRC
+** Dired
+ #+BEGIN_SRC emacs-lisp
+     (use-package dired+
+       :ensure t)
+     (use-package dired-open
+        :ensure t)
+     (setq-default dired-listing-switches "-lhvA")
+     (setq dired-open-extensions
+        '(("pdf" . "evince")
+          ("mkv" . "vlc")
+          ("mp4" . "vlc")
+          ("avi" . "vlc")))
+     (evil-define-key 'normal dired-mode-map (kbd "j") 'dired-next-line)
+     (evil-define-key 'normal dired-mode-map (kbd "k") 'dired-previous-line)
+
+     (setq dired-clean-up-buffers-too t)
+     (setq dired-recursive-copies 'always)
+     (setq dired-recursive-deletes 'top)
+ #+END_SRC
+
+* Terminal and ENV settings
+#+BEGIN_SRC emacs-lisp
+
+  (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
+  (global-set-key (kbd "M-t") 'multi-term)
+  (setq multi-term-program "/bin/bash")
+  ;;(setq multi-term-program-switches "--login")
+
+#+END_SRC
+
+* Search Engine
+#+BEGIN_SRC emacs-lisp
+  (use-package engine-mode
+     :ensure t
+     :defer 1
+     :config
+     (defengine duckduckgo
+        "https://duckduckgo.com/?q=%s"
+        :keybinding "d")
+     (defengine github
+        "https://github.com/search?ref=simplesearch&q=%s"
+        :keybinding "git")
+     (defengine google
+          "http://www.google.com/search?ie=utf-8&oe=utf-8&q=%s"
+          :keybinding "g")
+     (defengine stack-overflow
+         "https://stackoverflow.com/search?q=%s"
+         :keybinding "s")
+     (defengine wikipedia
+         "http://www.wikipedia.org/search-redirect.php?language=en&go=Go&search=%s"
+         :keybinding "w")
+     (defengine amazon
+         "https://www.amazon.com/exec/obidos/external-search/?field-keywords=%s&mode=blended"
+         :keybinding "az")
+     (defengine Torrentz
+         "https://torrentz2.eu/search?f=%s"
+         :keybinding "tz")
+     (defengine youtube
+         "http://www.youtube.com/results?aq=f&oq=&search_query=%s"
+         :keybinding "y")
+     (engine-mode t))
+
+#+END_SRC
+* Org Mode Preferences
+** Display Preferences
+  #+BEGIN_SRC emacs-lisp
+  (setq org-ellipsis "⤵")
+  (setq org-src-fontify-natively t)
+  (setq org-src-tab-acts-natively t)
+  (setq org-src-window-setup 'current-window)
+
+
+ #+END_SRC
+*** Org Bullets
+  #+BEGIN_SRC emacs-lisp
+   (use-package org-bullets
+     :ensure t
+     :defer 1
+     :init (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+ #+END_SRC
+** Make Org-Mode Default
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'auto-mode-alist '("README$" . org-mode))
+  (setq default-major-mode 'org-mode)
+  (add-to-list 'auto-mode-alist '("\\.\\(org\\  |org_archive\\|txt\\)$" . org-mode))
+
+#+END_SRC
+** yasnippet
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'load-path
+              "~/.emacs.d/plugins/yasnippet")
+  (require 'yasnippet)
+  (yas-global-mode 1)
+   (defun yas/org-very-safe-expand ()
+   (let ((yas/fallback-behavior 'return-nil)) (yas/expand)))
+     (add-hook 'org-mode-hook
+        (lambda ()
+           (make-variable-buffer-local 'yas/trigger-key)
+           (setq yas/trigger-key [tab])
+           (add-to-list 'org-tab-first-hook 'yas/org-very-safe-expand)
+           (define-key yas/keymap [tab] 'yas/next-field)))
+
+
+#+END_SRC
+** Tasks and Notes
+ #+BEGIN_SRC emacs-lisp
+   (setq org-directory "~/Dropbox/org/")
+   (setq org-agenda-files '("~/Dropbox/org/"))
+   (setq org-use-fast-todo-selection t)
+   (setq org-todo-keywords
+      (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
+              (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "PHONE" "MEETING"))))
+
+   (setq org-todo-keyword-faces
+      (quote (("TODO" :foreground "red" :weight bold)
+              ("NEXT" :foreground "blue" :weight bold)
+              ("DONE" :foreground "forest green" :weight bold)
+              ("WAITING" :foreground "orange" :weight bold)
+              ("HOLD" :foreground "magenta" :weight bold)
+              ("CANCELLED" :foreground "forest green" :weight bold)
+              ("MEETING" :foreground "forest green" :weight bold)
+              ("PHONE" :foreground "forest green" :weight bold))))
+
+  (setq org-todo-state-tags-triggers
+      (quote (("CANCELLED" ("CANCELLED" . t))
+              ("WAITING" ("WAITING" . t))
+              ("HOLD" ("WAITING") ("HOLD" . t))
+              (done ("WAITING") ("HOLD"))
+              ("TODO" ("WAITING") ("CANCELLED") ("HOLD"))
+              ("NEXT" ("WAITING") ("CANCELLED") ("HOLD"))
+              ("DONE" ("WAITING") ("CANCELLED") ("HOLD")))))
+
+   (setq org-tag-alist '(("WORK" . ?w)
+                         ("PERSONAL" . ?p)
+                         ("@ERRANDS" . ?e)
+                         ("@HOME" . ?h)))
+
+   (define-key global-map "\C-cl" 'org-store-link)
+   (define-key global-map "\C-ca" 'org-agenda)
+
+   (setq org-agenda-text-search-extra-files '(agenda-archives))
+   (setq org-blank-before-new-entry (quote ((heading) (plain-list-item))))
+   (setq org-enforce-todo-dependencies t)
+   (setq org-log-done (quote time))
+   (setq org-log-redeadline (quote time))
+   (setq org-log-reschedule (quote time))
+
+   (add-hook 'org-capture-mode-hook 'evil-insert-state)
+
+ #+END_SRC
+** Evaluate language
+#+BEGIN_SRC emacs-lisp
+
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((emacs-lisp . t)
+     (python . t)
+     (sh . t)
+     (gnuplot . t)
+     (dot . t )))
+#+END_SRC
+** Org Capture and Org-Protocol
+   Enabling Emacs server with org-protocol to recieve org-capture from outside emacs
+#+BEGIN_SRC emacs-lisp
+(load-library "org-protocol")
+(setq org-default-notes-file "~/Dropbox/org/refile.org")
+
+;; I use C-c c to start capture mode
+(global-set-key (kbd "C-c c") 'org-capture)
+
+;; Capture templates for: TODO tasks, Notes, appointments, phone calls, meetings, and org-protocol
+(setq org-capture-templates
+      (quote (("t" "todo" entry (file "~/Dropbox/org/refile.org")
+               "* TODO %?\n%U\n%a\n" :clock-in t :clock-resume t)
+              ("r" "respond" entry (file "~/Dropbox/org/refile.org")
+               "* NEXT Respond to %:from on %:subject\nSCHEDULED: %t\n%U\n%a\n" :clock-in t :clock-resume t :immediate-finish t)
+              ("n" "note" entry (file "~/Dropbox/org/refile.org")
+               "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t)
+              ("j" "Journal" entry (file+datetree "~/Dropbox/org/diary.org")
+               "* %?\n%U\n" :clock-in t :clock-resume t)
+              ("w" "org-protocol" entry (file "~/Dropbox/org/refile.org")
+               "* TODO Review %c\n%U\n" :immediate-finish t)
+              ("m" "Meeting" entry (file "~/Dropbox/org/refile.org")
+               "* MEETING with %? :MEETING:\n%U" :clock-in t :clock-resume t)
+              ("p" "Phone call" entry (file "~/Dropbox/org/refile.org")
+               "* PHONE %? :PHONE:\n%U" :clock-in t :clock-resume t)
+              ("h" "Habit" entry (file "~/Dropbox/org/refile.org")
+               "* NEXT %?\n%U\n%a\nSCHEDULED: %(format-time-string \"%<<%Y-%m-%d %a .+1d/3d>>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n"))))
+
+
+#+END_SRC
+#+BEGIN_SRC emacs-lisp
+  ;; (define-key global-map "\C-cx"
+  ;;  (lambda () (interactive) (org-capture nil "w")))
+   (setq server-socket-dir (expand-file-name "server" user-emacs-directory))
+   (server-start)
+ #+END_SRC
+*** Org Refile
+#+BEGIN_SRC emacs-lisp
+
+  ; Targets include this file and any file contributing to the agenda - up to 9 levels deep
+  (setq org-refile-targets (quote ((nil :maxlevel . 9)
+                                   (org-agenda-files :maxlevel . 9))))
+
+  ; Use full outline paths for refile targets - we file directly with IDO
+  (setq org-refile-use-outline-path t)
+
+  ; Targets complete directly with IDO
+  (setq org-outline-path-complete-in-steps nil)
+
+  ; Allow refile to create parent tasks with confirmation
+  (setq org-refile-allow-creating-parent-nodes (quote confirm))
+
+  ; Use IDO for both buffer and file completion and ido-everywhere to t
+  (setq org-completion-use-ido t)
+  (setq ido-everywhere t)
+  (setq ido-max-directory-size 100000)
+  (ido-mode (quote both))
+  ; Use the current window when visiting files and buffers with ido
+  (setq ido-default-file-method 'selected-window)
+  (setq ido-default-buffer-method 'selected-window)
+  ; Use the current window for indirect buffer display
+  (setq org-indirect-buffer-display 'current-window)
+
+  ;;;; Refile settings
+  ; Exclude DONE state tasks from refile targets
+  (defun bh/verify-refile-target ()
+    "Exclude todo keywords with a done state from refile targets"
+    (not (member (nth 2 (org-heading-components)) org-done-keywords)))
+
+  (setq org-refile-target-verify-function 'bh/verify-refile-target)
+
+#+END_SRC
