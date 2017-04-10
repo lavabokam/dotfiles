@@ -1,0 +1,18 @@
+set gui=tabs,navigation
+set animations=true
+set fullscreen=true
+set complete=tlSs
+set statuslinevisibility=visible
+
+" Key remaps
+noremap j jj
+noremap k kk
+noremap h gT
+noremap l gt
+noremap c d
+noremap d c
+
+map <C-g> <Esc>
+
+ignorekeys youtube\.com
+ignorekeys docs\.google\.com
