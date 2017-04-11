@@ -134,12 +134,6 @@
   ;; Never Use Tabs, Tabs are Devil's white spaces
   (setq-default indent-tabs-mode nil)
   ;; High light uncommited changes
-  (use-package diff-hl
-    :defer 1
-    :ensure t
-    :init
-    (add-hook 'prog-mode-hook 'turn-on-diff-hl-mode)
-    (add-hook 'vc-dir-mode-hook 'turn-on-diff-hl-mode))
 
   ;; Full screen emacs start
   (set-frame-parameter nil 'fullscreen 'fullboth)
@@ -169,8 +163,12 @@
            (define-key evil-ex-map "b" 'helm-buffers-list)
            (define-key evil-ex-map "x" 'kill-buffer-and-window)
            (define-key evil-ex-map "w" 'save-buffer)
-           (define-key evil-ex-map "!" 'shell-command))
-
+           (define-key evil-ex-map "!" 'shell-command)
+           (define-key evil-normal-state-map (kbd "gf")
+             (lambda () (interactive) (find-tag (find-tag-default-as-regexp))))
+           (define-key evil-normal-state-map (kbd "gb") 'pop-tag-mark)
+           (define-key evil-normal-state-map (kbd "gn")
+             (lambda () (interactive) (find-tag last-tag t))))
      (use-package evil-leader
        :ensure t
        :config
@@ -193,8 +191,8 @@
           "k" 'evil-window-top
           "l" 'evil-window-right
           "n" 'evil-window-next
-          "p" 'evil-window-prev))
-
+          "p" 'evil-window-prev
+          "t" 'helm-etags-select))
      (use-package evil-surround
        :ensure t
        :config
@@ -204,6 +202,16 @@
        :ensure t))
  #+END_SRC
 
+* TAGS
+#+BEGIN_SRC emacs-lisp
+
+ (use-package ctags-update
+  :ensure t
+  :config
+  (progn
+    (add-hook 'enh-ruby-mode-hook 'turn-on-ctags-auto-update-mode)))
+
+#+END_SRC
 * Helm , Projectile, Dired
 ** Helm
 #+BEGIN_SRC emacs-lisp
@@ -287,10 +295,23 @@
      (setq dired-recursive-deletes 'top)
  #+END_SRC
 
+* Version control
+#+BEGIN_SRC emacs-lisp
+   (use-package diff-hl
+    :defer 1
+    :ensure t
+    :init
+    (add-hook 'prog-mode-hook 'turn-on-diff-hl-mode)
+    (add-hook 'vc-dir-mode-hook 'turn-on-diff-hl-mode))
+   (use-package magit
+      :ensure t)
+
+#+END_SRC
 * Terminal and ENV settings
 #+BEGIN_SRC emacs-lisp
 
-  (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
+  (setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH")))
+
   (global-set-key (kbd "M-t") 'multi-term)
   (setq multi-term-program "/bin/bash")
   ;;(setq multi-term-program-switches "--login")
