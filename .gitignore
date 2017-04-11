@@ -1,5 +1,7 @@
 .DS_Store
+/docsets
 /emacs.d/*
 !/emacs.d/config.org
 !/emacs.d/custom
 !/emacs.d/themes
+/vimperator/info
