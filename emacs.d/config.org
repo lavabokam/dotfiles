@@ -254,6 +254,7 @@
   (use-package helm-projectile
     :ensure t
     :init
+      (projectile-mode)
       (setq projectile-completion-system 'helm)
       (setq projectile-switch-project-action 'helm-projectile-find-file)
       (setq projectile-switch-project-action 'helm-projectile)
@@ -301,6 +302,7 @@
     :defer 1
     :ensure t
     :init
+    (diff-hl-flydiff-mode)
     (add-hook 'prog-mode-hook 'turn-on-diff-hl-mode)
     (add-hook 'vc-dir-mode-hook 'turn-on-diff-hl-mode))
    (use-package magit
