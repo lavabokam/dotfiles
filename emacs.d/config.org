@@ -86,6 +86,14 @@
     (global-hl-line-mode))
 #+END_SRC
 
+** Neo Tree
+#+BEGIN_SRC emacs-lisp
+ (use-package neotree
+   :ensure t
+   :bind* (("C-c C-n" . neotree-toggle))
+   :init
+     (setq neo-smart-open t))
+#+END_SRC
 ** Menu bar, Tool bar, Scroll bar
 #+BEGIN_SRC emacs-lisp
   (menu-bar-mode 1)
@@ -137,6 +145,10 @@
 
   ;; Full screen emacs start
   (set-frame-parameter nil 'fullscreen 'fullboth)
+  (use-package restart-emacs
+  :ensure t
+  :bind* (("C-x M-x" . restart-emacs)))
+
 #+END_SRC
 
 * EVIL Mode
@@ -203,7 +215,8 @@
        :ensure t))
  #+END_SRC
 
-* TAGS
+* Source Navigation
+** TAGS
 #+BEGIN_SRC emacs-lisp
  (defun regenerate-tags ()
   (interactive)
@@ -217,6 +230,15 @@
     (add-hook 'prog-mode-hook 'turn-on-ctags-auto-update-mode)))
 
 #+END_SRC
+** Dumb jump
+#+BEGIN_SRC emacs-lisp
+(use-package dumb-jump
+  :ensure t
+  :bind (("C-c SPC" . dumb-jump-go))
+   :config
+  (dumb-jump-mode))
+#+END_SRC
+
 * Helm , Projectile, Dired
 ** Helm
 #+BEGIN_SRC emacs-lisp
@@ -313,6 +335,23 @@
    (use-package magit
       :ensure t)
 
+#+END_SRC
+** Backups
+#+BEGIN_SRC emacs-lisp
+ ;; Backups at .saves folder in the current folder
+  (setq backup-by-copying t      ; don't clobber symlinks
+        backup-directory-alist
+        '(("." . "~/.saves"))    ; don't litter my fs tree
+        delete-old-versions t
+        kept-new-versions 6
+        kept-old-versions 2
+        version-control t)       ; use versioned backups
+
+#+END_SRC
+** Autosaving
+#+BEGIN_SRC emacs-lisp
+(setq auto-save-file-name-transforms `((".*" ,temporary-file-directory t))
+      create-lockfiles nil)
 #+END_SRC
 * Terminal and ENV settings
 #+BEGIN_SRC emacs-lisp
