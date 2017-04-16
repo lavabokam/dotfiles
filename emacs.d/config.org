@@ -165,71 +165,77 @@
 * EVIL Mode
 	Use of evil mode for vim related bindings
  #+BEGIN_SRC emacs-lisp
-   (use-package evil
-     :ensure t
-     :defer 1
-     :no-require t
-     :init (evil-mode +1)
-     :config
-     (evil-set-initial-state 'term-mode 'emacs)
-     (setq evil-emacs-state-cursor '("red" box))
-     (setq evil-normal-state-cursor '("green" box))
-     (setq evil-visual-state-cursor '("orange" box))
-     (setq evil-insert-state-cursor '("red" bar))
-     (setq evil-replace-state-cursor '("red" bar))
-     (setq evil-operator-state-cursor '("red" hollow))
-     (progn (define-key evil-insert-state-map (kbd "C-a") 'move-beginning-of-line) ;; was 'evil-paste-last-insertion
-           (define-key evil-insert-state-map (kbd "C-e") 'end-of-line)    ;; was 'evil-copy-from-below
-           (define-key evil-insert-state-map (kbd "C-n") 'next-line)      ;; was 'evil-complete-next
-           (define-key evil-insert-state-map (kbd "C-p") 'previous-line)  ;; was 'evil-complete-previous
-           (define-key evil-ex-map "e" 'helm-find-files)
-           (define-key evil-ex-map "b" 'helm-buffers-list)
-           (define-key evil-ex-map "x" 'kill-buffer-and-window)
-           (define-key evil-ex-map "w" 'save-buffer)
-           (define-key evil-ex-map "!" 'shell-command)
-         ;; TAGS NAVIGATION
-           (define-key evil-normal-state-map (kbd "gf")
-             (lambda () (interactive) (find-tag (find-tag-default-as-regexp))))
-           (define-key evil-normal-state-map (kbd "gb") 'pop-tag-mark)
-           (define-key evil-normal-state-map (kbd "gn")
-             (lambda () (interactive) (find-tag last-tag t)))
-         ;; NEO TREE NAVAIGATION
-            (evil-define-key 'normal neotree-mode-map (kbd "TAB") 'neotree-enter)
-            (evil-define-key 'normal neotree-mode-map (kbd "SPC") 'neotree-enter)
-            (evil-define-key 'normal neotree-mode-map (kbd "q") 'neotree-hide)
-            (evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter))
-     (use-package evil-leader
-       :ensure t
-       :config
-       (setq evil-leader/in-all-states t)
-       (global-evil-leader-mode)
+      (use-package evil
+        :ensure t
+        :defer 1
+        :no-require t
+        :init (evil-mode +1)
+        :config
+        (evil-set-initial-state 'term-mode 'emacs)
+        (setq evil-emacs-state-cursor '("red" box))
+        (setq evil-normal-state-cursor '("green" box))
+        (setq evil-visual-state-cursor '("orange" box))
+        (setq evil-insert-state-cursor '("red" bar))
+        (setq evil-replace-state-cursor '("red" bar))
+        (setq evil-operator-state-cursor '("red" hollow))
+        (progn (define-key evil-insert-state-map (kbd "C-a") 'move-beginning-of-line) ;; was 'evil-paste-last-insertion
+              (define-key evil-insert-state-map (kbd "C-e") 'end-of-line)    ;; was 'evil-copy-from-below
+              (define-key evil-insert-state-map (kbd "C-n") 'next-line)      ;; was 'evil-complete-next
+              (define-key evil-insert-state-map (kbd "C-p") 'previous-line)  ;; was 'evil-complete-previous
+              (define-key evil-ex-map "e" 'helm-find-files)
+              (define-key evil-ex-map "b" 'helm-buffers-list)
+              (define-key evil-ex-map "x" 'kill-buffer-and-window)
+              (define-key evil-ex-map "w" 'save-buffer)
+              (define-key evil-ex-map "!" 'shell-command)
+            ;; TAGS NAVIGATION
+              (define-key evil-normal-state-map (kbd "gf")
+                (lambda () (interactive) (find-tag (find-tag-default-as-regexp))))
+              (define-key evil-normal-state-map (kbd "gb") 'pop-tag-mark)
+              (define-key evil-normal-state-map (kbd "gn")
+                (lambda () (interactive) (find-tag last-tag t)))
+            ;; NEO TREE NAVAIGATION
+               (evil-define-key 'normal neotree-mode-map (kbd "TAB") 'neotree-enter)
+               (evil-define-key 'normal neotree-mode-map (kbd "SPC") 'neotree-enter)
+               (evil-define-key 'normal neotree-mode-map (kbd "q") 'neotree-hide)
+               (evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter))
+        (use-package evil-leader
+          :ensure t
+          :config
+          (setq evil-leader/in-all-states t)
+          (global-evil-leader-mode)
 
-       (evil-leader/set-leader ";")
-       (evil-leader/set-key
-          "e" 'helm-find-files
-          "b" 'switch-to-buffer
-          "w" 'save-buffer
-          "c" 'delete-window
-          "k" 'kill-buffer
-          "!" 'shell-command
-          "x" 'kill-buffer-and-window
-          "v" 'split-window-horizontally
-          "s" 'split-window-vertically
-          "o" 'other-window
-          "h" 'evil-window-left
-          "j" 'evil-window-down
-          "k" 'evil-window-top
-          "l" 'evil-window-right
-          "n" 'evil-window-next
-          "p" 'evil-window-prev
-          "SPC" 'dumb-jump-go))
-     (use-package evil-surround
-       :ensure t
-       :config
-       (global-evil-surround-mode))
+          (evil-leader/set-leader ";")
+          (evil-leader/set-key
+             "e" 'helm-find-files
+             "b" 'switch-to-buffer
+             "w" 'save-buffer
+             "c" 'delete-window
+             "k" 'kill-buffer
+             "!" 'shell-command
+             "x" 'kill-buffer-and-window
+             "v" 'split-window-horizontally
+             "s" 'split-window-vertically
+             "o" 'other-window
+             "h" 'evil-window-left
+             "j" 'evil-window-down
+             "k" 'evil-window-top
+             "l" 'evil-window-right
+             "n" 'evil-window-next
+             "p" 'evil-window-prev
+             "SPC" 'dumb-jump-go))
+        (use-package evil-surround
+          :ensure t
+          :config
+          (global-evil-surround-mode))
 
-     (use-package evil-indent-textobject
-       :ensure t))
+        (use-package evil-indent-textobject
+          :ensure t))
+
+    (use-package evil-magit
+        :ensure t
+        :config
+         (progn
+          (evil-leader/set-key "gs" 'magit-status)))
  #+END_SRC
 
 * Source Navigation
