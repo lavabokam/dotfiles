@@ -120,7 +120,7 @@
     (flyspell-mode 1)
     (ispell-minor-mode 1))
 
-  (add-hook 'text-mode-hook 'lava/spell-check)
+ ;; (add-hook 'text-mode-hook 'lava/spell-check)
   (add-hook 'org-mode-hook 'lava/spell-check)
   (add-hook 'gfm-mode-hook 'lava/spell-check)
 #+END_SRC
@@ -176,11 +176,17 @@
            (define-key evil-ex-map "x" 'kill-buffer-and-window)
            (define-key evil-ex-map "w" 'save-buffer)
            (define-key evil-ex-map "!" 'shell-command)
+         ;; TAGS NAVIGATION
            (define-key evil-normal-state-map (kbd "gf")
              (lambda () (interactive) (find-tag (find-tag-default-as-regexp))))
            (define-key evil-normal-state-map (kbd "gb") 'pop-tag-mark)
            (define-key evil-normal-state-map (kbd "gn")
-             (lambda () (interactive) (find-tag last-tag t))))
+             (lambda () (interactive) (find-tag last-tag t)))
+         ;; NEO TREE NAVAIGATION
+            (evil-define-key 'normal neotree-mode-map (kbd "TAB") 'neotree-enter)
+            (evil-define-key 'normal neotree-mode-map (kbd "SPC") 'neotree-enter)
+            (evil-define-key 'normal neotree-mode-map (kbd "q") 'neotree-hide)
+            (evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter))
      (use-package evil-leader
        :ensure t
        :config
@@ -218,16 +224,11 @@
 * Source Navigation
 ** TAGS
 #+BEGIN_SRC emacs-lisp
- (defun regenerate-tags ()
-  (interactive)
-  (let ((tags-directory (directory-file-name (projectile-project-root))))
-    (shell-command
-     (format "ctags -f %s -e -R %s" tags-file-name tags-directory))))
- (use-package ctags-update
-  :ensure t
-  :config
-  (progn
-    (add-hook 'prog-mode-hook 'turn-on-ctags-auto-update-mode)))
+  (use-package ctags-update
+   :ensure t
+   :config
+     (progn
+       (add-hook 'prog-mode-hook 'turn-on-ctags-auto-update-mode)))
 
 #+END_SRC
 ** Dumb jump
@@ -334,24 +335,6 @@
     (add-hook 'vc-dir-mode-hook 'turn-on-diff-hl-mode))
    (use-package magit
       :ensure t)
-
-#+END_SRC
-** Backups
-#+BEGIN_SRC emacs-lisp
- ;; Backups at .saves folder in the current folder
-  (setq backup-by-copying t      ; don't clobber symlinks
-        backup-directory-alist
-        '(("." . "~/.saves"))    ; don't litter my fs tree
-        delete-old-versions t
-        kept-new-versions 6
-        kept-old-versions 2
-        version-control t)       ; use versioned backups
-
-#+END_SRC
-** Autosaving
-#+BEGIN_SRC emacs-lisp
-(setq auto-save-file-name-transforms `((".*" ,temporary-file-directory t))
-      create-lockfiles nil)
 #+END_SRC
 * Terminal and ENV settings
 #+BEGIN_SRC emacs-lisp
