@@ -50,7 +50,9 @@ directory."
   "Allow 20MB of memory (instead of 0.76MB) before calling
 garbage collection. This means GC runs less often, which speeds
 up some operations."
-  (setq gc-cons-threshold (* 100 1024 1024)))
+   (setq gc-cons-threshold 400000000)
+   (add-hook 'after-init-hook (lambda () (setq gc-cons-threshold 800000))))
+  ;;(setq gc-cons-threshold (* 400 1024 1024)))
 
 (defun sensible-defaults/delete-trailing-whitespace ()
   "Call DELETE-TRAILING-WHITESPACE every time a buffer is saved."
