@@ -6,7 +6,7 @@
 
 #+BEGIN_SRC emacs-lisp
      (setq user-full-name "Lava Kumar Bokam")
-      (setq user-mail-address "lavajnv@gmail.com")
+     (setq user-mail-address "lavajnv@gmail.com")
 #+END_SRC
 
 * Package Management
