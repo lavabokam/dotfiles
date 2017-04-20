@@ -9,10 +9,8 @@ noremap j jj
 noremap k kk
 noremap h gT
 noremap l gt
-noremap c d
-noremap d c
 
 map <C-g> <Esc>
 
-ignorekeys youtube\.com
-ignorekeys docs\.google\.com
+ignorekeys add youtube.com
+ignorekeys add docs.google.com
