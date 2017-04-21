@@ -184,7 +184,7 @@ insert the text where point is, not where the mouse cursor is."
 
 (defun sensible-defaults/bind-commenting-and-uncommenting ()
   "Comment or uncomment a region by hitting M-;."
-  (global-set-key (kbd "C-;")
+  (global-set-key (kbd "C-/")
                   'sensible-defaults/comment-or-uncomment-region-or-line))
 
 (defun sensible-defaults/bind-home-and-end-keys ()

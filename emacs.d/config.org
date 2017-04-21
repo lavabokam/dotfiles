@@ -51,7 +51,7 @@
 ** Font Family and Size
 #+BEGIN_SRC  emacs-lisp
   (setq lava/default-font "Courier New")
-  (setq lava/default-font-size 14)
+  (setq lava/default-font-size 15)
   (setq lava/current-font-size lava/default-font-size)
   (defun lava/set-font-size ()
     "Set the font to `hrs/default-font' at `hrs/current-font-size'."
@@ -157,7 +157,7 @@
   (setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH")))
 
   (global-set-key (kbd "M-t") 'multi-term)
-  (setq multi-term-program "/bin/bash")
+  (setq multi-term-program "/usr/local/bin/zsh")
   ;;(setq multi-term-program-switches "--login")
 
 #+END_SRC
@@ -182,17 +182,15 @@
               (define-key evil-insert-state-map (kbd "C-e") 'end-of-line)    ;; was 'evil-copy-from-below
               (define-key evil-insert-state-map (kbd "C-n") 'next-line)      ;; was 'evil-complete-next
               (define-key evil-insert-state-map (kbd "C-p") 'previous-line)  ;; was 'evil-complete-previous
+              (define-key evil-insert-state-map (kbd "C-j") 'evil-scroll-down)
+              (define-key evil-insert-state-map (kbd "C-k") 'evil-scroll-up)
+              (define-key evil-normal-state-map (kbd "C-j") 'evil-scroll-down)
+              (define-key evil-normal-state-map (kbd "C-k") 'evil-scroll-up)
               (define-key evil-ex-map "e" 'helm-find-files)
               (define-key evil-ex-map "b" 'helm-buffers-list)
               (define-key evil-ex-map "x" 'kill-buffer-and-window)
               (define-key evil-ex-map "w" 'save-buffer)
               (define-key evil-ex-map "!" 'shell-command)
-            ;; TAGS NAVIGATION
-              (define-key evil-normal-state-map (kbd "gf")
-                (lambda () (interactive) (find-tag (find-tag-default-as-regexp))))
-              (define-key evil-normal-state-map (kbd "gb") 'pop-tag-mark)
-              (define-key evil-normal-state-map (kbd "gn")
-                (lambda () (interactive) (find-tag last-tag t)))
             ;; NEO TREE NAVAIGATION
                (evil-define-key 'normal neotree-mode-map (kbd "TAB") 'neotree-enter)
                (evil-define-key 'normal neotree-mode-map (kbd "SPC") 'neotree-enter)
@@ -210,12 +208,13 @@
              "b" 'switch-to-buffer
              "w" 'save-buffer
              "c" 'delete-window
-             "k" 'kill-buffer
              "!" 'shell-command
-             "x" 'kill-buffer-and-window
+             "x" 'kill-buffer
              "v" 'split-window-horizontally
              "s" 'split-window-vertically
              "o" 'other-window
+             "K" 'evil-scroll-up
+             "J" 'evil-scroll-down
              "h" 'evil-window-left
              "j" 'evil-window-down
              "k" 'evil-window-top
@@ -230,13 +229,14 @@
 
         (use-package evil-indent-textobject
           :ensure t))
-
+#+END_SRC
+** Evil Magit
+#+BEGIN_SRC emacs-lisp
     (use-package evil-magit
-        :ensure t
-        :config
-         (progn
-          (evil-leader/set-key "gs" 'magit-status)))
- #+END_SRC
+       :ensure t
+       :config (progn
+         (evil-leader/set-key "gs" 'magit-status)))
+#+END_SRC
 
 * Source Navigation
 ** TAGS
@@ -258,12 +258,6 @@
 
   ;; Enable helm-gtags-mode in code
   (add-hook 'prog-mode-hook 'helm-gtags-mode)
-  ;;(add-hook 'c++-mode-hook 'helm-gtags-mode)
-;;(use-package ctags-update
-  ;;   :ensure t
-   ;;  :config
-    ;;   (progn
-      ;;   (add-hook 'prog-mode-hook 'turn-on-ctags-auto-update-mode)))
 
 #+END_SRC
 ** Dumb jump
@@ -363,15 +357,17 @@
 
 * Version control
 #+BEGIN_SRC emacs-lisp
-   (use-package diff-hl
-    :defer 1
-    :ensure t
-    :init
-    (diff-hl-flydiff-mode)
-    (add-hook 'prog-mode-hook 'turn-on-diff-hl-mode)
-    (add-hook 'vc-dir-mode-hook 'turn-on-diff-hl-mode))
+
+  (use-package diff-hl
+   :defer 1
+   :ensure t
+   :init
+   (diff-hl-flydiff-mode)
+   (add-hook 'prog-mode-hook 'turn-on-diff-hl-mode)
+   (add-hook 'vc-dir-mode-hook 'turn-on-diff-hl-mode))
+
    (use-package magit
-      :ensure t)
+      :ensure t )
 #+END_SRC
 * Search Engine
 #+BEGIN_SRC emacs-lisp
@@ -423,13 +419,6 @@
      :defer 1
      :init (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
  #+END_SRC
-** Make Org-Mode Default
-#+BEGIN_SRC emacs-lisp
-  (add-to-list 'auto-mode-alist '("README$" . org-mode))
-  (setq default-major-mode 'org-mode)
-  (add-to-list 'auto-mode-alist '("\\.\\(org\\  |org_archive\\|txt\\)$" . org-mode))
-
-#+END_SRC
 ** yasnippet
 #+BEGIN_SRC emacs-lisp
   (add-to-list 'load-path
@@ -534,6 +523,7 @@
 
 
 #+END_SRC
+*** Emacs Server
 #+BEGIN_SRC emacs-lisp
   ;; (define-key global-map "\C-cx"
   ;;  (lambda () (interactive) (org-capture nil "w")))
@@ -574,5 +564,35 @@
     (not (member (nth 2 (org-heading-components)) org-done-keywords)))
 
   (setq org-refile-target-verify-function 'bh/verify-refile-target)
+
+#+END_SRC
+* IRC Configuration
+#+BEGIN_SRC emacs-lisp
+(use-package erc
+  :ensure t
+  :config (progn
+            (setq erc-kill-buffer-on-part          t
+                  erc-server-auto-reconnect        t
+                  erc-prompt-for-nickserv-password nil
+                  erc-server-coding-system         '(utf-8 . utf-8)
+             ;;     erc-autojoin-channels-alist      ers-erc-channel-list
+                  erc-kill-queries-on-quit         t
+                  erc-default-coding-system        '(utf-8 . utf-8)
+            ;;      erc-hide-list                    '("JOIN" "PART" "QUIT" "NICK" "MODE")
+                  erc-kill-server-buffer-on-quit   t
+                  erc-prompt                       (lambda () (concat (buffer-name) "> ")))
+
+            ;; auto-fill buffer window
+            (add-hook 'window-configuration-change-hook
+                      '(lambda () (setq erc-fill-column (- (window-width) 2)))))
+             (erc-spelling-mode 1) )
+
+  ;;:init (defun ers/start-erc ()
+    ;;      (interactive)
+    ;;      (erc-autojoin-mode 1)
+    ;;      (let ((erc-config (netrc-machine (netrc-parse ers-secrets-file) "erc-config" t)))
+     ;;       (erc :server   ers-erc-server
+     ;;            :nick     (netrc-get erc-config "login")
+     ;;            :password (netrc-get erc-config "password")))))
 
 #+END_SRC
