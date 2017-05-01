@@ -493,8 +493,9 @@
      (gnuplot . t)
      (dot . t )))
 #+END_SRC
-** Org Capture and Org-Protocol
-   Enabling Emacs server with org-protocol to recieve org-capture from outside emacs
+** Capture , Refile and Org-Protocol
+*** Org Capture
+    Enabling Emacs server with org-protocol to recieve org-capture from outside emacs
 #+BEGIN_SRC emacs-lisp
 (load-library "org-protocol")
 (setq org-default-notes-file "~/Dropbox/org/refile.org")
@@ -505,7 +506,7 @@
 ;; Capture templates for: TODO tasks, Notes, appointments, phone calls, meetings, and org-protocol
 (setq org-capture-templates
       (quote (("t" "todo" entry (file "~/Dropbox/org/refile.org")
-               "* TODO %?\n%U\n%a\n" :clock-in t :clock-resume t)
+               "* TODO %a\n%U\n" :immediate-finish :kill-buffer)
               ("r" "respond" entry (file "~/Dropbox/org/refile.org")
                "* NEXT Respond to %:from on %:subject\nSCHEDULED: %t\n%U\n%a\n" :clock-in t :clock-resume t :immediate-finish t)
               ("n" "note" entry (file "~/Dropbox/org/refile.org")
@@ -521,15 +522,7 @@
               ("h" "Habit" entry (file "~/Dropbox/org/refile.org")
                "* NEXT %?\n%U\n%a\nSCHEDULED: %(format-time-string \"%<<%Y-%m-%d %a .+1d/3d>>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n"))))
 
-
 #+END_SRC
-*** Emacs Server
-#+BEGIN_SRC emacs-lisp
-  ;; (define-key global-map "\C-cx"
-  ;;  (lambda () (interactive) (org-capture nil "w")))
-   (setq server-socket-dir (expand-file-name "server" user-emacs-directory))
-   (server-start)
- #+END_SRC
 *** Org Refile
 #+BEGIN_SRC emacs-lisp
 
@@ -547,13 +540,13 @@
   (setq org-refile-allow-creating-parent-nodes (quote confirm))
 
   ; Use IDO for both buffer and file completion and ido-everywhere to t
-  (setq org-completion-use-ido t)
-  (setq ido-everywhere t)
-  (setq ido-max-directory-size 100000)
-  (ido-mode (quote both))
+ ;; (setq org-completion-use-ido t)
+  ;;(setq ido-everywhere t)
+  ;; (setq ido-max-directory-size 100000)
+  ;; (ido-mode (quote both))
   ; Use the current window when visiting files and buffers with ido
-  (setq ido-default-file-method 'selected-window)
-  (setq ido-default-buffer-method 'selected-window)
+  ;; (setq ido-default-file-method 'selected-window)
+  ;; (setq ido-default-buffer-method 'selected-window)
   ; Use the current window for indirect buffer display
   (setq org-indirect-buffer-display 'current-window)
 
@@ -566,6 +559,13 @@
   (setq org-refile-target-verify-function 'bh/verify-refile-target)
 
 #+END_SRC
+*** Emacs Server
+#+BEGIN_SRC emacs-lisp
+  ;; (define-key global-map "\C-cx"
+  ;;  (lambda () (interactive) (org-capture nil "w")))
+   (setq server-socket-dir (expand-file-name "server" user-emacs-directory))
+   (unless (server-running-p) (server-start))
+ #+END_SRC
 * IRC Configuration
 #+BEGIN_SRC emacs-lisp
 (use-package erc

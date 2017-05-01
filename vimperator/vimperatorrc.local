@@ -14,5 +14,5 @@ noremap d c
 
 map <C-g> <Esc>
 
-ignorekeys youtube\.com
-ignorekeys docs\.google\.com
+" ignorekeys youtube.com
+" ignorekeys docs.google.com
