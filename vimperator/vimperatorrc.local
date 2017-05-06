@@ -9,6 +9,8 @@ noremap j jj
 noremap k kk
 noremap h gT
 noremap l gt
+noremap x d
+noremap d x
 
 map <C-g> <Esc>
 

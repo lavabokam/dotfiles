@@ -86,17 +86,20 @@
     (global-hl-line-mode))
 #+END_SRC
 
-** Neo Tree
+** Sr-Speedbar
 #+BEGIN_SRC emacs-lisp
- (use-package neotree
-   :ensure t
-   :bind* (("C-c C-n" . neotree-toggle))
-   :init
-     (setq neo-smart-open t))
+    (use-package sr-speedbar
+        :ensure t
+        :defer t
+        :init
+        ;; Show tree on the left side
+        (setq sr-speedbar-right-side nil)
+        ;; Show all files
+        (setq speedbar-show-unknown-files t))
 #+END_SRC
 ** Menu bar, Tool bar, Scroll bar
 #+BEGIN_SRC emacs-lisp
-  (menu-bar-mode 1)
+  (menu-bar-mode -1)
   (tool-bar-mode -1)
   (when window-system
     (scroll-bar-mode -1))
@@ -142,7 +145,7 @@
   ;; Never Use Tabs, Tabs are Devil's white spaces
   (setq-default indent-tabs-mode nil)
   ;; High light uncommited changes
-
+  (setq ns-pop-up-frames nil)
   ;; Full screen emacs start
   (set-frame-parameter nil 'fullscreen 'fullboth)
   (use-package restart-emacs
@@ -155,8 +158,8 @@
 #+BEGIN_SRC emacs-lisp
 
   (setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH")))
-
-  (global-set-key (kbd "M-t") 'multi-term)
+  (setq exec-path (append exec-path '("/usr/local/bin")))
+  (global-set-key (kbd "M-SPC") 'multi-term)
   (setq multi-term-program "/usr/local/bin/zsh")
   ;;(setq multi-term-program-switches "--login")
 
@@ -165,70 +168,69 @@
 * EVIL Mode
 	Use of evil mode for vim related bindings
  #+BEGIN_SRC emacs-lisp
-      (use-package evil
-        :ensure t
-        :defer 1
-        :no-require t
-        :init (evil-mode +1)
-        :config
-        (evil-set-initial-state 'term-mode 'emacs)
-        (setq evil-emacs-state-cursor '("red" box))
-        (setq evil-normal-state-cursor '("green" box))
-        (setq evil-visual-state-cursor '("orange" box))
-        (setq evil-insert-state-cursor '("red" bar))
-        (setq evil-replace-state-cursor '("red" bar))
-        (setq evil-operator-state-cursor '("red" hollow))
-        (progn (define-key evil-insert-state-map (kbd "C-a") 'move-beginning-of-line) ;; was 'evil-paste-last-insertion
-              (define-key evil-insert-state-map (kbd "C-e") 'end-of-line)    ;; was 'evil-copy-from-below
-              (define-key evil-insert-state-map (kbd "C-n") 'next-line)      ;; was 'evil-complete-next
-              (define-key evil-insert-state-map (kbd "C-p") 'previous-line)  ;; was 'evil-complete-previous
-              (define-key evil-insert-state-map (kbd "C-j") 'evil-scroll-down)
-              (define-key evil-insert-state-map (kbd "C-k") 'evil-scroll-up)
-              (define-key evil-normal-state-map (kbd "C-j") 'evil-scroll-down)
-              (define-key evil-normal-state-map (kbd "C-k") 'evil-scroll-up)
-              (define-key evil-ex-map "e" 'helm-find-files)
-              (define-key evil-ex-map "b" 'helm-buffers-list)
-              (define-key evil-ex-map "x" 'kill-buffer-and-window)
-              (define-key evil-ex-map "w" 'save-buffer)
-              (define-key evil-ex-map "!" 'shell-command)
-            ;; NEO TREE NAVAIGATION
-               (evil-define-key 'normal neotree-mode-map (kbd "TAB") 'neotree-enter)
-               (evil-define-key 'normal neotree-mode-map (kbd "SPC") 'neotree-enter)
-               (evil-define-key 'normal neotree-mode-map (kbd "q") 'neotree-hide)
-               (evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter))
-        (use-package evil-leader
-          :ensure t
-          :config
-          (setq evil-leader/in-all-states t)
-          (global-evil-leader-mode)
+   (use-package evil
+     :ensure t
+     :defer 1
+     :no-require t
+     :init (evil-mode +1)
+     :config
+     (evil-set-initial-state 'term-mode 'emacs)
+     (setq evil-emacs-state-cursor '("red" box))
+     (setq evil-normal-state-cursor '("green" box))
+     (setq evil-visual-state-cursor '("orange" box))
+     (setq evil-insert-state-cursor '("red" bar))
+     (setq evil-replace-state-cursor '("red" bar))
+     (setq evil-operator-state-cursor '("red" hollow))
+     (progn (define-key evil-insert-state-map (kbd "C-a") 'move-beginning-of-line) ;; was 'evil-paste-last-insertion
+           (define-key evil-insert-state-map (kbd "C-e") 'end-of-line)    ;; was 'evil-copy-from-below
+           (define-key evil-insert-state-map (kbd "C-n") 'next-line)      ;; was 'evil-complete-next
+           (define-key evil-insert-state-map (kbd "C-p") 'previous-line)  ;; was 'evil-complete-previous
+           (define-key evil-insert-state-map (kbd "C-j") 'evil-scroll-down)
+           (define-key evil-insert-state-map (kbd "C-k") 'evil-scroll-up)
+           (define-key evil-normal-state-map (kbd "C-j") 'evil-scroll-down)
+           (define-key evil-normal-state-map (kbd "C-k") 'evil-scroll-up)
+           (define-key evil-ex-map "e" 'helm-find-files)
+           (define-key evil-ex-map "b" 'helm-buffers-list)
+           (define-key evil-ex-map "x" 'kill-buffer-and-window)
+           (define-key evil-ex-map "w" 'save-buffer)
+           (define-key evil-ex-map "!" 'shell-command)
+         ;; NEO TREE NAVAIGATION
+            (evil-define-key 'normal neotree-mode-map (kbd "TAB") 'neotree-enter)
+            (evil-define-key 'normal neotree-mode-map (kbd "SPC") 'neotree-enter)
+            (evil-define-key 'normal neotree-mode-map (kbd "q") 'neotree-hide)
+            (evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter))
+     (use-package evil-leader
+       :ensure t
+       :config
+       (setq evil-leader/in-all-states t)
+       (global-evil-leader-mode)
 
-          (evil-leader/set-leader ";")
-          (evil-leader/set-key
-             "e" 'helm-find-files
-             "b" 'switch-to-buffer
-             "w" 'save-buffer
-             "c" 'delete-window
-             "!" 'shell-command
-             "x" 'kill-buffer
-             "v" 'split-window-horizontally
-             "s" 'split-window-vertically
-             "o" 'other-window
-             "K" 'evil-scroll-up
-             "J" 'evil-scroll-down
-             "h" 'evil-window-left
-             "j" 'evil-window-down
-             "k" 'evil-window-top
-             "l" 'evil-window-right
-             "n" 'evil-window-next
-             "p" 'evil-window-prev
-             "SPC" 'dumb-jump-go))
-        (use-package evil-surround
-          :ensure t
-          :config
-          (global-evil-surround-mode))
+       (evil-leader/set-leader ";")
+       (evil-leader/set-key
+          "e" 'helm-find-files
+          "b" 'switch-to-buffer
+          "w" 'save-buffer
+          "c" 'delete-window
+          "!" 'shell-command
+          "x" 'kill-buffer
+          "v" 'split-window-horizontally
+          "s" 'split-window-vertically
+          "o" 'other-window
+          "K" 'evil-scroll-up
+          "J" 'evil-scroll-down
+          "h" 'evil-window-left
+          "j" 'evil-window-down
+          "k" 'evil-window-top
+          "l" 'evil-window-right
+          "n" 'evil-window-next
+          "p" 'evil-window-prev))
+     (use-package evil-surround
+       :ensure t
+       :config
+       (global-evil-surround-mode))
 
-        (use-package evil-indent-textobject
-          :ensure t))
+     (use-package evil-indent-textobject
+       :ensure t))
 #+END_SRC
 ** Evil Magit
 #+BEGIN_SRC emacs-lisp
@@ -252,8 +254,8 @@
       (define-key helm-gtags-mode-map (kbd "M-t") 'helm-gtags-find-tag)
       (define-key helm-gtags-mode-map (kbd "M-r") 'helm-gtags-find-rtag)
       (define-key helm-gtags-mode-map (kbd "M-s") 'helm-gtags-find-symbol)
-      (define-key helm-gtags-mode-map (kbd "C-c <") 'helm-gtags-previous-history)
-      (define-key helm-gtags-mode-map (kbd "C-c >") 'helm-gtags-next-history)
+      (define-key helm-gtags-mode-map (kbd "M-<") 'helm-gtags-previous-history)
+      (define-key helm-gtags-mode-map (kbd "M->") 'helm-gtags-next-history)
       (define-key helm-gtags-mode-map (kbd "M-,") 'helm-gtags-pop-stack)))
 
   ;; Enable helm-gtags-mode in code
@@ -263,12 +265,13 @@
 ** Dumb jump
 #+BEGIN_SRC emacs-lisp
 
-(use-package dumb-jump
-  :ensure t
-  :bind (("C-c SPC" . dumb-jump-go))
-   :config
-  (dumb-jump-mode))
-
+    (use-package dumb-jump
+      :ensure t
+      :bind (("C-c C-." . dumb-jump-go)
+             ("C-c C-," . dumb-jump-back)
+             ("C-c C-/" . dumb-jump-quick-look))
+      :config
+      (dumb-jump-mode))
 #+END_SRC
 
 * Helm , Projectile, Dired
@@ -506,7 +509,7 @@
 ;; Capture templates for: TODO tasks, Notes, appointments, phone calls, meetings, and org-protocol
 (setq org-capture-templates
       (quote (("t" "todo" entry (file "~/Dropbox/org/refile.org")
-               "* TODO %a\n%U\n" :immediate-finish :kill-buffer)
+               "* TODO %a\n    :PROPERTIES:\n    :CREATED TIME: %U\n    :END:\n" :immediate-finish :kill-buffer)
               ("r" "respond" entry (file "~/Dropbox/org/refile.org")
                "* NEXT Respond to %:from on %:subject\nSCHEDULED: %t\n%U\n%a\n" :clock-in t :clock-resume t :immediate-finish t)
               ("n" "note" entry (file "~/Dropbox/org/refile.org")
