@@ -61,18 +61,16 @@
 #+END_SRC
 ** Mode Line
 #+BEGIN_SRC emacs-lisp
-(use-package smart-mode-line-powerline-theme :ensure t)
-(use-package smart-mode-line
-  :init
-  (progn
-    (setq sml/theme 'respectful)
-    (setq sml/no-confirm-load-theme t)
-    (set-face-attribute 'mode-line nil
-                         :box nil)
-    (sml/setup))
-   :config
-      (display-time-mode t)
-      (column-number-mode t))
+  (require 'spaceline-config)
+  (spaceline-spacemacs-theme)
+  (display-time-mode t)
+  (custom-set-variables '(erc-track-position-in-mode-line t)
+  '(flyspell-mode-line-string nil)
+  '(projectile-mode-line (quote (:eval (format "[%s]" (projectile-project-name))))))
+  (custom-set-faces '(mode-line
+       ((t (:inherit nil :background "Blue" :foreground "gray95" :box (:line-width -1 :color "gray50") :weight light))))
+  '(mode-line-inactive
+       ((t (:background "gray30" :foreground "grey80")))))
 #+END_SRC
 ** Lines
 #+BEGIN_SRC emacs-lisp
@@ -138,7 +136,7 @@
 #+BEGIN_SRC emacs-lisp
 
   (setq-default cursor-in-non-selected-windows 'hollow)
-  (setq-default tab-width 2)
+  (setq-default tab-width 4)
   ;; Camel case word treat differntly
   (global-subword-mode 1)
   (setq compilation-scroll-output t)
@@ -246,7 +244,7 @@
     (use-package helm-gtags
     :ensure t
     :commands (helm-gtags-mode helm-gtags-dwim)
-   ;; :diminish "HGt"
+    :diminish helm-gtags-mode
     :config
     (progn
       ;; keys
