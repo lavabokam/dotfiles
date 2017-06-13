@@ -16,3 +16,5 @@ map <C-g> <Esc>
 
 ignorekeys add youtube.com
 ignorekeys add docs.google.com
+ignorekeys add www.draw.io
+
