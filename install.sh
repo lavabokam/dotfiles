@@ -1,5 +1,6 @@
-ln -s ./emacs.d/ ~/.emacs.d/
-ln -s ./vimperator/ ~/.vimperator/
-ln -s ./vimperator/vimperatorrc ~/.vimperatorrc
+ln -sf dotfiles/emacs.d ~/.emacs.d
+ln -sf dotfiles/vimperator ~/.vimperator
+ln -sf dotfiles/vimperator/vimperatorrc ~/.vimperatorrc
 
-ln -s ./zshrc ~/.zshrc
+rm -rf ~/.zshrc
+ln -sf dotfiles/zshrc ~/.zshrc
