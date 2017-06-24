@@ -5,8 +5,8 @@
 * Personal Information
 
 #+BEGIN_SRC emacs-lisp
-     (setq user-full-name "Lava Kumar Bokam")
-     (setq user-mail-address "lavajnv@gmail.com")
+  (setq user-full-name "Lava Kumar Bokam")
+  (setq user-mail-address "lavajnv@gmail.com")
 #+END_SRC
 
 * Package Management
@@ -89,19 +89,19 @@
 
 ** Sr-Speedbar
 #+BEGIN_SRC emacs-lisp
-      (use-package sr-speedbar
-          :ensure t
-          :defer t
-          :init
-          ;; Show tree on the left side
-            (setq sr-speedbar-right-side nil)
-          ; Show all files
-            (setq speedbar-show-unknown-files t)
-          :config
-            (sr-speedbar-refresh-turn-off))
-       (custom-set-variables
-          '(sr-speedbar-default-width 30)
-          '(sr-speedbar-max-width 40))
+  (use-package sr-speedbar
+      :ensure t
+      :defer t
+      :init
+      ;; Show tree on the left side
+        (setq sr-speedbar-right-side nil)
+      ; Show all files
+        (setq speedbar-show-unknown-files t)
+      :config
+        (sr-speedbar-refresh-turn-off))
+   (custom-set-variables
+      '(sr-speedbar-default-width 30)
+      '(sr-speedbar-max-width 40))
 #+END_SRC
 ** Menu bar, Tool bar, Scroll bar
 #+BEGIN_SRC emacs-lisp
@@ -111,29 +111,22 @@
     (scroll-bar-mode -1))
 
 #+END_SRC
-** Auto fill  and Spell Check
+** Spell Check
 #+BEGIN_SRC emacs-lisp
-  (add-hook 'text-mode-hook 'turn-on-auto-fill)
-  (add-hook 'gfm-mode-hook 'turn-on-auto-fill)
-  (add-hook 'org-mode-hook 'turn-on-auto-fill)
-  (add-hook 'prog-mode-hook 'turn-on-auto-fill)
-  ;; Toggle auto file mode
-  (global-set-key (kbd "C-c q") 'auto-fill-mode)
 
-  (setq ispell-program-name  "/usr/local/bin/ispell")
-
-  (add-to-list 'ispell-skip-region-alist '(":\\(PROPERTIES\\|LOGBOOK\\):" . ":END:"))
-  (add-to-list 'ispell-skip-region-alist '("#\\+BEGIN_SRC" . "#\\+END_SRC"))
-  (add-to-list 'ispell-skip-region-alist '("#\\+BEGIN_EXAMPLE" . "#\\+END_EXAMPLE"))
-
-  (defun lava/spell-check ()
-    (flyspell-mode 1)
-    (ispell-minor-mode 1))
-
- ;; (add-hook 'text-mode-hook 'lava/spell-check)
-  (add-hook 'org-mode-hook 'lava/spell-check)
-  (add-hook 'gfm-mode-hook 'lava/spell-check)
-#+END_SRC
+  (use-package flyspell
+    :ensure t
+    :defer t
+    :init
+    (progn
+      (add-hook 'prog-mode-hook 'flyspell-prog-mode)
+      (add-hook 'text-mode-hook 'flyspell-mode)
+      )
+    :config
+    ;; Sets flyspell correction to use two-finger mouse click
+    (define-key flyspell-mouse-map [down-mouse-3] #'flyspell-correct-word)
+    )
+ #+END_SRC
 ** Key Hints - Which key
 #+BEGIN_SRC emacs-lisp
   (add-to-list 'load-path "~/emacs.d/plugins/which-key/")
@@ -173,7 +166,7 @@
 
 * EVIL Mode
 ** EVIL
- 	Use of evil mode for vim related bindings
+  Use of evil mode for vim related bindings
  #+BEGIN_SRC emacs-lisp
    (use-package evil
      :ensure t
@@ -216,51 +209,52 @@
            (define-key evil-ex-map "b" 'helm-buffers-list)
            (define-key evil-ex-map "x" 'kill-buffer-and-window)
            (define-key evil-ex-map "w" 'save-buffer)
+           (define-key evil-ex-map "W" 'save-buffer)
            (define-key evil-ex-map "!" 'shell-command)))
 
  #+END_SRC
 ** EVIL leader
 
 #+BEGIN_SRC emacs-lisp
-      (use-package evil-leader
-       :ensure t
-       :config
-       (setq evil-leader/in-all-states t)
-       (global-evil-leader-mode)
+  (use-package evil-leader
+   :ensure t
+   :config
+   (setq evil-leader/in-all-states t)
+   (global-evil-leader-mode)
 
-       (evil-leader/set-leader ";")
-       (evil-leader/set-key
-          "e" 'helm-find-files
-          "b" 'switch-to-buffer
-          "w" 'save-buffer
-          "c" 'delete-window
-          "!" 'shell-command
-          "x" 'kill-buffer
-          "v" 'split-window-horizontally
-          "s" 'split-window-vertically
-          "o" 'other-window
-          "K" 'evil-scroll-up
-          "J" 'evil-scroll-down
-          "h" 'evil-window-left
-          "j" 'evil-window-down
-          "k" 'evil-window-top
-          "l" 'evil-window-right
-          "n" 'evil-buffer-new))
+   (evil-leader/set-leader ";")
+   (evil-leader/set-key
+      "e" 'helm-find-files
+      "b" 'switch-to-buffer
+      "w" 'save-buffer
+      "c" 'delete-window
+      "!" 'shell-command
+      "x" 'kill-buffer
+      "v" 'split-window-horizontally
+      "s" 'split-window-vertically
+      "o" 'other-window
+      "K" 'evil-scroll-up
+      "J" 'evil-scroll-down
+      "h" 'evil-window-left
+      "j" 'evil-window-down
+      "k" 'evil-window-top
+      "l" 'evil-window-right
+      "n" 'evil-buffer-new))
 #+END_SRC
 ** EVIL others
 #+BEGIN_SRC emacs-lisp
-     (use-package evil-surround
-       :ensure t
-       :config
-       (global-evil-surround-mode))
-     (use-package evil-indent-textobject
-       :ensure t)
+  (use-package evil-surround
+    :ensure t
+    :config
+    (global-evil-surround-mode))
+  (use-package evil-indent-textobject
+    :ensure t)
 #+END_SRC
-  # EVIL multiple cursors
+ EVIL multiple cursors
 #+BEGIN_SRC emacs-lisp
-   (use-package evil-iedit-state
-     :ensure t
-     )
+  (use-package evil-iedit-state
+    :ensure t
+    )
 #+END_SRC
 
 * Source Navigation
@@ -288,17 +282,70 @@
 ** Dumb jump
 #+BEGIN_SRC emacs-lisp
 
-    (use-package dumb-jump
-      :ensure t
-      :bind (("C-c C-." . dumb-jump-go)
-             ("C-c C-," . dumb-jump-back)
-             ("C-c C-/" . dumb-jump-quick-look))
-      :config
-      (dumb-jump-mode))
+  (use-package dumb-jump
+    :ensure t
+    :bind (("C-c C-." . dumb-jump-go)
+           ("C-c C-," . dumb-jump-back)
+           ("C-c C-/" . dumb-jump-quick-look))
+    :config
+    (dumb-jump-mode))
 #+END_SRC
-
+*
+** Company mode
+   #+BEGIN_SRC emacs-lisp
+     (use-package company
+       :ensure t
+       :config
+       (progn
+         ;; Enable company mode in every programming mode
+         (add-hook 'prog-mode-hook 'company-mode)
+         ;; Set my own default company backends
+         (setq-default
+          company-backends
+          '(
+            company-nxml
+            company-css
+            company-cmake
+            company-files
+            company-dabbrev-code
+            company-keywords
+            company-dabbrev
+            company-elisp
+            ))
+         )
+       )
+   #+END_SRC
+*
+** Flycheck mode
+    #+BEGIN_SRC emacs-lisp
+    (use-package flycheck
+      :ensure t
+      :init
+      (progn
+        ;; Enable flycheck mode as long as we're not in TRAMP
+        (add-hook
+         'prog-mode-hook
+         (lambda () (if (not (is-current-file-tramp)) (flycheck-mode 1))))
+        )
+      )
+    #+END_SRC
 ** Programming Environments
-
+   - Haskell
+     #+BEGIN_SRC emacs-lisp
+     (use-package haskell-mode
+       :ensure t
+       :mode "\\.hs"
+       :config
+       (progn
+         ;; Turn on haskell-mode features automatically
+         (add-hook 'haskell-mode-hook 'haskell-indentation-mode)
+         (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
+         (add-hook 'haskell-mode-hook 'haskell-decl-scan-mode)
+         (add-hook 'haskell-mode-hook 'haskell-doc-mode)
+         )
+       )
+     #+END_SRC
+   - Javascript
 * Helm , Projectile, Dired
 ** Helm
 #+BEGIN_SRC emacs-lisp
@@ -365,22 +412,22 @@
 #+END_SRC
 ** Dired
  #+BEGIN_SRC emacs-lisp
-     (use-package dired+
-       :ensure t)
-     (use-package dired-open
-        :ensure t)
-     (setq-default dired-listing-switches "-lhvA")
-     (setq dired-open-extensions
-        '(("pdf" . "evince")
-          ("mkv" . "vlc")
-          ("mp4" . "vlc")
-          ("avi" . "vlc")))
-     (evil-define-key 'normal dired-mode-map (kbd "j") 'dired-next-line)
-     (evil-define-key 'normal dired-mode-map (kbd "k") 'dired-previous-line)
+   (use-package dired+
+     :ensure t)
+   (use-package dired-open
+      :ensure t)
+   (setq-default dired-listing-switches "-lhvA")
+   (setq dired-open-extensions
+      '(("pdf" . "evince")
+        ("mkv" . "vlc")
+        ("mp4" . "vlc")
+        ("avi" . "vlc")))
+   (evil-define-key 'normal dired-mode-map (kbd "j") 'dired-next-line)
+   (evil-define-key 'normal dired-mode-map (kbd "k") 'dired-previous-line)
 
-     (setq dired-clean-up-buffers-too t)
-     (setq dired-recursive-copies 'always)
-     (setq dired-recursive-deletes 'top)
+   (setq dired-clean-up-buffers-too t)
+   (setq dired-recursive-copies 'always)
+   (setq dired-recursive-deletes 'top)
  #+END_SRC
 
 * Version control
@@ -464,48 +511,48 @@
 #+END_SRC
 ** Tasks and Notes
  #+BEGIN_SRC emacs-lisp
-    (setq org-directory "~/Dropbox/org/")
-    (setq org-agenda-files '("~/Dropbox/org/"))
-    (setq org-use-fast-todo-selection t)
-    (setq org-todo-keywords
-     (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
-             (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "PHONE" "MEETING"))))
+     (setq org-directory "~/Dropbox/org/")
+     (setq org-agenda-files '("~/Dropbox/org/"))
+     (setq org-use-fast-todo-selection t)
+     (setq org-todo-keywords
+      (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
+              (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "PHONE" "MEETING"))))
 
-   (setq org-todo-keyword-faces
-       (quote (("TODO" :foreground "red" :weight bold)
-               ("NEXT" :foreground "blue" :weight bold)
-               ("DONE" :foreground "forest green" :weight bold)
-               ("WAITING" :foreground "orange" :weight bold)
-               ("HOLD" :foreground "magenta" :weight bold)
-               ("CANCELLED" :foreground "forest green" :weight bold)
-               ("MEETING" :foreground "forest green" :weight bold)
-               ("PHONE" :foreground "forest green" :weight bold))))
+    (setq org-todo-keyword-faces
+        (quote (("TODO" :foreground "red" :weight bold)
+                ("NEXT" :foreground "blue" :weight bold)
+                ("DONE" :foreground "forest green" :weight bold)
+                ("WAITING" :foreground "orange" :weight bold)
+                ("HOLD" :foreground "magenta" :weight bold)
+                ("CANCELLED" :foreground "forest green" :weight bold)
+                ("MEETING" :foreground "forest green" :weight bold)
+                ("PHONE" :foreground "forest green" :weight bold))))
 
-  (setq org-todo-state-tags-triggers
-     (quote (("CANCELLED" ("CANCELLED" . t))
-             ("WAITING" ("WAITING" . t))
-             ("HOLD" ("WAITING") ("HOLD" . t))
-             (done ("WAITING") ("HOLD"))
-             ("TODO" ("WAITING") ("CANCELLED") ("HOLD"))
-             ("NEXT" ("WAITING") ("CANCELLED") ("HOLD"))
-             ("DONE" ("WAITING") ("CANCELLED") ("HOLD")))))
+   (setq org-todo-state-tags-triggers
+      (quote (("CANCELLED" ("CANCELLED" . t))
+              ("WAITING" ("WAITING" . t))
+              ("HOLD" ("WAITING") ("HOLD" . t))
+              (done ("WAITING") ("HOLD"))
+              ("TODO" ("WAITING") ("CANCELLED") ("HOLD"))
+              ("NEXT" ("WAITING") ("CANCELLED") ("HOLD"))
+              ("DONE" ("WAITING") ("CANCELLED") ("HOLD")))))
 
-    (setq org-tag-alist '(("WORK" . ?w)
-                          ("PERSONAL" . ?p)
-                          ("@ERRANDS" . ?e)
-                          ("@HOME" . ?h)))
+     (setq org-tag-alist '(("WORK" . ?w)
+                           ("PERSONAL" . ?p)
+                           ("@ERRANDS" . ?e)
+                           ("@HOME" . ?h)))
 
-    (define-key global-map "\C-cl" 'org-store-link)
-    (define-key global-map "\C-ca" 'org-agenda)
+     (define-key global-map "\C-cl" 'org-store-link)
+     (define-key global-map "\C-ca" 'org-agenda)
 
-    (setq org-agenda-text-search-extra-files '(agenda-archives))
-    (setq org-blank-before-new-entry (quote ((heading) (plain-list-item))))
-    (setq org-enforce-todo-dependencies t)
-    (setq org-log-done (quote time))
-    (setq org-log-redeadline (quote time))
-    (setq org-log-reschedule (quote time))
+     (setq org-agenda-text-search-extra-files '(agenda-archives))
+     (setq org-blank-before-new-entry (quote ((heading) (plain-list-item))))
+     (setq org-enforce-todo-dependencies t)
+     (setq org-log-done (quote time))
+     (setq org-log-redeadline (quote time))
+     (setq org-log-reschedule (quote time))
 
-    (add-hook 'org-capture-mode-hook 'evil-insert-state)
+     (add-hook 'org-capture-mode-hook 'evil-insert-state)
 
  #+END_SRC
 ** Evaluate language
@@ -591,7 +638,7 @@
   ;; (define-key global-map "\C-cx"
   ;;  (lambda () (interactive) (org-capture nil "w")))
    (setq server-socket-dir (expand-file-name "server" user-emacs-directory))
-   ;;(unless (server-running-p) (server-start))
+  ;; (unless (server-running-p) (server-start))
  #+END_SRC
 * IRC Configuration
 #+BEGIN_SRC emacs-lisp
