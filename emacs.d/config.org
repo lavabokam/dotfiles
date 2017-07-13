@@ -118,13 +118,14 @@
     #+END_SRC
 **  Key Hints - Which key
     #+BEGIN_SRC emacs-lisp
-      (add-to-list 'load-path "~/emacs.d/plugins/which-key/")
       (require 'which-key)
       (which-key-mode)
     #+END_SRC
 **  Custom Settings
     #+BEGIN_SRC emacs-lisp
-      (setq visible-bell t)
+      (setq-local comment-start "# ")
+      (setq-local comment-end "")
+      (setq visible-bell nil)
       (show-paren-mode t)
       (setq-default fill-column 80)
       (setq inhibit-startup-message t)
@@ -158,7 +159,8 @@
       (setq confirm-kill-emacs 'y-or-n-p)
       (setq inhibit-startup-message t)
       (setq initial-scratch-message nil)
-
+       
+      (global-set-key (kbd "C-x f") 'find-file )
       (global-set-key (kbd "C-a") 'move-beginning-of-line)
       (global-set-key (kbd "C-e") 'move-end-of-line)
 
@@ -190,10 +192,11 @@
 
 * Terminal and ENV settings
   #+BEGIN_SRC emacs-lisp
-    (setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH")))
+    (setenv "PATH" (concat "/usr/local/bin:" "/Applications/LibreOffice.app/Contents/MacOS:"  (getenv "PATH")))
+
     (setq exec-path (append exec-path '("/usr/local/bin")))
     (global-set-key (kbd "M-SPC") 'multi-term)
-    (setq multi-term-program "/usr/local/bin/zsh")
+    (setq multi-term-program "/usr/local/bin/bash")
     ;;(setq multi-term-program-switches "--login")
   #+END_SRC
 
@@ -226,12 +229,12 @@
             (define-key evil-normal-state-map (kbd "C-j") 'evil-scroll-down)
             (define-key evil-normal-state-map (kbd "C-k") 'evil-scroll-up)
             (define-key evil-normal-state-map "U" 'undo-tree-redo)
-            (define-key evil-normal-state-map "n" 'evil-multiedit-match-and-next)
-            (define-key evil-normal-state-map "N" 'evil-multiedit-match-and-prev)
+            (define-key evil-normal-state-map ">" 'evil-multiedit-match-and-next)
+            (define-key evil-normal-state-map "<" 'evil-multiedit-match-and-prev)
             (define-key evil-normal-state-map "m" 'evil-multiedit-toggle-marker-here)
 
-            (define-key evil-visual-state-map "n" 'evil-multiedit-match-and-next)
-            (define-key evil-visual-state-map "N" 'evil-multiedit-match-and-prev)
+            (define-key evil-visual-state-map ">" 'evil-multiedit-match-and-next)
+            (define-key evil-visual-state-map "<" 'evil-multiedit-match-and-prev)
             (define-key evil-visual-state-map "m" 'evil-multiedit-toggle-marker-here)
          ;;
          ;;  (define-key evil-visual-state-map "m" 'evil-mc-make-cursor-here)
@@ -239,6 +242,7 @@
          ;; (define-key evil-visual-state-map "n" 'evil-mc-make-and-goto-next-match)
 
             (define-key evil-ex-map "e" 'helm-find-files)
+            (define-key evil-ex-map "n" 'evil-buffer-new)
             (define-key evil-ex-map "b" 'helm-buffers-list)
             (define-key evil-ex-map "x" 'kill-buffer-and-window)
             (define-key evil-ex-map "w" 'save-buffer)
@@ -318,15 +322,16 @@
         :config
           (dumb-jump-mode))
     #+END_SRC
-*
 **  Company mode
     #+BEGIN_SRC emacs-lisp
       (use-package company
         :ensure t
+        :diminish company
         :config
           (progn
             ;; Enable company mode in every programming mode
-            (add-hook 'prog-mode-hook 'company-mode)
+            ;;(add-hook 'prog-mode-hook 'company-mode)
+            (global-company-mode)
             ;; Set my own default company backends
             (setq-default
               company-backends
@@ -363,6 +368,14 @@
            (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
            (add-hook 'haskell-mode-hook 'haskell-decl-scan-mode)
            (add-hook 'haskell-mode-hook 'haskell-doc-mode)))
+    #+END_SRC
+    - PureScript
+    #+BEGIN_SRC emacs-lisp
+      (use-package purescript-mode            ; PureScript mode
+        :ensure t)
+
+      (use-package psci                       ; psci integration
+        :ensure t)
     #+END_SRC
     - Javascript
 
@@ -452,6 +465,12 @@
         (diff-hl-flydiff-mode)
         (add-hook 'prog-mode-hook 'turn-on-diff-hl-mode)
         (add-hook 'vc-dir-mode-hook 'turn-on-diff-hl-mode))
+    ;; (use-package magit
+     ;;  :ensure t)
+    ;;  (use-package evil-magit
+     ;;   :config
+     ;;   (progn
+     ;;     (evil-leader/set-key "gs" 'magit-status)))
   #+END_SRC
 * Search Engine
   #+BEGIN_SRC emacs-lisp
@@ -502,10 +521,9 @@
     #+END_SRC
 **  yasnippet
     #+BEGIN_SRC emacs-lisp
-      (add-to-list 'load-path
-        "~/.emacs.d/plugins/yasnippet")
       (require 'yasnippet)
       (yas-global-mode 1)
+      (yas-reload-all)
       (defun yas/org-very-safe-expand ()
         (let ((yas/fallback-behavior 'return-nil)) (yas/expand)))
         (add-hook 'org-mode-hook
@@ -562,13 +580,18 @@
     #+END_SRC
 **  Evaluate language
     #+BEGIN_SRC emacs-lisp
-    (org-babel-do-load-languages
-      'org-babel-load-languages
-      '((emacs-lisp . t)
-       (python . t)
-       (sh . t)
-       (gnuplot . t)
-       (dot . t )))
+      (org-babel-do-load-languages
+       'org-babel-load-languages
+       '((emacs-lisp . nil)
+         (sh . t)
+         (python . t)))
+      ;; (org-babel-do-load-languages
+      ;;   'org-babel-load-languages
+      ;;   '((emacs-lisp . t)
+      ;;    (python . t)
+      ;;    (sh . t)
+      ;;    (gnuplot . t)
+       ;;   (dot . t )))
     #+END_SRC
 **  Capture , Refile and Org-Protocol
 *** Org Capture
@@ -580,26 +603,23 @@
       (global-set-key (kbd "C-c c") 'org-capture)
 
       ;; Capture templates for: TODO tasks, Notes, appointments, phone calls, meetings, and org-protocol
-      ;; (setq org-capture-templates
-      ;;      (quote (("t" "Todo" entry (file "~/Dropbox/org/refile.org")
-      ;;             "* TODO %?\n %i\n  %a" :clock-in t :kill-buffer )
-      ;;           ("r" "respond" entry (file "~/Dropbox/org/refile.org")
-      ;;             "* NEXT Respond to %:from on %:subject\nSCHEDULED: %t\n%U\n%a\n" :clock-in t :clock-resume t :immediate-finish t)
-      ;;            ("n" "note" entry (file "~/Dropbox/org/refile.org")
-      ;;             "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t)
-      ;;            ("j" "Journal" entry (file+datetree "~/Dropbox/org/diary.org")
-      ;;             "* %?\n%U\n" :clock-in t :clock-resume t)
-      ;;            ("w" "org-protocol" entry (file "~/Dropbox/org/refile.org")
-      ;;             "* TODO Review %c\n%U\n" :immediate-finish t)
-      ;;            ("m" "Meeting" entry (file "~/Dropbox/org/refile.org")
-      ;;             "* MEETING with %? :MEETING:\n%U" :clock-in t :clock-resume t)
-      ;;            ("p" "Phone call" entry (file "~/Dropbox/org/refile.org")
-      ;;             "* PHONE %? :PHONE:\n%U" :clock-in t :clock-resume t)
-      ;;            ("h" "Habit" entry (file "~/Dropbox/org/refile.org")
-      ;;             "* NEXT %?\n%U\n%a\nSCHEDULED: %(format-time-string \"%<<%Y-%m-%d %a .+1d/3d>>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n"))))
-
+      (setq org-capture-templates
+        (quote 
+         ( ("t" "Todo" entry (file "~/Dropbox/org/refile.org")
+            "* TODO %?\n %i\n  %a" :clock-in t :kill-buffer )
+           ("r" "Respond" entry (file "~/Dropbox/org/refile.org")
+            "* NEXT Respond to %:from on %:subject\nSCHEDULED: %t\n%U\n%a\n" :clock-in t :clock-resume t :immediate-finish t)
+           ("n" "Note" entry (file "~/Dropbox/org/refile.org")
+            "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t)
+           ("w" "org-protocol" entry (file "~/Dropbox/org/refile.org")
+            "* TODO Review %c\n%U\n" :immediate-finish t)
+           ("m" "Meeting" entry (file "~/Dropbox/org/refile.org")
+            "* MEETING with %? :MEETING:\n%U" :clock-in t :clock-resume t)
+           ("p" "Phone call" entry (file "~/Dropbox/org/refile.org")
+             "* PHONE %? :PHONE:\n%U" :clock-in t :clock-resume t)
+           ("h" "Habit" entry (file "~/Dropbox/org/refile.org")
+            "* NEXT %?\n%U\n%a\nSCHEDULED: %(format-time-string \"%<<%Y-%m-%d %a .+1d/3d>>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n"))))
     #+END_SRC
-
 *** Org Refile
     #+BEGIN_SRC emacs-lisp
 
@@ -642,7 +662,8 @@
       ;; (define-key global-map "\C-cx"
       ;;  (lambda () (interactive) (org-capture nil "w")))
       (setq server-socket-dir (expand-file-name "server" user-emacs-directory))
-      ;; (unless (server-running-p) (server-start))
+      ;; unless (server-running-p) 
+      (server-start)
     #+END_SRC
 * IRC Configuration
   #+BEGIN_SRC emacs-lisp
@@ -673,3 +694,4 @@
       ;;            :nick     (netrc-get erc-config "login")
       ;;            :password (netrc-get erc-config "password")))))
   #+END_SRC
+
