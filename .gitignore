@@ -1,6 +1,7 @@
 .DS_Store
 /docsets
 /emacs.d/*
+!/emacs.d/init.el
 !/emacs.d/config.org
 !/emacs.d/custom
 !/emacs.d/themes
