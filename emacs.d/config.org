@@ -29,7 +29,7 @@
     Laod blackboard theme
     #+BEGIN_SRC emacs-lisp
       (load-file "~/.emacs.d/themes/blackboard-theme.el")
-      (load-theme 'blackboard t)
+      (load-theme 'wombat t)
     #+END_SRC
 
 **  Font Family and Size
@@ -369,7 +369,7 @@
               'prog-mode-hook
                 (lambda () (if (not (is-current-file-tramp)) (flycheck-mode 1))))))
     #+END_SRC
-**  Programming Environments
+**  Programming Environments && Modes
     - Haskell
     #+BEGIN_SRC emacs-lisp
       (use-package haskell-mode
@@ -398,7 +398,21 @@
         (add-to-list
   'org-src-lang-modes '("plantuml" . plantuml))
     #+END_SRC
-
+    - jinja 
+    #+BEGIN_SRC emacs-lisp
+       (use-package jinja2-mode
+           :ensure t)
+       (add-to-list 'auto-mode-alist '("\\.jinja\\'" . jinja2-mode))
+    #+END_SRC
+    - Yam
+    #+BEGIN_SRC emacs-lisp
+       (use-package yaml-mode 
+          :ensure t)
+        
+       (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode))
+       (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
+    
+    #+END_SRC
 * Helm , Projectile, Dired
 **  Helm
     #+BEGIN_SRC emacs-lisp
@@ -486,7 +500,8 @@
         (add-hook 'prog-mode-hook 'turn-on-diff-hl-mode)
         (add-hook 'vc-dir-mode-hook 'turn-on-diff-hl-mode))
      (use-package magit
-       :ensure t)
+       :ensure t
+       :init (setq magit-auto-revert-mode nil))
       (use-package evil-magit
         :config
         (progn
@@ -605,6 +620,7 @@
        '((emacs-lisp . nil)
          (sh . t)
          (python . t)
+      ;; (ditta . t)
          (plantuml . t)))
       ;; (org-babel-do-load-languages
       ;;   'org-babel-load-languages
