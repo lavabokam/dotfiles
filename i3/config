@@ -126,17 +126,18 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcu
 
 
 # 6.7. switch to the next and previous workspace
-bindsym Mod4+tab workspace prev
+bindsym Mod4+Tab workspace prev
 #bindsym Mod4+t workspace next
 
 # 4.26. Automatic back-and-forth when switching to the current workspace
-bindsym Mod4+w workspace back_and_forth
+bindsym Mod4+c workspace back_and_forth
 
+#popups during full screen (smart|ignore|leave_fullscreen)
+popup_during_fullscreen smart
 # 6.11. Resizing containers/windows
 # for_window [class="urxvt"] resize set 640 480
 exec_always --no-startup-id killall polybar; polybar top
 # Execute the terminal emulator urxvt, which is not yet startup-notification aware.
-exec --no-startup-id gnome-terminal 
 exec --no-startup-id pidgin 
 exec --no-startup-id dropbox
 exec --no-startup-id nm-applet
