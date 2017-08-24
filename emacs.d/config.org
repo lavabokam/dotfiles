@@ -26,9 +26,9 @@
   #+END_SRC
 * User Interface Preferences
 **  Emacs Themes
-    Laod blackboard theme
     #+BEGIN_SRC emacs-lisp
       (load-file "~/.emacs.d/themes/blackboard-theme.el")
+      (load-theme 'blackboard t)
       (load-theme 'wombat t)
     #+END_SRC
 
