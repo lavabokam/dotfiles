@@ -77,9 +77,10 @@
 
       ;; Highlight line
       (when window-system
-      (global-hl-line-mode))
+         (global-hl-line-mode)
+         (set-face-attribute hl-line-face nil :underline nil)
+         )
     #+END_SRC
-*
 **  Neo-Tree
      #+BEGIN_SRC emacs-lisp
        (use-package neotree
@@ -90,23 +91,6 @@
            (setq projectile-switch-project-action 'neotree-projectile-action))
       
      #+END_SRC
-
-**  Sr-Speedbar
-    #+BEGIN_SRC emacs-lisp
-     ;; (use-package sr-speedbar
-     ;;   :ensure t
-     ;;   :defer t
-     ;;   :init
-     ;;     ;; Show tree on the left side
-     ;;     (setq sr-speedbar-right-side nil)
-     ;;     ;; Show all files
-     ;;     (setq speedbar-show-unknown-files t)
-     ;;   :config
-     ;;     (sr-speedbar-refresh-turn-off))
-     ;;     (custom-set-variables
-     ;;       '(sr-speedbar-default-width 30)
-     ;;       '(sr-speedbar-max-width 40))
-    #+END_SRC
 **  Menu bar, Tool bar, Scroll bar
     #+BEGIN_SRC emacs-lisp
       (menu-bar-mode -1)
@@ -207,8 +191,6 @@
 
     (setq exec-path (append exec-path '("/usr/local/bin")))
     (global-set-key (kbd "M-SPC") 'eshell)
-    (setq multi-term-program "/bin/bash")
-    ;;(setq multi-term-program-switches "--login")
   #+END_SRC
 
 * EVIL Mode
@@ -396,7 +378,7 @@
     #+BEGIN_SRC emacs-lisp
        (setq org-plantuml-jar-path "~/.emacs.d/custom/plantuml.jar")
         (add-to-list
-  'org-src-lang-modes '("plantuml" . plantuml))
+            'org-src-lang-modes '("plantuml" . plantuml))
     #+END_SRC
     - jinja 
     #+BEGIN_SRC emacs-lisp
@@ -598,7 +580,6 @@
 
       (setq org-tag-alist '(("WORK" . ?w)
         ("PERSONAL" . ?p)
-        ("@ERRANDS" . ?e)
         ("@HOME" . ?h)))
 
       (define-key global-map "\C-cl" 'org-store-link)
@@ -622,13 +603,6 @@
          (python . t)
       ;; (ditta . t)
          (plantuml . t)))
-      ;; (org-babel-do-load-languages
-      ;;   'org-babel-load-languages
-      ;;   '((emacs-lisp . t)
-      ;;    (python . t)
-      ;;    (sh . t)
-      ;;    (gnuplot . t)
-       ;;   (dot . t )))
     #+END_SRC
 **  Capture , Refile and Org-Protocol
 *** Org Capture
@@ -674,15 +648,6 @@
      ;;Allow refile to create parent tasks with confirmation
      (setq org-refile-allow-creating-parent-nodes (quote confirm))
 
-     ;; Use IDO for both buffer and file completion and ido-everywhere to t
-     ;; (setq org-completion-use-ido t)
-     ;;(setq ido-everywhere t)
-     ;; (setq ido-max-directory-size 100000)
-     ;; (ido-mode (quote both))
-     ;; Use the current window when visiting files and buffers with ido
-     ;; (setq ido-default-file-method 'selected-window)
-     ;; (setq ido-default-buffer-method 'selected-window)
-     ;; Use the current window for indirect buffer display
      (setq org-indirect-buffer-display 'current-window)
 
      ;;;; Refile settings
@@ -703,6 +668,7 @@
       (server-start)
     #+END_SRC
 *** Org Capture From Linux
+    Key Bind Ctrl+Cmd+C runs " emacsclient  -s ~/.emacs.d/server/server  -ne '(make-capture-frame)' "
    #+BEGIN_SRC emacs-lisp
      (defadvice org-capture-finalize 
          (after delete-capture-frame activate)  
