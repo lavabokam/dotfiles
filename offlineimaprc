@@ -1,0 +1,26 @@
+[general]
+accounts = Gmail
+maxsyncaccounts = 1
+pythonfile = ~/dotfiles/offlineimap-keepassx.py
+
+[Account Gmail]
+localrepository = Local
+remoterepository = Remote
+autorefresh = 1
+quick = 10
+
+[Repository Local]
+type = Maildir
+localfolders = ~/Maildir
+
+[Repository Remote]
+type = Gmail
+remoteuser = lava.kumar@juspay.in
+remotepasseval = get_keepass_pw("/home/lava/Dropbox/Passwords.kdbx","Juspay email", "lava.kumar@juspay.in" )
+realdelete = no
+
+folderfilter = lambda foldername: foldername not in ['[Gmail]/Spam', '[Gmail]/All Mail', '[Gmail]/Starred', '[Gmail]/Important']
+
+holdconnectionopen = true
+keepalive = 60
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt
