@@ -136,7 +136,9 @@ bindsym Mod4+c workspace back_and_forth
 popup_during_fullscreen smart
 # 6.11. Resizing containers/windows
 # for_window [class="urxvt"] resize set 640 480
-exec_always --no-startup-id killall polybar; polybar top
+exec --no-startup-ip ~/.polybar/launch.sh
+#exec_always  --no-startup-id "pkill  polybar; polybar -c ~/.polybar/polybar.config mybar"
+ 
 # Execute the terminal emulator urxvt, which is not yet startup-notification aware.
 exec --no-startup-id pidgin 
 exec --no-startup-id dropbox
@@ -154,7 +156,7 @@ exec --no-startup-id dunst &
 
 
 # set floating mode when applications started
- for_window [class="urxvt"]                     floating enable
+x for_window [class="urxvt"]                     floating enable
 for_window [class="feh|mpv|mumble|pavucontrol|spotify"] floating enable
 # for_window [class="Gcolor2"]                        floating enable
 # for_window [class="Gkamus"]                         floating enable
