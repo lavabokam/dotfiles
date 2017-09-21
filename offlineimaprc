@@ -6,8 +6,8 @@ pythonfile = ~/dotfiles/offlineimap-keepassx.py
 [Account Gmail]
 localrepository = Local
 remoterepository = Remote
-autorefresh = 1
-quick = 10
+autorefresh=3
+quick=10
 
 [Repository Local]
 type = Maildir
