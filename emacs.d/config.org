@@ -729,6 +729,7 @@
   #+BEGIN_SRC emacs-lisp
          
     (require 'mu4e)
+    (require 'org-mu4e)
     (setq mu4e-maildir "~/Maildir")
     (setq mu4e-drafts-folder "/[Gmail].Drafts")
     (setq mu4e-sent-folder   "/[Gmail].Sent Mail")
@@ -758,7 +759,8 @@
     )
     ;; sending mail -- replace USERNAME with your gmail username
    ;; also, make sure the gnutls command line utils are installed
-
+    ;; HTML mail render
+    (setq mu4e-html2text-command "w3m -dump -s -T text/html -o display_link_number=true")
     (require 'smtpmail)
     (setq message-send-mail-function 'smtpmail-send-it
       starttls-use-gnutls t
@@ -781,12 +783,17 @@
        :ensure t
        :after mu4e
        :init
+         (setq mu4e-enable-mode-line t)
          (setq mu4e-alert-interesting-mail-query
            (concat
-             "flag:unread maildir:/Exchange/INBOX "
+             "flag:unread maildir:/INBOX "
              "OR "
              "flag:unread maildir:/Gmail/INBOX"))
          (mu4e-alert-enable-mode-line-display)
+         (mu4e-alert-set-default-style 'libnotify)
+         (add-hook 'after-init-hook #'mu4e-alert-enable-notifications)
+         (add-hook 'after-init-hook #'mu4e-alert-enable-mode-line-display)
+         (setq mu4e-alert-email-notification-types '(count))
          (defun gjstein-refresh-mu4e-alert-mode-line ()
             (interactive)
             (mu4e~proc-kill)
@@ -804,3 +811,4 @@
      (use-package evil-mu4e
         :ensure t)
    #+END_SRC
+   
