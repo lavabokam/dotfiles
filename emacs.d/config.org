@@ -108,6 +108,7 @@
                treemacs-collapse-dirs         3
                treemacs-silent-refresh             nil
                treemacs-change-root-without-asking nil
+               treemacs-follow-after-init          t
                treemacs-sorting                    'alphabetic-desc
                treemacs-show-hidden-files          t
                treemacs-never-persist              nil
@@ -160,10 +161,28 @@
       (require 'which-key)
       (which-key-mode)
     #+END_SRC
-**  Custom Settings
-    #+BEGIN_SRC emacs-lisp
+**  Restart Emacs
+     #+BEGIN_SRC emacs-lisp
+       (setq confirm-kill-emacs 'y-or-n-p)
+       (use-package restart-emacs
+        :ensure t
+        :bind* (("C-x M-x" . restart-emacs)))
+     #+END_SRC
+**  Commenting 
+     #+BEGIN_SRC emacs-lisp
       (setq-local comment-start "# ")
       (setq-local comment-end "")
+      (defun lava/comment-or-uncomment-region-or-line ()
+        (interactive)
+        (let (beg end)
+        (if (region-active-p)
+          (setq beg (region-beginning) end (region-end))
+          (setq beg (line-beginning-position) end (line-end-position)))
+          (comment-or-uncomment-region beg end)))
+      (lava/comment-or-uncomment-region-or-line)
+     #+END_SRC
+**  Custom Settings
+    #+BEGIN_SRC emacs-lisp
       (setq visible-bell nil)
       (show-paren-mode t)
       (setq-default fill-column 80)
@@ -191,11 +210,7 @@
       (add-hook 'prog-mode-hook 'subword-mode
       (setq gc-cons-threshold 400000000)
       (add-hook 'after-init-hook (lambda () (setq gc-cons-threshold 800000))))
-      (use-package restart-emacs
-        :ensure t
-        :bind* (("C-x M-x" . restart-emacs)))
       (fset 'yes-or-no-p 'y-or-n-p)
-      (setq confirm-kill-emacs 'y-or-n-p)
       (setq inhibit-startup-message t)
       (setq initial-scratch-message nil)
        
@@ -218,28 +233,18 @@
         (setq auto-save-file-name-transforms
           `((".*" ,temporary-file-directory t))))
       (lava/backup-to-temp-directory)
-
-      (defun lava/comment-or-uncomment-region-or-line ()
-        (interactive)
-        (let (beg end)
-        (if (region-active-p)
-          (setq beg (region-beginning) end (region-end))
-          (setq beg (line-beginning-position) end (line-end-position)))
-          (comment-or-uncomment-region beg end)))
-      (lava/comment-or-uncomment-region-or-line)
     #+END_SRC
 
 * Terminal and ENV settings
   #+BEGIN_SRC emacs-lisp
     (setenv "PATH" (concat "/usr/local/bin:" "/Applications/LibreOffice.app/Contents/MacOS:"  (getenv "PATH")))
-
     (setq exec-path (append exec-path '("/usr/local/bin")))
     (global-set-key (kbd "M-SPC") 'eshell)
   #+END_SRC
 
 * EVIL Mode
 **  EVIL
-    Use of evil mode for vim related bindings
+   Use of evil mode for vim related bindings
     #+BEGIN_SRC emacs-lisp
       (use-package evil
         :ensure t
@@ -413,7 +418,6 @@
     #+BEGIN_SRC emacs-lisp
       (use-package purescript-mode            ; PureScript mode
         :ensure t)
-
       (use-package psci                       ; psci integration
         :ensure t)
     #+END_SRC
@@ -434,10 +438,8 @@
     #+BEGIN_SRC emacs-lisp
        (use-package yaml-mode 
           :ensure t)
-        
        (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode))
        (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
-    
     #+END_SRC
 * Helm , Projectile, Dired
 **  Helm
@@ -510,7 +512,6 @@
           ("avi" . "vlc")))
       (evil-define-key 'normal dired-mode-map (kbd "j") 'dired-next-line)
       (evil-define-key 'normal dired-mode-map (kbd "k") 'dired-previous-line)
-
       (setq dired-clean-up-buffers-too t)
       (setq dired-recursive-copies 'always)
       (setq dired-recursive-deletes 'top)
@@ -778,21 +779,13 @@
     (setq mu4e-drafts-folder "/[Gmail].Drafts")
     (setq mu4e-sent-folder   "/[Gmail].Sent Mail")
     (setq mu4e-trash-folder  "/[Gmail].Trash")
-
-    ;; don't save message to Sent Messages, Gmail/IMAP takes care of this , commenting it for 
-
-    ;; (setq mu4e-sent-messages-behavior 'delete)
-
-
     (setq mu4e-maildir-shortcuts
       '( ("/INBOX"               . ?i)
          ("/[Gmail].Sent Mail"   . ?s)
          ("/[Gmail].Trash"       . ?t)
          ("/[Gmail].All Mail"    . ?a)))
-
     ;; allow for updating mail using 'U' in the main view:
     (setq mu4e-get-mail-command "offlineimap -o -q")
-
     (setq
       user-mail-address "lava.kumar@juspay.in"
       user-full-name  "Lava Kumar"
@@ -801,10 +794,13 @@
       ;;   "Foo X. Bar\n"
       ;;   "http://www.example.com\n")
     )
-    ;; sending mail -- replace USERNAME with your gmail username
-   ;; also, make sure the gnutls command line utils are installed
     ;; HTML mail render
     (setq mu4e-html2text-command "w3m -dump -s -T text/html -o display_link_number=true")
+       ;; don't keep message buffers around
+    (setq message-kill-buffer-on-exit t)
+  #+END_SRC 
+** Sending Mail
+   #+BEGIN_SRC emacs-lisp
     (require 'smtpmail)
     (setq message-send-mail-function 'smtpmail-send-it
       starttls-use-gnutls t
@@ -815,12 +811,11 @@
       smtpmail-default-smtp-server "smtp.gmail.com"
       smtpmail-smtp-server "smtp.gmail.com"
       smtpmail-smtp-service 587
-      smtpmail-debug-info t)
+      smtpmail-debug-info nil)
+     ;; don't save message to Sent Messages, Gmail/IMAP takes care of this , commenting it for 
+     ;; (setq mu4e-sent-messages-behavior 'delete)
 
-    ;; don't keep message buffers around
-    (setq message-kill-buffer-on-exit t)
-  #+END_SRC 
-
+   #+END_SRC
 ** mu4e Others
    #+BEGIN_SRC emacs-lisp
      (use-package mu4e-alert
