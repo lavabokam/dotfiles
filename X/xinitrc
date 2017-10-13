@@ -1,1 +1,10 @@
-exec awesome
+xrdb -merge .Xresources
+[[ -f ~/.Xmodmap ]] && xmodmap ~/.Xmodmap
+
+
+exec trayer --transparent true --widthtype request --height 18 --align right --edge top --expand true &
+exec gnome-power-manager &
+exec nm-applet &
+exec dropbox &
+exec xmonad
+ 

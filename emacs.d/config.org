@@ -239,7 +239,7 @@
   #+BEGIN_SRC emacs-lisp
     (setenv "PATH" (concat "/usr/local/bin:" "/Applications/LibreOffice.app/Contents/MacOS:"  (getenv "PATH")))
     (setq exec-path (append exec-path '("/usr/local/bin")))
-    (global-set-key (kbd "M-SPC") 'eshell)
+    (global-set-key (kbd "M-T") 'eshell)
   #+END_SRC
 
 * EVIL Mode
