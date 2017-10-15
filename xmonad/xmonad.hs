@@ -27,9 +27,9 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     ((modMask , xK_q), kill ),
     ((modMask,  xK_Tab) , windows W.focusDown), 
     ((modMask .|. shiftMask,  xK_Tab) , windows W.focusUp) ,
-    ((modMask, xK_h), sendMessage Shrink),
-    ((modMask, xK_l), sendMessage Expand),
-    ((modMask, xK_t), withFocused $ windows . W.sink)
+    ((modMask .|. shiftMask, xK_h), sendMessage Shrink),
+    ((modMask .|. shiftMask, xK_l), sendMessage Expand),
+    --((modMask, xK_t), withFocused $ windows . W.sink),
     
   ]
 
@@ -41,7 +41,6 @@ myManageHook = composeAll
 main = do
   -- spawn xmobar
   xmproc <- spawnPipe "xmobar  ~/.xmonad/xmobarrc"
-  
   xmonad $ def {
     terminal = "urxvt",
     focusFollowsMouse = False,

@@ -1,7 +1,5 @@
 ln -sf dotfiles/emacs.d ~/.emacs.d
-ln -sf dotfiles/vimperator ~/.vimperator
-ln -sf dotfiles/vimperator/vimperatorrc ~/.vimperatorrc
-
-ln -sf dotfiles/polybar ~/.polybar 
-
-ln -sf dotfiles/i3 ~/.i3
+ln -sf dotfiles/xmonad ~/.xmonad
+ln -sf dotfiles/X/Xresources ~/.Xresources
+ln -sf dotfiles/X/xinitrc ~/.xinitrc
+ln -sd dotfiles/X/Xmodmap ~/.Xmodmap

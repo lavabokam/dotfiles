@@ -146,18 +146,13 @@ exec --no-startup-id "sh ~/.polybar/launch.sh"
 #exec_always  --no-startup-id "pkill  polybar; polybar -c ~/.polybar/polybar.config mybar"
  
 # Execute the terminal emulator urxvt, which is not yet startup-notification aware.
-exec --no-startup-id pidgin 
-exec --no-startup-id dropbox
-exec --no-startup-id nm-applet
-exec --no-startup-id keepassxc
+# exec --no-startup-id keepassxc
 # exec --no-startup-id compton -bc &
 # exec --no-startup-id compton --config ~/.compton.conf
-exec --no-startup-id nm-applet
-exec --no-startup-id dunst &
+# exec --no-startup-id nm-applet
+# exec --no-startup-id dunst &
 # Launch the VirtualBox guest services
-# exec --no-startup-id VBoxClient-all &
 # exec --no-startup-id feh --bg-fill ~/dotfiles/Images/Walls/gorilla.jpg
-
 
 
 

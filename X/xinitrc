@@ -6,5 +6,5 @@ exec trayer --transparent true --widthtype request --height 18 --align right --e
 exec gnome-power-manager &
 exec nm-applet &
 exec dropbox &
-exec xmonad
+exec i3 
  
