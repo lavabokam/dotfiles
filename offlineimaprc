@@ -1,7 +1,7 @@
 [general]
 accounts = Gmail
 maxsyncaccounts = 1
-pythonfile = ~/dotfiles/offlineimap-keepassx.py
+pythonfile = ~/dotfiles/offlineimap-pass.py
 
 [Account Gmail]
 localrepository = Local

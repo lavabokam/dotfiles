@@ -16,7 +16,6 @@ URxvt.keysym.C-S-Up:   font-size:incglobal
 URxvt.keysym.C-S-Down: font-size:decglobal
 URxvt.keysym.C-equal:  font-size:reset
 URxvt.keysym.C-slash:  font-size:show
-
 URxvt.background:	#1F1D19
 URxvt.foreground:	#DEDEDE
 

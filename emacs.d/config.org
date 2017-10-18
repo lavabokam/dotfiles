@@ -183,6 +183,8 @@
      #+END_SRC
 **  Custom Settings
     #+BEGIN_SRC emacs-lisp
+    ;; (setq  x-meta-keysym 'super
+    ;;   x-super-keysym 'meta)
       (setq visible-bell nil)
       (show-paren-mode t)
       (setq-default fill-column 80)
