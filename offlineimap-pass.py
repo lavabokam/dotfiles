@@ -1,9 +1,14 @@
 #! /usr/bin/env python2
 import os, getpass
-import libkeepass
+#import libkeepass
 import subprocess
 
-gpg_file="/home/lava/dotfiles/keepassx.gpg"
+gpg_file="/home/lava/dotfiles/lava.kumar@juspay.in.gpg"
+
+from subprocess import check_output
+
+def get_pass():
+    return check_output("gpg -dq "+gpg_file, shell=True).strip("\n")
 
 def get_keepass_pw(dbpath, title="", username=""):
     if os.path.isfile(dbpath):

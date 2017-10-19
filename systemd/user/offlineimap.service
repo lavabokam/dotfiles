@@ -3,9 +3,9 @@ Description=OfflineIMAP Service
 After=network.target
 
 [Service]
+Type=oneshot
 ExecStart=/usr/bin/offlineimap -u syslog
-Restart=on-failure
-RestartSec=60
+ExecStartPost=/usr/bin/mu index
 
 [Install]
 WantedBy=default.target
