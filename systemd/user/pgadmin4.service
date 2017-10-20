@@ -1,0 +1,12 @@
+[Unit]
+Description=PgAdmin 4 
+After=docker.service
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/docker run -p 8080:80  \
+   -e "PGADMIN_DEFAULT_EMAIL=lava@lava-arch" \
+   -e "PGADMIN_DEFAULT_PASSWORD=P@ssw0rdt" \
+   dpage/pgadmin4
+ 
+[Install]
+WantedBy=default.target

@@ -436,7 +436,7 @@
            :ensure t)
        (add-to-list 'auto-mode-alist '("\\.jinja\\'" . jinja2-mode))
     #+END_SRC
-    - Yam
+    - Yaml
     #+BEGIN_SRC emacs-lisp
        (use-package yaml-mode 
           :ensure t)
@@ -648,6 +648,7 @@
        '((emacs-lisp . nil)
          (sh . t)
          (python . t)
+         (sql . t)
       ;; (ditta . t)
          (plantuml . t)))
     #+END_SRC

@@ -5,13 +5,13 @@ set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango:monospace 0
+font pango:monospace 0 
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return  fullscreen disable ; exec urxvt
+bindsym $mod+Return  fullscreen disable ; exec dbus-launch gnome-terminal 
 
 # Make the currently focused window a scratchpad
 bindsym $mod+Shift+m move scratchpad
@@ -123,6 +123,7 @@ exec --no-startup-id keepassxc
 exec --no-startup-id dropbox
 exec --no-startup-id emacs
 exec --no-startup-id dunst &
+exec --no-startup-id pidgin 
 exec --no-startup-id slack
 # exec --no-startup-id compton -bc &
 # exec --no-startup-id compton --config ~/.compton.conf
@@ -134,7 +135,7 @@ for_window [title="org-capture"] floating enable resize set 1300 700
 
 # set floating mode when applications started
 for_window [class="feh|mpv|mumble|pavucontrol|spotify"] floating enable
-for_window [class="^pidgin$" window_role="^conservation$"] floating enable
+for_window [class="Pidgin"] floating enable
 
 #popups during full screen (smart|ignore|leave_fullscreen)
 popup_during_fullscreen smart
@@ -171,13 +172,13 @@ mode "$mode_system" {
 bindsym $mod+Ctrl+p mode "$mode_system"
 
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+q exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+bindsym $mod+Ctrl+q exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
 # reload the configuration file
-bindsym $mod+shift+w reload
+bindsym $mod+Ctrl+w reload
 
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
-bindsym $mod+Shift+r restart
+bindsym $mod+Ctrl+r restart
 
 # resize window (you can also use the mouse for that)
 bindsym $mod+Ctrl+h resize shrink width 5px or 5ppt
