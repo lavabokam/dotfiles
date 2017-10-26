@@ -38,3 +38,24 @@ URxvt*color12: #6464FF // blue
 URxvt*color13: #FF00FF // magenta
 URxvt*color14: #00FFFF // cyan
 URxvt*color15: #FFFFFF // white
+
+
+#   Rofi
+
+! rofi.font: Ubuntu, Regular, 11
+
+! ! ------------------------------------------------------------------------------
+! ! ROFI Color theme
+! ! ------------------------------------------------------------------------------
+! rofi.color-enabled: true
+! rofi.color-window: argb:BF000000, argb:CC000000, #1e2529
+! rofi.color-normal: argb:BF000000, #FFFFFF, argb:BF000000, #394249, #ffffff
+! rofi.color-active: argb:BF000000, #80cbc4, #273238, #394249, #80cbc4
+! rofi.color-urgent: argb:BF000000, #ff1844, #273238, #394249, #ff1844
+! rofi.location: 0
+! rofi.padding: 5
+! rofi.line-margin: 0
+! rofi.eh: 1
+! rofi.line-padding: 5
+! rofi.seperator-style: solid
+! rofi.scrollbar-width: 2

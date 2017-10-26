@@ -139,9 +139,13 @@ for_window [class="Pidgin"] floating enable
 
 #popups during full screen (smart|ignore|leave_fullscreen)
 popup_during_fullscreen smart
-hide_edge_borders  smart
+#hide_edge_borders  smart
 
-
+# GAPS
+gaps inner 5
+smart_gaps on
+smart_borders on
+new_window 1pixel
 # The middle button and a modifer over any part of the window kills the window
 #bindsym --release button2 kill
 # bindsym --whole-window button2 kill
