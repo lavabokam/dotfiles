@@ -1,17 +1,14 @@
 # Author: Lava Kumar
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
-
 set $mod Mod4
-
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango:monospace 0 
-
+font pango:monospace 0
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return  fullscreen disable ; exec dbus-launch gnome-terminal 
+bindsym $mod+Return  fullscreen disable ; exec  terminator 
 
 # Make the currently focused window a scratchpad
 bindsym $mod+Shift+m move scratchpad
@@ -132,17 +129,18 @@ exec --no-startup-id slack
 #org-capture
 bindsym $mod+Ctrl+c fullscreen disable;   exec "emacsclient  -s ~/.emacs.d/server/server  -ne '(make-capture-frame)'" 
 for_window [title="org-capture"] floating enable resize set 1300 700
-
+for_window [class="Nautilus"] floating enable
+for_window [class="Xpad"] floating enable
 # set floating mode when applications started
 for_window [class="feh|mpv|mumble|pavucontrol|spotify"] floating enable
 for_window [class="Pidgin"] floating enable
-
+for_window [window_role="pop-up"] floating enable
 #popups during full screen (smart|ignore|leave_fullscreen)
 popup_during_fullscreen smart
 #hide_edge_borders  smart
 
 # GAPS
-gaps inner 5
+gaps inner 4
 smart_gaps on
 smart_borders on
 new_window 1pixel
@@ -174,10 +172,13 @@ mode "$mode_system" {
 }
 
 bindsym $mod+Ctrl+p mode "$mode_system"
+bindsym $mod+Ctrl+Delete mode "$mode_system"
+    
 
 # exit i3 (logs you out of your X session)
-bindsym $mod+Ctrl+q exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+#bindsym $mod+Ctrl+q exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
+bindsym $mod+Ctrl+q exit
 # reload the configuration file
 bindsym $mod+Ctrl+w reload
 
@@ -205,8 +206,8 @@ bar {
     tray_output primary
 #
 #    # Workspace bar options
-#    status_command i3blocks
-     status_command i3status
+    status_command i3blocks
+#     status_command i3status
 #    # status_command ~/.conky-i3.sh
     separator_symbol "|"
 #

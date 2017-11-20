@@ -404,7 +404,7 @@
             ;; Enable flycheck mode as long as we're not in TRAMP
             (add-hook
               'prog-mode-hook
-                (lambda () (if (not (is-current-file-tramp)) (flycheck-mode 1))))))
+                (lambda () (if (is-current-file-tramp) (flycheck-mode 0))))))
     #+END_SRC
 **  Programming Environments && Modes
     - Haskell
@@ -434,6 +434,7 @@
         :init
           (setq
                 js2-basic-offset 2
+                js-indent-level 2
                 js2-global-externs (list "window" "module" "require" "buster" "sinon" "assert" "refute" "setTimeout" "clearTimeout" "setInterval" "clearInterval" "location" "__dirname" "console" "JSON" "jQuery" "$"))
 
         (add-hook 'js2-mode-hook
