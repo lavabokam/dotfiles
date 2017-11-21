@@ -2,3 +2,6 @@ clear lock
 clear control
 keycode 66 = Control_L
 add control = Control_L Control_R
+
+! replacing middle button (button 2)
+pointer = 1 25 3 4 5 6 7 8 9

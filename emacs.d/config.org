@@ -398,13 +398,13 @@
 **  Flycheck mode
     #+BEGIN_SRC emacs-lisp
       (use-package flycheck
-        :ensure t
-        :init
-          (progn
-            ;; Enable flycheck mode as long as we're not in TRAMP
-            (add-hook
-              'prog-mode-hook
-                (lambda () (if (is-current-file-tramp) (flycheck-mode 0))))))
+        :ensure t )
+       ;; :init
+       ;;   (progn
+       ;;     ;; Enable flycheck mode as long as we're not in TRAMP
+       ;;     (add-hook
+       ;;       'prog-mode-hook
+       ;;         (lambda () (if (is-current-file-tramp) (flycheck-mode 0))))))
     #+END_SRC
 **  Programming Environments && Modes
     - Haskell
