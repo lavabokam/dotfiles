@@ -282,9 +282,9 @@
             (evil-define-key 'normal neotree-mode-map (kbd "SPC") 'neotree-enter)
             (evil-define-key 'normal neotree-mode-map (kbd "q") 'neotree-hide)
             (evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter)
-            (define-key evil-ex-map "e" 'helm-find-files)
+          ;;  (define-key evil-ex-map "e" 'helm-find-files)
             (define-key evil-ex-map "n" 'evil-buffer-new)
-            (define-key evil-ex-map "b" 'helm-buffers-list)
+           ;; (define-key evil-ex-map "b" 'helm-buffers-list)
             (define-key evil-ex-map "x" 'kill-buffer-and-window)
             (define-key evil-ex-map "w" 'save-buffer)
             (define-key evil-ex-map "W" 'save-buffer)
@@ -300,7 +300,7 @@
 
           (evil-leader/set-leader ";")
           (evil-leader/set-key
-            "e" 'helm-find-files
+          ;;  "e" 'helm-find-files
             "b" 'switch-to-buffer
             "w" 'save-buffer
             "c" 'delete-window
@@ -333,26 +333,6 @@
     #+END_SRC
 
 * Source Code & Navigation
-**  TAGS
-    #+BEGIN_SRC emacs-lisp
-      (use-package helm-gtags
-        :ensure t
-        :commands (helm-gtags-mode helm-gtags-dwim)
-        :diminish helm-gtags-mode
-        :config
-          (progn
-            ;; keys
-            (define-key helm-gtags-mode-map (kbd "C-c f") 'helm-gtags-dwim)
-            (define-key helm-gtags-mode-map (kbd "M-t") 'helm-gtags-find-tag)
-            (define-key helm-gtags-mode-map (kbd "M-r") 'helm-gtags-find-rtag)
-            (define-key helm-gtags-mode-map (kbd "M-s") 'helm-gtags-find-symbol)
-            (define-key helm-gtags-mode-map (kbd "M-<") 'helm-gtags-previous-history)
-            (define-key helm-gtags-mode-map (kbd "M->") 'helm-gtags-next-history)
-            (define-key helm-gtags-mode-map (kbd "M-,") 'helm-gtags-pop-stack)))
-
-            ;; Enable helm-gtags-mode in code
-            (add-hook 'prog-mode-hook 'helm-gtags-mode)
-    #+END_SRC
 **  Dumb jump
     #+BEGIN_SRC emacs-lisp
       (use-package dumb-jump
@@ -443,82 +423,6 @@
        (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode))
        (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
     #+END_SRC
-* Helm , Projectile, Dired
-**  Helm
-    #+BEGIN_SRC emacs-lisp
-      (use-package helm
-        :ensure t
-        :diminish helm-mode
-        :init
-          (progn
-            (require 'helm-config)
-            (setq helm-candidate-number-limit 100)
-            ;; From https://gist.github.com/antifuchs/9238468
-            (setq helm-idle-delay 0.0 ; update fast sources immediately (doesn't).
-              helm-input-idle-delay 0.01  ; this actually updates things
-                                          ; reeeelatively quickly.
-              helm-yas-display-key-on-candidate t
-              helm-quick-update t
-              helm-M-x-requires-pattern nil
-              helm-ff-skip-boring-files t)
-            (helm-mode)
-            (helm-autoresize-mode) )
-        :bind (("C-c h" . helm-mini)
-          ("C-h a" . helm-apropos)
-          ("C-x C-b" . helm-buffers-list)
-          ("C-x C-f" . helm-find-files)
-          ("C-x b" . helm-buffers-list)
-          ("M-y" . helm-show-kill-ring)
-          ("M-x" . helm-M-x)
-          ("C-x c o" . helm-occur)
-          ("C-x c s" . helm-swoop)
-          ("C-x c y" . helm-yas-complete)
-          ("C-x c Y" . helm-yas-create-snippet-on-region)
-          ("C-x c SPC" . helm-all-mark-rings)))
-          (ido-mode -1) ;; Turn off ido mode in case I enabled it accidentally
-    #+END_SRC
-**  Helm Projectile
-    #+BEGIN_SRC emacs-lisp
-      (use-package helm-projectile
-        :ensure t
-        :init
-          (projectile-mode)
-          (setq projectile-completion-system 'helm)
-          (setq projectile-switch-project-action 'helm-projectile-find-file)
-          (setq projectile-switch-project-action 'helm-projectile)
-          (setq projectile-enable-caching t)
-        :config
-          (helm-projectile-on))
-    #+END_SRC
-**  Helm Dash for Documentation
-    #+BEGIN_SRC emacs-lisp
-      (use-package helm-dash
-        :ensure t
-        :defer 1
-        :init
-          (progn
-            (setq helm-dash-docsets-path "~/dotfiles/docsets")
-            (setq helm-dash-browser-func 'eww)))
-    #+END_SRC
-**  Dired
-    #+BEGIN_SRC emacs-lisp
-      (use-package dired+
-        :ensure t)
-      (use-package dired-open
-        :ensure t)
-      (setq-default dired-listing-switches "-lhvA")
-      (setq dired-open-extensions
-        '(("pdf" . "evince")
-          ("mkv" . "vlc")
-          ("mp4" . "vlc")
-          ("avi" . "vlc")))
-      (evil-define-key 'normal dired-mode-map (kbd "j") 'dired-next-line)
-      (evil-define-key 'normal dired-mode-map (kbd "k") 'dired-previous-line)
-      (setq dired-clean-up-buffers-too t)
-      (setq dired-recursive-copies 'always)
-      (setq dired-recursive-deletes 'top)
-    #+END_SRC
-
 * Version control
   #+BEGIN_SRC emacs-lisp
     (use-package diff-hl
