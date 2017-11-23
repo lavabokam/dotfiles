@@ -4,7 +4,7 @@ Xft.hintstyple: hintslight
 Xft.hinting: 1
 Xft.antialias: 1
 Xft.rgba: rgb
-Xft.dpi: 110 
+Xft.dpi: 115 
 
 
 URxvt.font:     xft:Courier New:size=12:antialias=true
