@@ -1,0 +1,22 @@
+IMAPAccount gmail 
+Host imap.gmail.com 
+User lava.kumar@juspay.in 
+PassCmd "gpg2 -q --for-your-eyes-only --no-tty -d ~/dotfiles/email/lava.kumar@juspay.in.gpg | awk '/machine imap.gmail.com login lava.kumar@juspay.in/ {print $NF}'"
+Port 993
+SSLType IMAPS
+
+IMAPStore gmail-remote
+Account gmail 
+
+MaildirStore gmail-local
+Path ~/.email/lava.kumar@juspay.in/
+Inbox ~/.email/lava.kumar@juspay.in/INBOX
+
+Channel gmail
+Master :gmail-remote:
+Slave :gmail-local:
+Patterns "Sent" "INBOX" "Deleted Items"
+Create Slave
+Sync All
+Expunge Both
+SyncState *
