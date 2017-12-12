@@ -107,7 +107,7 @@
                treemacs-goto-tag-strategy          'refetch-index)
 
          (treemacs-follow-mode t)
-         (treemacs-filewatch-mode t))
+         (treemacs-filewatch-mode nil))
        :bind
           (:map global-map
              ;;([f8]        . treemacs-toggle)
@@ -123,7 +123,6 @@
        :config
        (setq treemacs-header-function #'treemacs-projectile-create-header)
        :bind (:map global-map
-                  ;; ("M-m fP" . treemacs-projectile)
                    ("C-x C-p" . treemacs-projectile-toggle)))
 
    #+END_SRC
@@ -348,8 +347,12 @@
   :diminish ivy-mode
   :config
   (ivy-mode 1)
-  (bind-key "C-c C-r" 'ivy-resume))
-
+  (bind-key "C-c C-r" 'ivy-resume)
+  (setq ivy-use-virtual-buffers t))
+;swiper invoke in current buffer
+(use-package swiper
+  :ensure t
+  :bind (("C-x /" . swiper)))
 ;; projectile
 (use-package projectile
   :ensure t
@@ -664,7 +667,9 @@
       smtpmail-starttls-credentials
       '(("smtp.gmail.com" 587 nil nil))
       smtpmail-auth-credentials
-      (expand-file-name "~/.authinfo.gpg")
+      (expand-file-name "~/dotfiles/email/lava.Kumar@juspay.in.gpg")
+      auth-sources
+      '((:source "~/dotfiles/email/lava.kumar@juspay.in.gpg"))
       smtpmail-default-smtp-server "smtp.gmail.com"
       smtpmail-smtp-server "smtp.gmail.com"
       smtpmail-smtp-service 587
@@ -675,28 +680,28 @@
    #+END_SRC
 ** mu4e
    #+BEGIN_SRC emacs-lisp
-  
     (require 'mu4e)
-    (setq mu4e-maildir (expand-file-name "~/.email"))
+    (setq mu4e-maildir (expand-file-name "~/.email/lava.kumar@juspay.in"))
 
-    (setq mu4e-drafts-folder "/Drafts")
-    (setq mu4e-sent-folder   "/Sent")
-    (setq mu4e-trash-folder  "/Trash")
+    (setq mu4e-drafts-folder "/[Gmail]/Drafts")
+    (setq mu4e-sent-folder   "/[Gmail]/Sent Mail")
+    (setq mu4e-trash-folder  "/[Gmail]/Trash")
 
     ;; get mail
     (setq mu4e-get-mail-command "mbsync gmail"
         mu4e-html2text-command "w3m -T text/html"
-        mu4e-update-interval 120
+        mu4e-update-interval 300 
         mu4e-headers-auto-update t
-        mu4e-compose-signature-auto-include nil)
+        mu4e-compose-signature-auto-include t
+        mu4e-compose-signature "")
 
      (setq mu4e-maildir-shortcuts
         '( ("/INBOX"               . ?i)
-           ("/Sent"   . ?s)
-           ("/Trash"       . ?t)
-           ("/Drafts"    . ?d)))
+           ("/[Gmail]/Sent Mail"   . ?s)
+           ("/[Gmail]/Trash"       . ?t)
+           ("/[Gmail]/Drafts"    . ?d)))
 
-    ;; show images
+    ;; Show images
     (setq mu4e-show-images t)
 
     ;; use imagemagick, if available
@@ -709,6 +714,10 @@
       user-mail-address "lava.kumar@juspay.in"
       user-full-name  "Lava Kumar")
 
+    ;; a  list of user's e-mail addresses
+    (setq mu4e-user-mail-address-list '("lava.kumar@juspay.in"))
+
+
    ;; don't save message to Sent Messages, IMAP takes care of this
    (setq mu4e-sent-messages-behavior 'delete)
 
@@ -719,3 +728,44 @@
            (flyspell-mode)))
    
    #+END_SRC
+** Mail alert 
+   #+BEGIN_SRC emacs-lisp
+   (use-package mu4e-alert
+    :ensure t
+    :after mu4e
+    :init
+       (setq mu4e-alert-interesting-mail-query
+      (concat
+       "flag:unread"
+       " /INBOX"))
+      (mu4e-alert-enable-mode-line-display)
+      (defun gjstein-refresh-mu4e-alert-mode-line ()
+         (interactive)
+         (mu4e~proc-kill)
+         (mu4e-alert-enable-mode-line-display))
+     (run-with-timer 0 60 'gjstein-refresh-mu4e-alert-mode-line))
+    (defun no-auto-fill ()
+      "Turn off auto-fill-mode."
+      (auto-fill-mode -1))
+    (add-hook 'mu4e-compose-mode-hook #'no-auto-fill)
+    
+    (use-package evil-mu4e
+   :ensure t)      
+   
+   #+END_SRC
+
+** Mail mu4e Compose
+   #+BEGIN_SRC emacs-lisp
+    (require 'org-mu4e)
+
+   ;;  (use-package mu4e :bind (:map mu4e-compose-mode-map
+    ;;                          ("C-c x" . org-mode)))
+     (use-package org-mime
+       :ensure t
+       :bind (:map message-mode-map
+              ("C-c h" . org-mime-htmlize))
+       :init
+        (setq org-mime-preserve-breaks nil)) 
+   
+   #+END_SRC
+* Misc

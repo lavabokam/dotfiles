@@ -39,11 +39,11 @@ focus_follows_mouse no
 # force_focus_wrapping yes 
 
 # move focused window
-bindsym $mod+Shift+h move left
-bindsym $mod+Shift+j move down
-bindsym $mod+Shift+k move up
-bindsym $mod+Shift+l move right
-
+bindsym $mod+Shift+h move left 25px
+bindsym $mod+Shift+j move down 25px
+bindsym $mod+Shift+k move up 25px
+bindsym $mod+Shift+l move right 25px
+bindsym --release Print exec scrot -s -e 'kolourpaint $f' 
 # 6.2. Splitting containers
 bindsym $mod+s split horizontal
 bindsym $mod+v split vertical
@@ -128,9 +128,11 @@ exec --no-startup-id slack
 # exec --no-startup-id compton --config ~/.compton.conf
 # exec --no-startup-id feh --bg-fill ~/dotfiles/Images/Walls/gorilla.jpg
 
-#org-capture
-bindsym $mod+Ctrl+c fullscreen disable;   exec "emacsclient  -s ~/.emacs.d/server/server  -ne '(make-capture-frame)'" 
-for_window [title="org-capture"] floating enable resize set 1300 700
+# org-capture
+# bindsym $mod+Ctrl+c floating enable;   exec "emacsclient  -s ~/.emacs.d/server/server  -ne '(make-capture-frame)'" 
+bindsym $mod+Ctrl+c fullscreen disable; exec "emacsclient  -s ~/.emacs.d/server/server  -ne '(make-capture-frame)'" 
+
+for_window [title="org-capture"] floating enable resize set 1100 600
 for_window [class="Nautilus"] floating enable
 for_window [class="Xpad"] floating enable
 # set floating mode when applications started
