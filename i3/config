@@ -52,7 +52,8 @@ bindsym $mod+v split vertical
 bindsym $mod+f fullscreen toggle
 # Toggle floating
 bindsym $mod+shift+f floating toggle
-
+# bindsym --release --whole-window button2 nop
+bindsym --release --whole-window $mod+button25 floating toggle
 # 6.3. Manipulating layout
 bindsym $mod+shift+s layout toggle  stacking
 bindsym $mod+shift+t layout toggle tabbed
@@ -118,6 +119,7 @@ bindsym $mod+c workspace back_and_forth
 # Execute the terminal emulator urxvt, which is not yet startup-notification aware.
 
 exec --no-startup-id nm-applet
+exec --no-startup-id blueman-applet
 exec --no-startup-id keepassxc
 exec --no-startup-id dropbox
 exec --no-startup-id emacs
@@ -125,7 +127,7 @@ exec --no-startup-id dunst &
 exec --no-startup-id pidgin 
 exec --no-startup-id slack
 # exec --no-startup-id compton -bc &
-# exec --no-startup-id compton --config ~/.compton.conf
+exec --no-startup-id compton -bc --config ~/.compton.conf &
 # exec --no-startup-id feh --bg-fill ~/dotfiles/Images/Walls/gorilla.jpg
 
 # org-capture
@@ -156,9 +158,6 @@ new_window 1pixel
 # bindsym Mod4+t border normal    0
 # bindsym Mod4+y border pixel     1
 # bindsym Mod4+u border none
-
-# The right button toggles floating
-bindsym $mod+button2 floating toggle
 
 # Shutdown, reboot, lock screen
 set $Locker i3lock && sleep 1

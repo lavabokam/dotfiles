@@ -28,8 +28,9 @@
 **  Emacs Themes
     #+BEGIN_SRC emacs-lisp
       (load-file "~/.emacs.d/themes/blackboard-theme.el")
-      (load-theme 'blackboard t)
       (load-theme 'wombat t)
+    ;;  (load-theme 'adwaita t)
+    ;;  (load-theme 'blackboard t)
     #+END_SRC
 
 **  Font Family and Size
@@ -689,7 +690,7 @@
 
     ;; get mail
     (setq mu4e-get-mail-command "mbsync gmail"
-        mu4e-html2text-command "w3m -T text/html"
+;;        mu4e-html2text-command "w3m -T text/html"
         mu4e-update-interval 300 
         mu4e-headers-auto-update t
         mu4e-compose-signature-auto-include t
