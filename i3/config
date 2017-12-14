@@ -55,7 +55,7 @@ bindsym $mod+shift+f floating toggle
 # bindsym --release --whole-window button2 nop
 bindsym --release --whole-window $mod+button25 floating toggle
 # 6.3. Manipulating layout
-bindsym $mod+shift+s layout toggle  stacking
+bindsym $mod+shift+s layout toggle stacking 
 bindsym $mod+shift+t layout toggle tabbed
 bindsym $mod+e layout toggle split
 
@@ -127,7 +127,7 @@ exec --no-startup-id dunst &
 exec --no-startup-id pidgin 
 exec --no-startup-id slack
 # exec --no-startup-id compton -bc &
-exec --no-startup-id compton -bc --config ~/.compton.conf &
+# exec --no-startup-id compton -bc --config ~/.compton.conf &
 # exec --no-startup-id feh --bg-fill ~/dotfiles/Images/Walls/gorilla.jpg
 
 # org-capture
@@ -142,7 +142,8 @@ for_window [class="feh|mpv|mumble|pavucontrol|spotify"] floating enable
 for_window [class="Pidgin"] floating enable
 for_window [window_role="pop-up"] floating enable
 #popups during full screen (smart|ignore|leave_fullscreen)
-popup_during_fullscreen smart
+popup_during_fullscreen leave_fullscreen
+focus_on_window_activation smart
 #hide_edge_borders  smart
 
 # GAPS
