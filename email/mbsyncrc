@@ -11,12 +11,11 @@ Account gmail
 MaildirStore gmail-local
 Path ~/.email/lava.kumar@juspay.in/
 Inbox ~/.email/lava.kumar@juspay.in/INBOX
-SubFolders Verbatim
 
 Channel gmail
 Master :gmail-remote:
 Slave :gmail-local:
-Patterns * ![Gmail]* "[Gmail]/Sent Mail" "[Gmail]/Starred" "[Gmail]/All Mail" "[Gmail]/Drafts"
+# Patterns * ![Gmail]* "[Gmail]/Sent Mail" "[Gmail]/Starred" "[Gmail]/All Mail" "[Gmail]/Drafts"
 Sync All
 Create Both
 Expunge Both

@@ -278,10 +278,6 @@
          ;;  (define-key evil-visual-state-map "m" 'evil-mc-make-cursor-here)
          ;;  (define-key evil-visual-state-map "M" 'evil-mc-undo-all-cursors)
          ;; (define-key evil-visual-state-map "n" 'evil-mc-make-and-goto-next-match)
-            (evil-define-key 'normal neotree-mode-map (kbd "TAB") 'neotree-enter)
-            (evil-define-key 'normal neotree-mode-map (kbd "SPC") 'neotree-enter)
-            (evil-define-key 'normal neotree-mode-map (kbd "q") 'neotree-hide)
-            (evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter)
           ;;  (define-key evil-ex-map "e" 'helm-find-files)
             (define-key evil-ex-map "n" 'evil-buffer-new)
            ;; (define-key evil-ex-map "b" 'helm-buffers-list)
@@ -300,7 +296,6 @@
 
           (evil-leader/set-leader ";")
           (evil-leader/set-key
-          ;;  "e" 'helm-find-files
             "b" 'switch-to-buffer
             "w" 'save-buffer
             "c" 'delete-window
@@ -332,47 +327,47 @@
         :ensure t)
     #+END_SRC
 
-* IVY
+* IVY , Projectile
     #+BEGIN_SRC emacs-lisp
-;; ag.el
-(use-package ag
-  :ensure t
-  :config
-  (add-hook 'ag-mode-hook 'toggle-truncate-lines)
-  (setq ag-highlight-search t)
-  (setq ag-reuse-buffers 't))
+    ;; ag.el
+   (use-package ag
+     :ensure t
+     :config
+   (add-hook 'ag-mode-hook 'toggle-truncate-lines)
+   (setq ag-highlight-search t)
+   (setq ag-reuse-buffers 't))
 
-;; ivy
-(use-package ivy
-  :ensure t
-  :diminish ivy-mode
-  :config
-  (ivy-mode 1)
-  (bind-key "C-c C-r" 'ivy-resume)
-  (setq ivy-use-virtual-buffers t))
+  ;; ivy
+  (use-package ivy
+    :ensure t
+    :diminish ivy-mode
+    :config
+    (ivy-mode 1)
+    (bind-key "C-c C-r" 'ivy-resume)
+    (setq ivy-use-virtual-buffers t))
 ;swiper invoke in current buffer
-(use-package swiper
-  :ensure t
-  :bind (("C-x /" . swiper)))
-;; projectile
-(use-package projectile
-  :ensure t
-  :config
-  (projectile-global-mode)
-  (setq projectile-mode-line
+   (use-package swiper
+     :ensure t
+     :bind (("C-x /" . swiper)))
+  ;;; counsel
+  (use-package counsel
+    :ensure t
+    :bind
+      ("M-x" . counsel-M-x)
+      ("C-c f" . counsel-describe-function)
+      ("C-c v" . counsel-describe-variable)
+      ("C-c k" . counsel-ag)
+      ("C-c n" . counsel-notmuch))
+ ; projectile
+  (use-package projectile
+    :ensure t
+    :config
+      (projectile-global-mode)
+      (setq projectile-mode-line
         '(:eval (format " [%s]" (projectile-project-name))))
-  (setq projectile-remember-window-configs t)
-  (setq projectile-completion-system 'ivy))
+      (setq projectile-remember-window-configs t)
+      (setq projectile-completion-system 'ivy))
 
-;; counsel
-(use-package counsel
-  :ensure t
-  :bind
-  ("M-x" . counsel-M-x)
-  ("C-c f" . counsel-describe-function)
-  ("C-c v" . counsel-describe-variable)
-("C-c k" . counsel-ag))
-    
     #+END_SRC
 * Source Code & Navigation
 **  Dumb jump
@@ -680,94 +675,14 @@
      ;; (setq mu4e-sent-messages-behavior 'delete)
 
    #+END_SRC
-** mu4e
+** Notmuch
    #+BEGIN_SRC emacs-lisp
-    (require 'mu4e)
-    (setq mu4e-maildir (expand-file-name "~/.email/lava.kumar@juspay.in"))
-
-    (setq mu4e-drafts-folder "/[Gmail]/Drafts")
-    (setq mu4e-sent-folder   "/[Gmail]/Sent Mail")
-    (setq mu4e-trash-folder  "/[Gmail]/Trash")
-
-    ;; get mail
-    (setq mu4e-get-mail-command "mbsync gmail"
-;;        mu4e-html2text-command "w3m -T text/html"
-        mu4e-update-interval 300 
-        mu4e-headers-auto-update t
-        mu4e-compose-signature-auto-include t
-        mu4e-compose-signature "")
-
-     (setq mu4e-maildir-shortcuts
-        '( ("/INBOX"               . ?i)
-           ("/[Gmail]/Sent Mail"   . ?s)
-           ("/[Gmail]/Trash"       . ?t)
-           ("/[Gmail]/Drafts"    . ?d)))
-
-    ;; Show images
-    (setq mu4e-show-images t)
-
-    ;; use imagemagick, if available
-    (when (fboundp 'imagemagick-register-types)
-      (imagemagick-register-types))
-
-   ;; general emacs mail settings; used when composing e-mail
-   ;; the non-mu4e-* stuff is inherited from emacs/message-mode
-   (setq mu4e-reply-to-address "lava.kumar@juspay.in"
-      user-mail-address "lava.kumar@juspay.in"
-      user-full-name  "Lava Kumar")
-
-    ;; a  list of user's e-mail addresses
-    (setq mu4e-user-mail-address-list '("lava.kumar@juspay.in"))
-
-
-   ;; don't save message to Sent Messages, IMAP takes care of this
-   (setq mu4e-sent-messages-behavior 'delete)
-
-   ;; spell check
-   (add-hook 'mu4e-compose-mode-hook
-        (defun lava-compose-hook ()
-           (set-fill-column 80)
-           (flyspell-mode)))
-   
-   #+END_SRC
-** Mail alert 
-   #+BEGIN_SRC emacs-lisp
-   (use-package mu4e-alert
-    :ensure t
-    :after mu4e
-    :init
-       (setq mu4e-alert-interesting-mail-query
-      (concat
-       "flag:unread"
-       " /INBOX"))
-      (mu4e-alert-enable-mode-line-display)
-      (defun gjstein-refresh-mu4e-alert-mode-line ()
-         (interactive)
-         (mu4e~proc-kill)
-         (mu4e-alert-enable-mode-line-display))
-     (run-with-timer 0 60 'gjstein-refresh-mu4e-alert-mode-line))
-    (defun no-auto-fill ()
-      "Turn off auto-fill-mode."
-      (auto-fill-mode -1))
-    (add-hook 'mu4e-compose-mode-hook #'no-auto-fill)
-    
-    (use-package evil-mu4e
-   :ensure t)      
-   
-   #+END_SRC
-
-** Mail mu4e Compose
-   #+BEGIN_SRC emacs-lisp
-    (require 'org-mu4e)
-
-   ;;  (use-package mu4e :bind (:map mu4e-compose-mode-map
-    ;;                          ("C-c x" . org-mode)))
-     (use-package org-mime
-       :ensure t
-       :bind (:map message-mode-map
-              ("C-c h" . org-mime-htmlize))
-       :init
-        (setq org-mime-preserve-breaks nil)) 
-   
+     (use-package notmuch 
+       :config
+         ;; setup the mail address and use name
+         (setq mail-user-agent 'message-user-agent)
+         (setq user-mail-address "lava.kumar@juspay.in"
+            user-full-name "Lava Kumar Bokam")
+         (setq notmuch-show-logo nil))
    #+END_SRC
 * Misc
