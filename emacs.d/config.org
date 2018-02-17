@@ -395,13 +395,16 @@
               company-backends
               '(company-nxml
                 company-css
-                company-cmake
                 company-tern
                 company-files
-                company-dabbrev-code
+                company-restclient
+               ;; company-dabbrev-code
                 company-keywords
-                company-dabbrev
+               ;; company-dabbrev
                 company-elisp ))))
+      (defun add-pcomplete-to-capf ()
+        (add-hook 'completion-at-point-functions 'pcomplete-completions-at-point nil t))
+      (add-hook 'org-mode-hook #'add-pcomplete-to-capf)
    #+END_SRC
 **  Programming Environments && Modes
     - Haskell
@@ -481,6 +484,15 @@
         (progn
         (evil-leader/set-key "gs" 'magit-status)))
   #+END_SRC
+* Rest Client
+   #+BEGIN_SRC emacs-lisp
+      (use-package restclient
+         :ensure t)
+      (use-package ob-restclient
+         :ensure t)
+      (use-package company-restclient
+         :ensure t) 
+   #+END_SRC
 * Org Mode Preferences
 **  Display Preferences
     #+BEGIN_SRC emacs-lisp
@@ -562,6 +574,7 @@
          (sh . t)
          (python . t)
          (sql . t)
+         (restclient . t)
       ;; (ditta . t)
          (plantuml . t)))
     #+END_SRC
