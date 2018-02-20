@@ -115,11 +115,11 @@
 **  EVIL Collection
      Reference: https://github.com/jojojames/evil-collection
      #+BEGIN_SRC emacs-lisp
-      (use-package evil-collection
-        :after evil
-        :ensure t
-        :config
-        (evil-collection-init))
+     ;; (use-package evil-collection
+     ;;   :after evil
+     ;;   :ensure t
+     ;;   :config
+     ;;   (evil-collection-init))
      #+END_SRC
 * User Interface Preferences
 **  Emacs Themes
@@ -700,7 +700,7 @@
            (require 'mu4e)
     (setq mu4e-maildir (expand-file-name "~/.email/lava.kumar@juspay.in"))
 
-    (setq mu4e-drafts-folder "/[Gmail]/Drafts")
+   (setq mu4e-drafts-folder "/[Gmail]/Drafts")
    (setq mu4e-sent-folder   "/[Gmail]/Sent Mail")
    (setq mu4e-trash-folder  "/[Gmail]/Trash")
 
@@ -716,7 +716,8 @@
         '( ("/INBOX"               . ?i)
            ("/[Gmail]/Sent Mail"   . ?s)
            ("/[Gmail]/Trash"       . ?t)
-           ("/[Gmail]/Drafts"    . ?d)))
+           ("/[Gmail]/Drafts"    . ?d)
+           ("/[Gmail]/All Mail"  . ?a)))
 
     ;; Show images
     (setq mu4e-show-images t)
