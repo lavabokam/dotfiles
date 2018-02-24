@@ -175,6 +175,7 @@ mode "$mode_system" {
     bindsym Escape mode "default"
 }
 
+bindsym $mod+Ctrl+e exec "keepassxc"
 bindsym $mod+Ctrl+p mode "$mode_system"
 bindsym $mod+Ctrl+Delete mode "$mode_system"
     
