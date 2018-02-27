@@ -356,7 +356,7 @@
 ;swiper invoke in current buffer
    (use-package swiper
      :ensure t
-     :bind (("C-x /" . swiper)))
+     :bind (("C-c /" . swiper)))
   ;;; counsel
   (use-package counsel
     :ensure t
@@ -406,7 +406,8 @@
                 company-tern
                 company-files
                 company-restclient
-               ;; company-dabbrev-code
+                company-dabbrev-code
+                company-gtags
                 company-keywords
                ;; company-dabbrev
                 company-elisp ))))
