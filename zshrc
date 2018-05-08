@@ -85,3 +85,9 @@ source $ZSH/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias xc="xclip -selection clipboard"
 eval $(thefuck --alias)
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/home/lava/Downloads/google-cloud-sdk/path.zsh.inc' ]; then source '/home/lava/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/home/lava/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then source '/home/lava/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
