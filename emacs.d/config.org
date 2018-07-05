@@ -211,7 +211,7 @@
              ;;([f8]        . treemacs-toggle)
              ;;("M-0"       . treemacs-select-window)
             ;; ("C-c 1"     . treemacs-delete-other-windows)
-             ("C-x C-t"    . treemacs-toggle)
+             ("C-x C-t"    . treemacs)
              ;; ("M-m fT"    . treemacs)
              ;;(" C-t" . treemacs-find-file)
            ))
@@ -423,6 +423,16 @@
       (add-hook 'org-mode-hook #'add-pcomplete-to-capf)
    #+END_SRC
 **  Programming Environments && Modes
+*** Markdown
+    #+BEGIN_SRC emacs-lisp
+       (use-package markdown-mode
+         :ensure t
+         :commands (markdown-mode gfm-mode)
+         :mode (("README\\.md\\'" . gfm-mode)
+            ("\\.md\\'" . markdown-mode)
+            ("\\.markdown\\'" . markdown-mode))
+         :init (setq markdown-command "multimarkdown"))
+    #+END_SRC
 *** Haskell
     #+BEGIN_SRC emacs-lisp
      ;;  Reference: https://github.com/serras/emacs-haskell-tutorial/blob/master/tutorial.md
@@ -702,7 +712,7 @@
       (org-babel-do-load-languages
        'org-babel-load-languages
        '((emacs-lisp . nil)
-         (sh . t)
+         (shell . t)
          (python . t)
          (sql . t)
          (restclient . t)
@@ -821,7 +831,7 @@
    #+END_SRC
 ** MU mail 
     #+BEGIN_SRC emacs-lisp
-           (require 'mu4e)
+    (require 'mu4e)
     (setq mu4e-maildir (expand-file-name "~/.email/lava.kumar@juspay.in"))
 
    (setq mu4e-drafts-folder "/[Gmail]/Drafts")

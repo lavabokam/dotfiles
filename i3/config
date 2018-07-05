@@ -18,7 +18,7 @@ bindsym $mod+m scratchpad show
 # kill focused window
 bindsym $mod+q kill
 # default Launcher
-bindsym $mod+space exec "rofi -combi-modi window,drun,run -show combi -modi combi"
+bindsym $mod+space exec "rofi -combi-modi window,drun,ssh -show combi -modi combi"
 
 # Focus container on the left, bottom, top, right
 bindsym $mod+h focus left
