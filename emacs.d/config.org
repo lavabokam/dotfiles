@@ -840,7 +840,7 @@
 
     ;; get mail
     (setq mu4e-get-mail-command "mbsync gmail"
-       ;; mu4e-html2text-command "w3m -T text/html"
+;;        mu4e-html2text-command "w3m -T text/html"
         mu4e-update-interval 300 
         mu4e-headers-auto-update t
         mu4e-compose-signature-auto-include t
@@ -857,8 +857,8 @@
     (setq mu4e-show-images t)
 
     ;; use imagemagick, if available
-    (when (fboundp 'imagemagick-register-types)
-      (imagemagick-register-types))
+    ;;(when (fboundp 'imagemagick-register-types)
+    ;;  (imagemagick-register-types))
 
    ;; general emacs mail settings; used when composing e-mail
    ;; the non-mu4e-* stuff is inherited from emacs/message-mode
