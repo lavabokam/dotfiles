@@ -94,9 +94,14 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+alias gs="git status" 
+
 export PATH=$PATH:/opt/bin
 export P4PORT=10.10.20.10:1666
 export P4USER=lava
-export P4CLIENT=lava_o_t1
-export P4CONFIG=.p4config
+export P4CLIENT=lava_p4evil
 export P4EDITOR=vim
+export P4IGNORE=$HOME/.p4ignore
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
