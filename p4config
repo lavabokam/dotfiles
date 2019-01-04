@@ -1,0 +1,6 @@
+export P4PORT=10.10.20.10:1666
+export P4USER=lava
+export P4EDITOR=vim
+export P4CONFIG=.p4config
+export P4IGNORE=$HOME/.p4ignore
+export P4DIFF=p4merge
