@@ -96,14 +96,20 @@ source $ZSH/oh-my-zsh.sh
 
 alias gs="git status" 
 alias p4s="p4 status"
+alias cds="cd $(git rev-parse --git-dir)/.."
+alias cdw="cd /Volumes/workspace/t1/sw" 
 
-export PATH=$PATH:/opt/bin
+export PATH=$PATH:/opt/bin:~/.local/bin
+
 export P4PORT=10.10.20.10:1666
 export P4USER=lava
 export P4EDITOR=vim
 export P4CONFIG=.p4config
 
-alias pass="pass -c"
+export P4DIFF=p4merge
+
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
