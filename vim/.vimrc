@@ -1,17 +1,15 @@
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
-set noexpandtab
+set expandtab
 
-set nocompatible 
-filetype off
 
 let mapleader = ';'
 set backspace=indent,eol,start
 
 set nocompatible              " be iMproved, required
 filetype off                  " required
-
+set encoding=utf-8
 
 set wrap
 set wildmenu
@@ -144,7 +142,7 @@ augroup END
 map <Leader>n  :Vexplore<CR>
 
 " Vim8.1 terminal
-map <C-t> :terminal<CR>
+map <C-t> :vertical terminal<CR><C-w>L<CR>
 noremap <Leader>t :terminal<CR>
 
 " syntastic
