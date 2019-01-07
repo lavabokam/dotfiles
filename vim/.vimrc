@@ -34,7 +34,6 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
-" Plugin 'scrooloose/nerdtree'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-eunuch'
 Plugin 'tpope/vim-surround'
@@ -42,16 +41,9 @@ Plugin 'tpope/vim-commentary'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
-Plugin 'valloric/youcompleteme'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'ervandew/supertab'
-Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets'
-Plugin 'scrooloose/syntastic'
-
-" Plugin 'tpope/vim-obsession'
-" Plugin 'godlygeek/tabular'
-
+Plugin 'w0rp/ale'
 call vundle#end()            " required
 filetype plugin indent on    " required
 
@@ -60,25 +52,22 @@ filetype plugin indent on    " required
 
 set nu
 set mouse=a
-map <C-m> :set mouse=a<CR>
-map <C-M> :set mouse=<CR>
 
 syntax on
+"ALe
+
+let g:ale_completion_enabled = 1
+let g:ale_sign_error = '>>'
+let g:ale_sign_warning = '--'
+highlight clear ALEErrorSign
+highlight clear ALEWarningSign
+let g:airline#extensions#ale#enabled = 1
+
 
 " you complete me
 let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/youcompleteme/third_party/ycmd/.ycm_extra_conf.py'
 let g:ycm_autoclose_preview_window_after_insertion = 1
 let g:ycm_autoclose_preview_window_after_completion = 1
-
-" make YCM compatible with UltiSnips (using supertab)
-let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
-let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
-let g:SuperTabDefaultCompletionType = '<C-n>'
-
-" better key bindings for UltiSnipsExpandTrigger
-let g:UltiSnipsExpandTrigger = "<tab>"
-let g:UltiSnipsJumpForwardTrigger = "<tab>"
-let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
 
 " Disapble Arrow Keys
 " noremap <Up> <Nop> 
@@ -113,31 +102,16 @@ noremap <C-p> :CtrlPMixed<CR>
 map <Leader>gs :Gstatus<CR>
 map <Leader>gc :Gcommit<CR>
 map <Leader>gd :Git diff<CR>
-" NerdTree 
-" map <Leader>n :NERDTreeToggle<CR>
-" let g:NERDTreeWinSize=24
 autocmd StdinReadPre * let s:std_in=1
-" autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
-" let g:NERDTreeDirArrowExpandable = '+'
-" let g:NERDTreeDirArrowCollapsible = '-'
-" let NERDTreeShowHidden=1
-
 
 " netrw
-" source ~/.vim/netrw.vim 
-
 " let g:netrw_banner = 0
 let g:netrw_liststyle = 3
 " let g:netrw_browse_split = 4
-let g:netrw_altv = 1
+" let g:netrw_altv = 1
 " let g:netrw_winsize = 20
-let g:netrw_chgwin=1
-let g:netrw_localrmdir='rm -rf'
-
-augroup ProjectDrawer
-  autocmd!
-"  autocmd VimEnter * :Vexplore
-augroup END
+" let g:netrw_chgwin=1
+" let g:netrw_localrmdir='rm -rf'
 
 map <Leader>n  :Vexplore<CR>
 
@@ -146,13 +120,11 @@ map <C-t> :vertical terminal<CR><C-w>L<CR>
 noremap <Leader>t :terminal<CR>
 
 " syntastic
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+" set statusline+=%#warningmsg#
+" set statusline+=%{SyntasticStatuslineFlag()}
+" set statusline+=%*
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_cpp_compiler_options = ' -std=c++1x'
-
+" let g:syntastic_always_populate_loc_list = 1
+" let g:syntastic_auto_loc_list = 1
+" let g:syntastic_check_on_open = 1
+" let g:syntastic_check_on_wq = 0

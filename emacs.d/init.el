@@ -9,8 +9,8 @@
  '(flyspell-mode-line-string nil)
  '(package-selected-packages
    (quote
-    (magit-p4 yaml-mode which-key use-package treemacs-projectile treemacs-evil spaceline restart-emacs psci org-bullets noflet markdown-mode js2-mode jinja2-mode haskell-mode evil-magit evil-leader evil-iedit-state evil-collection dumb-jump diminish diff-hl counsel-gtags company-irony ag)))
- '(projectile-mode-line (quote (:eval (format "[%s]" (projectile-project-name)))))
+    (noflet org-bullets evil-magit magit diff-hl company-irony yaml-mode jinja2-mode js2-mode psci purescript-mode haskell-mode markdown-mode company counsel-gtags dumb-jump counsel swiper ivy ag restart-emacs which-key treemacs-evil treemacs-projectile treemacs evil-iedit-state evil-leader evil use-package spaceline diminish)))
+ '(projectile-mode-line (quote (:eval (format "[%s]" (projectile-project-name)))) t)
  '(undo-tree-mode-lighter ""))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

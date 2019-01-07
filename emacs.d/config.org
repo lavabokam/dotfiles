@@ -103,7 +103,7 @@
 **  Font Family and Size
     #+BEGIN_SRC  emacs-lisp
      (setq lava/default-font "Courier New")
-     (setq lava/default-font-size 20)
+     (setq lava/default-font-size 23)
      (setq lava/current-font-size lava/default-font-size)
      (defun lava/set-font-size ()
        (set-frame-font
