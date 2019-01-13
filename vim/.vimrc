@@ -44,6 +44,7 @@ Plugin 'vim-airline/vim-airline-themes'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'ervandew/supertab'
 Plugin 'w0rp/ale'
+Plugin 'valloric/youcompleteme'
 call vundle#end()            " required
 filetype plugin indent on    " required
 
@@ -56,7 +57,6 @@ set mouse=a
 syntax on
 "ALe
 
-let g:ale_completion_enabled = 1
 let g:ale_sign_error = '>>'
 let g:ale_sign_warning = '--'
 highlight clear ALEErrorSign
@@ -111,7 +111,7 @@ let g:netrw_liststyle = 3
 " let g:netrw_altv = 1
 " let g:netrw_winsize = 20
 " let g:netrw_chgwin=1
-" let g:netrw_localrmdir='rm -rf'
+let g:netrw_localrmdir='rm -rf'
 
 map <Leader>n  :Vexplore<CR>
 
