@@ -61,29 +61,30 @@
     #+END_SRC
 **  EVIL leader
   #+BEGIN_SRC emacs-lisp
-     (use-package evil-leader
-       :ensure t
-       :config
-       (setq evil-leader/in-all-states t)
-       (global-evil-leader-mode)
+    (use-package evil-leader
+      :ensure t
+      :config
+      (setq evil-leader/in-all-states t)
+      (global-evil-leader-mode)
 
-       (evil-leader/set-leader ";")
-       (evil-leader/set-key
-         "b" 'switch-to-buffer
-         "w" 'save-buffer
-         "c" 'delete-window
-         "!" 'shell-command
-         "x" 'kill-buffer
-         "v" 'split-window-horizontally
-         "s" 'split-window-vertically
-         "o" 'other-window
-         "K" 'evil-scroll-up
-         "J" 'evil-scroll-down
-         "h" 'evil-window-left
-         "j" 'evil-window-down
-         "k" 'evil-window-top
-         "l" 'evil-window-right
-         "n" 'evil-buffer-new))
+      (evil-leader/set-leader ";")
+      (evil-leader/set-key
+        "b" 'switch-to-buffer
+        "w" 'save-buffer
+        "c" 'delete-window
+        "!" 'shell-command
+        "x" 'kill-buffer
+        "v" 'split-window-horizontally
+        "s" 'split-window-vertically
+        "o" 'other-window
+        "K" 'evil-scroll-up
+        "J" 'evil-scroll-down
+        "h" 'evil-window-left
+        "j" 'evil-window-down
+        "k" 'evil-window-top
+        "l" 'evil-window-right
+        "/" 'lava/comment-or-uncomment-region-or-line
+        "n" 'evil-buffer-new))
    #+END_SRC
   - EVIL multiple cursors
     #+BEGIN_SRC emacs-lisp
@@ -139,17 +140,8 @@
     #+END_SRC
 **  Lines
     #+BEGIN_SRC emacs-lisp
-      ;; Display line numbers
-      (load-file "~/.emacs.d/custom/linumoff.el")
-      (set-face-attribute 'linum nil :height 100)
-      (global-linum-mode)
-
-      ;; Highlight line
-      (when window-system
-         (global-hl-line-mode)
-         (set-face-attribute hl-line-face nil :underline nil)
-         )
-    #+END_SRC
+     ;; (set-face-foreground 'linum "red")
+   #+END_SRC
 **  Treemacs
    #+BEGIN_SRC emacs-lisp
      (use-package treemacs
@@ -161,7 +153,7 @@
                :ensure t
                :demand t)
             (setq treemacs-follow-after-init  t
-               treemacs-width                 25
+               treemacs-width                 24
                treemacs-indentation           2
                treemacs-git-integration       t
                treemacs-collapse-dirs         3
@@ -175,7 +167,7 @@
                treemacs-goto-tag-strategy          'refetch-index)
 
          (treemacs-follow-mode t)
-         (treemacs-filewatch-mode nil))
+         (treemacs-filewatch-mode t))
        :bind
           (:map global-map
              ("C-x C-t"    . treemacs)
@@ -224,71 +216,71 @@
      #+END_SRC
 **  Commenting 
      #+BEGIN_SRC emacs-lisp
-      (setq-local comment-start "# ")
-      (setq-local comment-end "")
-      (defun lava/comment-or-uncomment-region-or-line ()
-        (interactive)
-        (let (beg end)
-        (if (region-active-p)
-          (setq beg (region-beginning) end (region-end))
-          (setq beg (line-beginning-position) end (line-end-position)))
-          (comment-or-uncomment-region beg end)))
-      (lava/comment-or-uncomment-region-or-line)
+       (setq-local comment-start "# ")
+       (setq-local comment-end "")
+       (defun lava/comment-or-uncomment-region-or-line ()
+         (interactive)
+         (let (beg end)
+         (if (region-active-p)
+           (setq beg (region-beginning) end (region-end))
+           (setq beg (line-beginning-position) end (line-end-position)))
+           (comment-or-uncomment-region beg end)))
+       (lava/comment-or-uncomment-region-or-line)
      #+END_SRC
 **  Custom Settings
     #+BEGIN_SRC emacs-lisp
-      (setq visible-bell nil)
-      (show-paren-mode t)
-      (setq-default fill-column 80)
-      (setq inhibit-startup-message t)
-      (setq initial-scratch-message nil)
-      (setq show-paren-delay 0.0)
-      (setq default-directory "~/")
-      (setq-default cursor-in-non-selected-windows 'hollow)
-      (setq-default tab-width 2)
-      ;; Camel case word treat differntly
-      (add-hook 'prog-mode-hook 'subword-mode)
-      ;;  tunrn on sysntac highlight whenever possible
-      (global-font-lock-mode t)
-      ;;(setq sentence-end-double-space nil))
-      (setq compilation-scroll-output t)
-      ;; Never Use Tabs, Tabs are Devil's white spaces
-      (setq-default indent-tabs-mode nil)
-      ;;When you double-click on a file in the Mac Finder open it as a
-      ;;buffer in the existing Emacs frame, rather than creating a new
-      ;;frame just for that file."
-      (setq ns-pop-up-frames nil)
-      (delete-selection-mode t)
-      ;; Full screen emacs start
-      ;;(set-frame-parameter nil 'fullscreen 'fullboth)
-      (setq gc-cons-threshold 400000000)
-      (add-hook 'after-init-hook (lambda () (setq gc-cons-threshold 800000)))
-      (fset 'yes-or-no-p 'y-or-n-p)
-      (setq inhibit-startup-message t)
-      (setq initial-scratch-message nil)
-      (setq max-lisp-eval-depth 10000)      
-      (setq max-specpdl-size 10000)  ; default is 1000, reduce the backtrace level
-     ;; (setq debug-on-error t)    ; now you should get a backtrace      
-      
-      (global-set-key (kbd "C-x f") 'find-file )
-      (global-set-key (kbd "C-a") 'move-beginning-of-line)
-      (global-set-key (kbd "C-e") 'move-end-of-line)
+       (setq visible-bell nil)
+       (show-paren-mode t)
+       (setq-default fill-column 80)
+       (setq inhibit-startup-message t)
+       (setq initial-scratch-message nil)
+       (setq show-paren-delay 0.0)
+       (setq default-directory "/Volumes/workspace/")
+       (setq-default cursor-in-non-selected-windows 'hollow)
+       (setq-default tab-width 4)
+       ;; Camel case word treat differntly
+       (add-hook 'prog-mode-hook 'subword-mode)
+       ;;  tunrn on sysntac highlight whenever possible
+       (global-font-lock-mode t)
+       ;;(setq sentence-end-double-space nil))
+       (setq compilation-scroll-output t)
+       ;; Never Use Tabs, Tabs are Devil's white spaces
+       (setq-default indent-tabs-mode nil)
+       ;;When you double-click on a file in the Mac Finder open it as a
+       ;;buffer in the existing Emacs frame, rather than creating a new
+       ;;frame just for that file."
+       (setq ns-pop-up-frames nil)
+       (delete-selection-mode t)
+       ;; Full screen emacs start
+       (set-frame-parameter nil 'fullscreen 'fullboth)
+       (setq gc-cons-threshold 400000000)
+       (add-hook 'after-init-hook (lambda () (setq gc-cons-threshold 800000)))
+       (fset 'yes-or-no-p 'y-or-n-p)
+       (setq inhibit-startup-message t)
+       (setq initial-scratch-message nil)
+       (setq max-lisp-eval-depth 10000)      
+       (setq max-specpdl-size 10000)  ; default is 1000, reduce the backtrace level
+       (setq debug-on-error t)    ; now you should get a backtrace      
 
-      (defun lava/offer-to-create-parent-directories-on-save ()
-        (add-hook 'before-save-hook
-          (lambda () (when buffer-file-name
-             (let ((dir (file-name-directory buffer-file-name)))
-                (when (and (not (file-exists-p dir))
-                   (y-or-n-p (format "Directory %s does not exist. Create it?" dir)))
-                     (make-directory dir t)))))))
-      (lava/offer-to-create-parent-directories-on-save)
+      ;; (global-set-key (kbd "C-x f") 'find-file )
+       (global-set-key (kbd "C-a") 'move-beginning-of-line)
+       (global-set-key (kbd "C-e") 'move-end-of-line)
 
-      (defun lava/backup-to-temp-directory ()
-        (setq backup-directory-alist
-          `((".*" . ,temporary-file-directory)))
-        (setq auto-save-file-name-transforms
-          `((".*" ,temporary-file-directory t))))
-      (lava/backup-to-temp-directory)
+       (defun lava/offer-to-create-parent-directories-on-save ()
+         (add-hook 'before-save-hook
+           (lambda () (when buffer-file-name
+              (let ((dir (file-name-directory buffer-file-name)))
+                 (when (and (not (file-exists-p dir))
+                    (y-or-n-p (format "Directory %s does not exist. Create it?" dir)))
+                      (make-directory dir t)))))))
+       (lava/offer-to-create-parent-directories-on-save)
+
+       (defun lava/backup-to-temp-directory ()
+         (setq backup-directory-alist
+           `((".*" . ,temporary-file-directory)))
+         (setq auto-save-file-name-transforms
+           `((".*" ,temporary-file-directory t))))
+       (lava/backup-to-temp-directory)
     #+END_SRC
 
 * Terminal and ENV settings
@@ -298,48 +290,6 @@
     (global-set-key (kbd "M-T") 'eshell)
   #+END_SRC
 
-* IVY , Projectile
-    #+BEGIN_SRC emacs-lisp
-      ;; ag.el
-      (use-package ag
-        :ensure t
-        :config
-        (add-hook 'ag-mode-hook 'toggle-truncate-lines)
-        (setq ag-highlight-search t)
-        (setq ag-reuse-buffers 't))
-
-      ;; ivy
-      (use-package ivy
-        :ensure t
-        :diminish ivy-mode
-        :config
-        (ivy-mode 1)
-        (bind-key "C-c C-r" 'ivy-resume)
-        (setq ivy-use-virtual-buffers t))
-                                              ;swiper invoke in current buffer
-      (use-package swiper
-        :ensure t
-        :bind (("C-c /" . swiper)))
-        ;;; counsel
-      (use-package counsel
-        :ensure t
-        :bind
-        ("M-x" . counsel-M-x)
-        ("C-c f" . counsel-describe-function)
-        ("C-c v" . counsel-describe-variable)
-        ("C-c k" . counsel-ag)
-        ("C-c C-k" . counsel-projectile-ag))
-                                              ; projectile
-      (use-package projectile
-        :ensure t
-        :config
-        (projectile-global-mode)
-        (setq projectile-mode-line
-              '(:eval (format " [%s]" (projectile-project-name))))
-        (setq projectile-remember-window-configs t)
-        (setq projectile-completion-system 'ivy))
-
-    #+END_SRC
 * Source Code & Navigation
 **  Dumb jump
    #+BEGIN_SRC emacs-lisp
@@ -469,6 +419,53 @@
           (define-key c-mode-map [?\M- ] 'company-complete)
           (define-key c++-mode-map [?\M- ] 'company-complete))
    #+END_SRC
+* IVY , Projectile
+    #+BEGIN_SRC emacs-lisp
+      ;; ag.el
+      (use-package ag
+        :ensure t
+        :config
+        (add-hook 'ag-mode-hook 'toggle-truncate-lines)
+        (setq ag-highlight-search t)
+        (setq ag-reuse-buffers 't))
+
+      ;; ivy
+      (use-package ivy
+        :ensure t
+        :diminish ivy-mode
+        :config
+        (ivy-mode 1)
+        (bind-key "C-c C-r" 'ivy-resume)
+        (setq ivy-use-virtual-buffers t))
+                                              ;swiper invoke in current buffer
+      (use-package swiper
+        :ensure t
+        :bind (("C-c /" . swiper)))
+        ;;; counsel
+      (use-package counsel
+        :ensure t :bind
+        ("M-x" . counsel-M-x)
+        ("C-c f" . counsel-describe-function)
+        ("C-c v" . counsel-describe-variable)
+        ("C-c k" . counsel-ag)
+        ("C-c C-k" . counsel-projectile-ag))
+                                              ; projectile
+      (use-package projectile
+        :ensure t
+        :config
+        (projectile-global-mode)
+        (setq projectile-mode-line
+              '(:eval (format " [%s]" (projectile-project-name))))
+        (setq projectile-remember-window-configs t)
+        (setq projectile-completion-system 'ivy))
+      (use-package counsel-projectile
+        :ensure t
+        :bind ("C-c C-p" . counsel-projectile)
+        :config
+          (counsel-projectile-mode))
+
+      (global-set-key "\C-c\C-p" 'counsel-projectile)
+    #+END_SRC
 * Version control
   #+BEGIN_SRC emacs-lisp
     (use-package diff-hl
