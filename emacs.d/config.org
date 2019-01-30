@@ -238,6 +238,7 @@
        (setq default-directory "/Volumes/workspace/")
        (setq-default cursor-in-non-selected-windows 'hollow)
        (setq-default tab-width 4)
+       (defvaralias 'c-basic-offset 'tab-width)
        ;; Camel case word treat differntly
        (add-hook 'prog-mode-hook 'subword-mode)
        ;;  tunrn on sysntac highlight whenever possible
@@ -260,9 +261,9 @@
        (setq initial-scratch-message nil)
        (setq max-lisp-eval-depth 10000)      
        (setq max-specpdl-size 10000)  ; default is 1000, reduce the backtrace level
-       (setq debug-on-error t)    ; now you should get a backtrace      
+      ;;  (setq debug-on-error t)    ; now you should get a backtrace      
 
-      ;; (global-set-key (kbd "C-x f") 'find-file )
+       (global-set-key (kbd "C-x f") 'find-file )
        (global-set-key (kbd "C-a") 'move-beginning-of-line)
        (global-set-key (kbd "C-e") 'move-end-of-line)
 
@@ -281,6 +282,12 @@
          (setq auto-save-file-name-transforms
            `((".*" ,temporary-file-directory t))))
        (lava/backup-to-temp-directory)
+
+       (defun lava/toggle-read-only-buffer()
+          (if buffer-read-only read-only-mode))
+       (lava/toggle-read-only-buffer)
+       (add-hook 'find-file-hook 'lava/toggle-read-only-buffer)
+
     #+END_SRC
 
 * Terminal and ENV settings
@@ -305,9 +312,11 @@
    #+BEGIN_SRC emacs-lisp
      (use-package counsel-gtags
        :ensure t
-       :bind (("C-c C-<return>" . counsel-gtags-dwim)
+       :bind (
+              ("C-c C-<return>" . counsel-gtags-dwim)
               ("C-c C-;" . counsel-gtags-go-backward)
               ("C-c C-'" . counsel-gtags-go-forward))) 
+      (global-set-key (kbd "C-]") 'counsel-gtags-dwim)
    #+END_SRC
 **  Company mode
    #+BEGIN_SRC emacs-lisp
@@ -328,7 +337,9 @@
             company-files
             company-restclient
             company-dabbrev-code
-            company-gtags
+            company-gTagS
+            company-irony
+            company-irony-c-headers
             company-keywords
             company-elisp ))))
      (defun add-pcomplete-to-capf ()
@@ -418,6 +429,10 @@
           (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
           (define-key c-mode-map [?\M- ] 'company-complete)
           (define-key c++-mode-map [?\M- ] 'company-complete))
+
+     (use-package cmake-mode
+         :mode (("CMakeLists.txt" . cmake-mode)
+                (".cmake" . cmake-mode)))
    #+END_SRC
 * IVY , Projectile
     #+BEGIN_SRC emacs-lisp
@@ -460,11 +475,10 @@
         (setq projectile-completion-system 'ivy))
       (use-package counsel-projectile
         :ensure t
-        :bind ("C-c C-p" . counsel-projectile)
+        :bind ("C-c p" . counsel-projectile)
         :config
           (counsel-projectile-mode))
 
-      (global-set-key "\C-c\C-p" 'counsel-projectile)
     #+END_SRC
 * Version control
   #+BEGIN_SRC emacs-lisp
