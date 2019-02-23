@@ -28,36 +28,43 @@
 **  EVIL
    Use of evil mode for vim related bindings
     #+BEGIN_SRC emacs-lisp
-      (setq evil-want-integration nil) 
-      (use-package evil
-        :ensure t
-        :config
-          (evil-set-initial-state 'term-mode 'emacs)
-          (setq evil-emacs-state-cursor '("red" box))
-          (setq evil-normal-state-cursor '("green" box))
-          (setq evil-visual-state-cursor '("orange" box))
-          (setq evil-insert-state-cursor '("red" bar))
-          (setq evil-replace-state-cursor '("red" bar))
-          (setq evil-multiedit-state-cursor '("green" bar))
-          (setq evil-multiedit-insert-state-cursor '("blue" bar))
-          (setq evil-operator-state-cursor '("red" hollow))
-          (progn (define-key evil-insert-state-map (kbd "C-a") 'move-beginning-of-line) ;; was 'evil-paste-last-insertion
-            (define-key evil-insert-state-map (kbd "C-e") 'end-of-line)    ;; was 'evil-copy-from-below
-            (define-key evil-insert-state-map (kbd "C-n") 'next-line)      ;; was 'evil-complete-next
-            (define-key evil-insert-state-map (kbd "C-p") 'previous-line)  ;; was 'evil-complete-previous
-            (define-key evil-insert-state-map (kbd "C-j") 'evil-scroll-down)
-            (define-key evil-insert-state-map (kbd "C-k") 'evil-scroll-up)
+          
+          (use-package evil
+            :ensure t
+            :init
+             (setq evil-want-integration t) 
+              (setq evil-want-keybinding nil)
+            :config
+              (evil-set-initial-state 'term-mode 'emacs)
+              (setq evil-emacs-state-cursor '("red" box))
+              (setq evil-normal-state-cursor '("green" box))
+              (setq evil-visual-state-cursor '("orange" box))
+              (setq evil-insert-state-cursor '("red" bar))
+              (setq evil-replace-state-cursor '("red" bar))
+              (setq evil-multiedit-state-cursor '("green" bar))
+              (setq evil-multiedit-insert-state-cursor '("blue" bar))
+              (setq evil-operator-state-cursor '("red" hollow))
+              (progn (define-key evil-insert-state-map (kbd "C-a") 'move-beginning-of-line) ;; was 'evil-paste-last-insertion
+                (define-key evil-insert-state-map (kbd "C-e") 'end-of-line)    ;; was 'evil-copy-from-below
+                (define-key evil-insert-state-map (kbd "C-n") 'next-line)      ;; was 'evil-complete-next
+                (define-key evil-insert-state-map (kbd "C-p") 'previous-line)  ;; was 'evil-complete-previous
+                (define-key evil-insert-state-map (kbd "C-j") 'evil-scroll-down)
+                (define-key evil-insert-state-map (kbd "C-k") 'evil-scroll-up)
 
-            (define-key evil-normal-state-map (kbd "C-j") 'evil-scroll-down)
-            (define-key evil-normal-state-map (kbd "C-k") 'evil-scroll-up)
-            (define-key evil-normal-state-map "U" 'undo-tree-redo)
-            (define-key evil-ex-map "n" 'evil-buffer-new)
-            (define-key evil-ex-map "x" 'kill-buffer-and-window)
-            (define-key evil-ex-map "w" 'save-buffer)
-            (define-key evil-ex-map "W" 'save-buffer)
-            (define-key evil-ex-map "!" 'shell-command))
-          (evil-mode 1))
+                (define-key evil-normal-state-map (kbd "C-j") 'evil-scroll-down)
+                (define-key evil-normal-state-map (kbd "C-k") 'evil-scroll-up)
+                (define-key evil-normal-state-map "U" 'undo-tree-redo)
+                (define-key evil-ex-map "n" 'evil-buffer-new)
+                (define-key evil-ex-map "x" 'kill-buffer-and-window)
+                (define-key evil-ex-map "w" 'save-buffer)
+                (define-key evil-ex-map "W" 'save-buffer)
+                (define-key evil-ex-map "!" 'shell-command))
+              (evil-mode 1))
 
+           (global-set-key "\C-h" 'delete-backward-char)
+           (defun lava/toggle-read-only-buffer()
+               (interactive)
+               (if buffer-read-only (read-only-mode nil)))
     #+END_SRC
 **  EVIL leader
   #+BEGIN_SRC emacs-lisp
@@ -72,6 +79,7 @@
         "b" 'switch-to-buffer
         "w" 'save-buffer
         "c" 'delete-window
+        "C" 'delete-other-windows
         "!" 'shell-command
         "x" 'kill-buffer
         "v" 'split-window-horizontally
@@ -92,6 +100,14 @@
         :ensure t)
     #+END_SRC
 
+** Evil Collection
+   #+BEGIN_SRC emacs-lisp
+      (use-package evil-collection
+     :after evil
+        :ensure t
+     :config
+     (evil-collection-init))
+     #+END_SRC
 * User Interface Preferences
 **  Emacs Themes
    #+BEGIN_SRC emacs-lisp
@@ -283,10 +299,11 @@
            `((".*" ,temporary-file-directory t))))
        (lava/backup-to-temp-directory)
 
-       (defun lava/toggle-read-only-buffer()
-          (if buffer-read-only read-only-mode))
-       (lava/toggle-read-only-buffer)
-       (add-hook 'find-file-hook 'lava/toggle-read-only-buffer)
+       ;; (defun lava/toggle-read-only-buffer()
+       ;;   ;; (interactive)
+       ;;    (if buffer-read-only (read-only-mode)))
+       ;; (lava/toggle-read-only-buffer)
+       ;; (add-hook 'find-file-hook 'lava/toggle-read-only-buffer)
 
     #+END_SRC
 
@@ -476,6 +493,7 @@
       (use-package counsel-projectile
         :ensure t
         :bind ("C-c p" . counsel-projectile)
+              ("C-c P" . counsel-projectile-switch-project)
         :config
           (counsel-projectile-mode))
 
@@ -497,8 +515,10 @@
        :diminish auto-revert-mode)
       (use-package evil-magit
         :config
-        (progn
-        (evil-leader/set-key "gs" 'magit-status)))
+        (progn (evil-leader/set-key "gs" 'magit-status)
+               (evil-leader/set-key "gl" 'magit-log-all)))
+       (use-package p4
+          :ensure t)
   #+END_SRC
 * Org Mode Preferences
 **  Display Preferences

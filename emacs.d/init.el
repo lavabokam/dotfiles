@@ -7,9 +7,11 @@
  ;; If there is more than one, they won't work right.
  '(erc-track-position-in-mode-line t)
  '(flyspell-mode-line-string nil)
+ '(p4-executable "/opt/bin/p4")
+ '(p4-my-clients (quote ("lava_p4devil")))
  '(package-selected-packages
    (quote
-    (protobuf-mode company-irony-c-headers dockerfile-mode noflet org-bullets evil-magit magit diff-hl company-irony yaml-mode jinja2-mode js2-mode psci purescript-mode haskell-mode markdown-mode company counsel-gtags dumb-jump counsel swiper ivy ag restart-emacs which-key treemacs-evil treemacs-projectile treemacs evil-iedit-state evil-leader evil use-package spaceline diminish)))
+    (evil-collection magit-p4 p4 protobuf-mode company-irony-c-headers dockerfile-mode noflet org-bullets evil-magit magit diff-hl company-irony yaml-mode jinja2-mode js2-mode psci purescript-mode haskell-mode markdown-mode company counsel-gtags dumb-jump counsel swiper ivy ag restart-emacs which-key treemacs-evil treemacs-projectile treemacs evil-iedit-state evil-leader evil use-package spaceline diminish)))
  '(projectile-mode-line (quote (:eval (format "[%s]" (projectile-project-name)))) t)
  '(undo-tree-mode-lighter ""))
 (custom-set-faces
