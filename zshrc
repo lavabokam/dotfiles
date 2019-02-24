@@ -12,8 +12,7 @@ alias cde="cd /Volumes/workspace/t1/sw/convergence/src/dv/estimator"
 alias bld="mkdir -p bld && cd bld && cmake -G 'Ninja' .. && ninja "
 alias sshdev="ssh 10.10.20.179"
 
-export PATH=$PATH:/opt/bin:~/.local/bin:/Volumes/workspace/t1/sw/convergence/src/dv/estimator/build
-export PATH=$PATH:/Volumes/workspace/t1/sw/convergence/src/dv
+export PATH=$PATH:/usr/local/bin:/opt/bin:~/.local/bin:/Volumes/workspace/t1/sw/convergence/src/dv/estimator/build
 
 export P4PORT=10.10.20.10:1666
 export P4USER=lava

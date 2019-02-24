@@ -1,21 +1,23 @@
-IMAPAccount gmail 
-Host imap.gmail.com 
-User lava.kumar@juspay.in 
-PassCmd "gpg2 -q --for-your-eyes-only --no-tty -d ~/dotfiles/email/lava.kumar@juspay.in.gpg | awk '/machine imap.gmail.com login lava.kumar@juspay.in/ {print $NF}'"
-Port 993
-SSLType IMAPS
+IMAPAccount office 
+Host outlook.office365.com
+User lava@deepvision.io 
+# PassCmd "gpg2 -q --for-your-eyes-only --no-tty -d ~/dotfiles/email/lava.kumar@juspay.in.gpg | awk '/machine imap.gmail.com login lava.kumar@juspay.in/ {print $NF}'"
+PassCmd "gpg -q --for-your-eyes-only --no-tty -d ~/.password-store/d/lava@deepvision.io.gpg"
 
-IMAPStore gmail-remote
-Account gmail 
+# Port 993
+# SSLType IMAPS
 
-MaildirStore gmail-local
-Path ~/.email/lava.kumar@juspay.in/
-Inbox ~/.email/lava.kumar@juspay.in/INBOX
+IMAPStore office-remote
+Account office 
+
+MaildirStore office-local
+Path ~/.email/lava@deepvision.io/
+Inbox ~/.email/lava@deepvision.io/inbox
 SubFolders Verbatim
 
-Channel gmail
-Master :gmail-remote:
-Slave :gmail-local:
+Channel office
+Master :office-remote:
+Slave :office-local:
 Patterns * ![Gmail]* "[Gmail]/Sent Mail" "[Gmail]/All Mail" "[Gmail]/Drafts"
 Sync All
 Create Both
