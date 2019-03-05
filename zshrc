@@ -18,10 +18,16 @@ export P4PORT=10.10.20.10:1666
 export P4USER=lava
 export P4EDITOR=vim
 export P4CONFIG=.p4config
-export P4DIFF=diff
+export P4DIFF=vimdiff
 
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 
 alias tmux="tmux -CC"
-# export CXX=/usr/local/bin/g++-8
+alias ec="/Applications/Emacs.app/Contents/MacOS/bin/emacsclient -c --socket-name ~/.email.d/server/server"
+
+# if [ -e ~/.emacs.d/server/server ]
+# then
+# else
+#     /Applications/Emacs.app/Contents/MacOS/Emacs --daemon
+# fi

@@ -87,6 +87,7 @@
         "b" 'switch-to-buffer
         "w" 'save-buffer
         "c" 'delete-window
+        "q" 'delete-window
         "C" 'delete-other-windows
         "!" 'shell-command
         "x" 'kill-buffer
@@ -127,23 +128,26 @@
     #+END_SRC
 **  Font Family and Size
     #+BEGIN_SRC  emacs-lisp
-     (setq lava/default-font "Courier New")
-     (setq lava/default-font-size 23)
-     (setq lava/current-font-size lava/default-font-size)
-     (defun lava/set-font-size ()
-       (set-frame-font
-         (concat lava/default-font "-" (number-to-string lava/current-font-size))))
-     (lava/set-font-size)
 
-     (defun lava/reset-text-size ()
-       (interactive)
-       (text-scale-set 0))
-     (define-key global-map (kbd "C-)") 'lava/reset-text-size)
-     (define-key global-map (kbd "C-0") 'lava/reset-text-size)
-     (define-key global-map (kbd "C-+") 'text-scale-increase)
-     (define-key global-map (kbd "C-=") 'text-scale-increase)
-     (define-key global-map (kbd "C-_") 'text-scale-decrease)
-     (define-key global-map (kbd "C--") 'text-scale-decrease)
+            (setq lava/default-font "Courier New")
+            (setq lava/default-font-size 23)
+            (setq lava/current-font-size lava/default-font-size)
+            (defun lava/set-font-size ()
+              (set-frame-font
+                (concat lava/default-font "-" (number-to-string lava/current-font-size))))
+            (lava/set-font-size)
+
+            (setq default-frame-alist '((font .  "Courier New-23")))
+
+           (defun lava/reset-text-size ()
+              (interactive)
+              (text-scale-set 0))
+            (define-key global-map (kbd "C-)") 'lava/reset-text-size)
+            (define-key global-map (kbd "C-0") 'lava/reset-text-size)
+            (define-key global-map (kbd "C-+") 'text-scale-increase)
+            (define-key global-map (kbd "C-=") 'text-scale-increase)
+            (define-key global-map (kbd "C-_") 'text-scale-decrease)
+            (define-key global-map (kbd "C--") 'text-scale-decrease)
 
     #+END_SRC
 **  Mode Line
@@ -320,7 +324,7 @@
   #+BEGIN_SRC emacs-lisp
         (setq exec-path (append exec-path '("/usr/local/bin")))
         (setq multi-term-program "/bin/zsh")  
-        (global-set-key (kbd "M-T") 'multi-term)
+        (global-set-key (kbd "s-T") 'multi-term)
     (defun set-exec-path-from-shell-PATH ()
       (interactive)
        (message "setting path") 
@@ -351,74 +355,50 @@
               ("C-c C-'" . counsel-gtags-go-forward))) 
       (global-set-key (kbd "C-]") 'counsel-gtags-dwim)
    #+END_SRC
-**  Auto complete
-
+**  flycheck
    #+BEGIN_SRC emacs-lisp
-     (use-package auto-complete
-       :commands auto-complete-mode
-       :init
-       (progn
-         (auto-complete-mode t))
-       :bind (("C-n" . ac-next)
-              ("C-p" . ac-previous))
-       :config
-       (progn 
-         (ac-set-trigger-key "TAB")
-         (ac-config-default)
+        (use-package flycheck
+            :ensure t
+     :init (global-flycheck-mode))
+     #+END_SRC
 
-         (setq ac-delay 0.02)
-         (setq ac-use-menu-map t)
-         (setq ac-menu-height 50)
-         (setq ac-use-quick-help nil) 
-         ;; (setq ac-comphist-file  "~/.emacs.d/ac-comphist.dat")
-         (setq ac-ignore-case nil)
-         (setq ac-dwim  t)
-         (setq ac-fuzzy-enable t)
-
-         (setq ac-modes '(js3-mode
-                          emacs-lisp-mode
-                          lisp-mode
-                          lisp-interaction-mode
-                          slime-repl-mode
-                          c-mode
-                          cc-mode
-                          c++-mode
-                          go-mode
-                          java-mode
-                          haskell-mode
-                          python-mode
-                          js-mode
-                          js2-mode
-                          makefile-mode
-                          sh-mode
-                          ))))
-
-   #+END_SRC
 **  Company mode
-   
    #+BEGIN_SRC emacs-lisp
-     ;; (use-package company
-     ;;   :ensure t
-     ;;   :config
-     ;;   (setq company-idle-delay 0)
-     ;;   (progn
-     ;;     ;; Enable company mode in every programming mode
-     ;;     ;;(add-hook 'prog-mode-hook 'company-mode)
-     ;;     (global-company-mode)
-     ;;     ;; Set my own default company backends
-     ;;     (setq-default
-     ;;      company-backends
-     ;;      '(company-nxml
-     ;;        company-css
-     ;;        company-files
-     ;;        company-dabbrev-code
-     ;;        company-irony
-     ;;        company-irony-c-headers
-     ;;        company-keywords
-     ;;        company-elisp ))))
-     ;; (defun add-pcomplete-to-capf ()
-     ;;   (add-hook 'completion-at-point-functions 'pcomplete-completions-at-point nil t))
-     ;; (add-hook 'org-mode-hook #'add-pcomplete-to-capf)
+     (use-package company
+       :ensure t
+       :config
+       (setq company-idle-delay 0)
+       (progn
+         (global-company-mode)
+         (setq-default
+          company-backends
+         '(company-nxml
+            company-css
+            company-files
+            company-dabbrev-code
+            company-keywords
+            company-c-headers
+           company-elisp ))))
+   #+END_SRC
+**  YCMD
+   #+BEGIN_SRC emacs-lisp
+      (use-package company-ycmd
+            :config
+            (company-ycmd-setup))
+      (use-package ycmd
+            :config
+            (add-hook 'python-mode-hook 'ycmd-mode)
+            (add-hook 'c-mode-hook 'ycmd-mode)
+            (add-hook 'c++-mode-hook 'ycmd-mode)
+            (set-variable 'ycmd-global-config "~/.ycmd_settings.json"))
+      
+            (set-variable 'ycmd-extra-conf-whitelist '("~/.ycm_extra_conf.py"))
+
+     (set-variable 'ycmd-global-config "~/.ycm_extra_conf.py")
+            (require 'flycheck-ycmd)
+          (flycheck-ycmd-setup)
+
+
    #+END_SRC
 **  Programming Environments && Modes
 *** Markdown
@@ -488,28 +468,25 @@
       (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode))
       (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
     #+END_SRC
-*** cmake 
-      #+BEGIN_SRC emacs-lisp
-    (use-package cmake-mode
-         :mode (("CMakeLists.txt" . cmake-mode)
-             (".cmake" . cmake-mode)))
-   #+END_SRC
 *** C/C++
    #+BEGIN_SRC emacs-lisp
-     ;; (use-package company-irony
-     ;;   :ensure t
-     ;;   :config 
-     ;; ;;     (add-to-list 'company-backends 'company-irony))
-     ;; (use-package irony
-     ;;   :ensure t
-     ;;   :config 
-     ;;      (add-hook 'c++-mode-hook 'irony-mode)
-     ;;      (add-hook 'c-mode-hook 'irony-mode)
-     ;;      ;; (setq company-backends (delete 'company-semantic company-backends))
-     ;;      (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
-     ;;      ;; (define-key c-mode-map [?\M- ] 'company-complete)
-     ;; ;;      (define-key c++-mode-map [?\M- ] 'company-complete)
-     ;; )
+     ;; Use irony for completion
+       (use-package irony
+         :ensure t
+         :config
+         (progn
+           (add-hook
+           'c-mode-hook 'irony-mode)
+           (add-hook
+            'c++-mode-hook 'irony-mode)
+           (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
+           (use-package company-irony
+             :ensure t
+             :config
+             (push 'company-irony company-backends)
+             )
+           )
+         )
 
    #+END_SRC
 * IVY , Projectile
@@ -830,3 +807,7 @@
         :init
         (setq org-mime-preserve-breaks nil)) 
     #+END_SRC;;
+* Temp
+
+   #+BEGIN_SRC emacs-lisp
+   #+END_SRC

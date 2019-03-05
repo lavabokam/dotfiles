@@ -11,7 +11,7 @@
  '(p4-my-clients (quote ("lava_p4devil")))
  '(package-selected-packages
    (quote
-    (markdown-preview-eww mu4e-alert evil-mu4e multi-term evil-collection magit-p4 p4 protobuf-mode company-irony-c-headers dockerfile-mode noflet org-bullets evil-magit magit diff-hl company-irony yaml-mode jinja2-mode js2-mode psci purescript-mode haskell-mode markdown-mode company counsel-gtags dumb-jump counsel swiper ivy ag restart-emacs which-key treemacs-evil treemacs-projectile treemacs evil-iedit-state evil-leader evil use-package spaceline diminish)))
+    (company-ycmd ycmd cmake-mode flycheck-rtags company-rtags flycheck realgud-rdb2 markdown-preview-eww mu4e-alert evil-mu4e multi-term evil-collection magit-p4 p4 protobuf-mode company-irony-c-headers dockerfile-mode noflet org-bullets evil-magit magit diff-hl company-irony yaml-mode jinja2-mode js2-mode psci purescript-mode haskell-mode markdown-mode company counsel-gtags dumb-jump counsel swiper ivy ag restart-emacs which-key treemacs-evil treemacs-projectile treemacs evil-iedit-state evil-leader evil use-package spaceline diminish)))
  '(projectile-mode-line (quote (:eval (format "[%s]" (projectile-project-name)))) t)
  '(undo-tree-mode-lighter ""))
 (custom-set-faces
