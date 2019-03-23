@@ -31,21 +31,21 @@ set incsearch
 " set splitbelow
 			
 set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+" call vundle#begin()
 
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-eunuch'
-Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-commentary'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'ervandew/supertab'
-" Plugin 'w0rp/ale'
-Plugin 'valloric/youcompleteme'
-call vundle#end()            " required
+" Plugin 'VundleVim/Vundle.vim'
+" Plugin 'tpope/vim-fugitive'
+" Plugin 'tpope/vim-eunuch'
+" Plugin 'tpope/vim-surround'
+" Plugin 'tpope/vim-commentary'
+" Plugin 'airblade/vim-gitgutter'
+" Plugin 'vim-airline/vim-airline'
+" Plugin 'vim-airline/vim-airline-themes'
+" Plugin 'ctrlpvim/ctrlp.vim'
+" Plugin 'ervandew/supertab'
+" " Plugin 'w0rp/ale'
+" " Plugin 'valloric/youcompleteme'
+" call vundle#end()            " required
 filetype plugin indent on    " required
 
 " tags
@@ -57,20 +57,20 @@ set nu
 syntax on
 "ALe
 
-let g:ale_sign_error = '>>'
-let g:ale_sign_warning = '--'
-" highlight clear ALEErrorSign
-" highlight clear ALEWarningSign
-" let g:airline#extensions#ale#enabled = 1
+" let g:ale_sign_error = '>>'
+" let g:ale_sign_warning = '--'
+" " highlight clear ALEErrorSign
+" " highlight clear ALEWarningSign
+" " let g:airline#extensions#ale#enabled = 1
 
 
-" you complete me
-let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/youcompleteme/third_party/ycmd/.ycm_extra_conf.py'
-let g:ycm_autoclose_preview_window_after_insertion = 1
-let g:ycm_autoclose_preview_window_after_completion = 1
-let g:ycm_show_diagnostics_ui = 1
-let g:ycm_enable_diagnostic_signs = 1 
-let g:ycm_enable_diagnostic_highlighting = 0
+" " you complete me
+" let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/youcompleteme/third_party/ycmd/.ycm_extra_conf.py'
+" let g:ycm_autoclose_preview_window_after_insertion = 1
+" let g:ycm_autoclose_preview_window_after_completion = 1
+" let g:ycm_show_diagnostics_ui = 1
+" let g:ycm_enable_diagnostic_signs = 1 
+" let g:ycm_enable_diagnostic_highlighting = 0
 
 
 " Disapble Arrow Keys

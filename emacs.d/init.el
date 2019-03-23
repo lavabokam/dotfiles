@@ -8,11 +8,12 @@
  '(erc-track-position-in-mode-line t)
  '(flyspell-mode-line-string nil)
  '(p4-executable "/opt/bin/p4")
- '(p4-my-clients (quote ("lava_p4devil")))
+ '(p4-my-clients (quote ("lava_p4emacs")))
  '(package-selected-packages
    (quote
-    (company-ycmd ycmd cmake-mode flycheck-rtags company-rtags flycheck realgud-rdb2 markdown-preview-eww mu4e-alert evil-mu4e multi-term evil-collection magit-p4 p4 protobuf-mode company-irony-c-headers dockerfile-mode noflet org-bullets evil-magit magit diff-hl company-irony yaml-mode jinja2-mode js2-mode psci purescript-mode haskell-mode markdown-mode company counsel-gtags dumb-jump counsel swiper ivy ag restart-emacs which-key treemacs-evil treemacs-projectile treemacs evil-iedit-state evil-leader evil use-package spaceline diminish)))
+    (google-c-style company-ycmd ycmd cmake-mode flycheck-rtags company-rtags flycheck realgud-rdb2 markdown-preview-eww mu4e-alert evil-mu4e multi-term evil-collection magit-p4 p4 protobuf-mode company-irony-c-headers dockerfile-mode noflet org-bullets evil-magit magit diff-hl company-irony yaml-mode jinja2-mode js2-mode psci purescript-mode haskell-mode markdown-mode company counsel-gtags dumb-jump counsel swiper ivy ag restart-emacs which-key treemacs-evil treemacs-projectile treemacs evil-iedit-state evil-leader evil use-package spaceline diminish)))
  '(projectile-mode-line (quote (:eval (format "[%s]" (projectile-project-name)))) t)
+ '(tab-width 2)
  '(undo-tree-mode-lighter ""))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

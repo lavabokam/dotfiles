@@ -184,7 +184,6 @@
             (setq treemacs-follow-after-init  t
                treemacs-width                 24
                treemacs-indentation           2
-               treemacs-git-integration       t
                treemacs-collapse-dirs         3
                treemacs-silent-refresh             nil
                treemacs-change-root-without-asking nil
@@ -197,22 +196,15 @@
 
          (treemacs-follow-mode t)
          (treemacs-filewatch-mode t))
+         (treemacs-git-mode nil)
        :bind
           (:map global-map
              ("C-x C-t"    . treemacs)
            ))
-     (use-package treemacs-projectile
-       :defer t
-       :ensure t
-       :config
-       (setq treemacs-header-function #'treemacs-projectile-create-header)
-       :bind (:map global-map
-                   ("C-x C-p" . treemacs-projectile-toggle)))
-
-   #+END_SRC
+        #+END_SRC
 **  Menu bar, Tool bar, Scroll bar
     #+BEGIN_SRC emacs-lisp
-      (menu-bar-mode -1)
+      ;; (menu-bar-mode -1)
       (tool-bar-mode -1)
       (when window-system
       (scroll-bar-mode -1))
@@ -266,7 +258,7 @@
        (setq show-paren-delay 0.0)
        (setq default-directory "/Volumes/workspace/")
        (setq-default cursor-in-non-selected-windows 'hollow)
-       (setq-default tab-width 4)
+       (setq-default tab-width 2)
        (defvaralias 'c-basic-offset 'tab-width)
        ;; Camel case word treat differntly
        (add-hook 'prog-mode-hook 'subword-mode)
@@ -284,6 +276,7 @@
        ;; Full screen emacs start
        (set-frame-parameter nil 'fullscreen 'fullboth)
        (setq gc-cons-threshold 400000000)
+       (setq large-file-warning-threshold 10000000)
        (add-hook 'after-init-hook (lambda () (setq gc-cons-threshold 800000)))
        (fset 'yes-or-no-p 'y-or-n-p)
        (setq inhibit-startup-message t)
@@ -382,23 +375,27 @@
    #+END_SRC
 **  YCMD
    #+BEGIN_SRC emacs-lisp
-      (use-package company-ycmd
-            :config
-            (company-ycmd-setup))
-      (use-package ycmd
-            :config
-            (add-hook 'python-mode-hook 'ycmd-mode)
-            (add-hook 'c-mode-hook 'ycmd-mode)
-            (add-hook 'c++-mode-hook 'ycmd-mode)
-            (set-variable 'ycmd-global-config "~/.ycmd_settings.json"))
-      
-            (set-variable 'ycmd-extra-conf-whitelist '("~/.ycm_extra_conf.py"))
+           (use-package company-ycmd
+                 :config
+                 (company-ycmd-setup))
+           (use-package ycmd
+                 :config
+                 (add-hook 'python-mode-hook 'ycmd-mode)
+                 (add-hook 'c-mode-hook 'ycmd-mode)
+                 (add-hook 'c++-mode-hook 'ycmd-mode)
+                 )
 
-     (set-variable 'ycmd-global-config "~/.ycm_extra_conf.py")
-            (require 'flycheck-ycmd)
-          (flycheck-ycmd-setup)
+                 (set-variable 'ycmd-extra-conf-whitelist '("/Volumes/workspace/t1/sw/convergence/*"))
+          (set-variable 'ycmd-global-config 
+               "/Users/lava/.vim/bundle/youcompleteme/third_party/ycmd/.ycm_extra_conf.py")
+                 (require 'flycheck-ycmd)
+               (flycheck-ycmd-setup)
+     (set-variable 'ycmd-server-command 
+        '("python" "/Users/lava/.vim/bundle/youcompleteme/third_party/ycmd/ycmd/"))
 
-
+     (use-package eldoc
+         :diminish eldoc-mode
+         :init (add-hook 'ycmd-mode-hook 'ycmd-eldoc-setup))
    #+END_SRC
 **  Programming Environments && Modes
 *** Markdown
@@ -491,49 +488,53 @@
    #+END_SRC
 * IVY , Projectile
     #+BEGIN_SRC emacs-lisp
-      ;; ag.el
-      (use-package ag
-        :ensure t
+      (use-package dired-subtree
         :config
-        (add-hook 'ag-mode-hook 'toggle-truncate-lines)
-        (setq ag-highlight-search t)
-        (setq ag-reuse-buffers 't))
+        (bind-keys :map dired-mode-map
+                   ("TAB" . dired-subtree-insert)
+                   ))
+            (use-package ag
+              :ensure t
+              :config
+              (add-hook 'ag-mode-hook 'toggle-truncate-lines)
+              (setq ag-highlight-search t)
+              (setq ag-reuse-buffers 't))
 
-      ;; ivy
-      (use-package ivy
-        :ensure t
-        :diminish ivy-mode
-        :config
-        (ivy-mode 1)
-        (bind-key "C-c C-r" 'ivy-resume)
-        (setq ivy-use-virtual-buffers t))
-                                              ;swiper invoke in current buffer
-      (use-package swiper
-        :ensure t
-        :bind (("C-c /" . swiper)))
-        ;;; counsel
-      (use-package counsel
-        :ensure t :bind
-        ("M-x" . counsel-M-x)
-        ("C-c f" . counsel-describe-function)
-        ("C-c v" . counsel-describe-variable)
-        ("C-c k" . counsel-ag)
-        ("C-c C-k" . counsel-projectile-ag))
-                                              ; projectile
-      (use-package projectile
-        :ensure t
-        :config
-        (projectile-global-mode)
-        (setq projectile-mode-line
-              '(:eval (format " [%s]" (projectile-project-name))))
-        (setq projectile-remember-window-configs t)
-        (setq projectile-completion-system 'ivy))
-      (use-package counsel-projectile
-        :ensure t
-        :bind ("C-c p" . counsel-projectile)
-              ("C-c P" . counsel-projectile-switch-project)
-        :config
-          (counsel-projectile-mode))
+            ;; ivy
+            (use-package ivy
+              :ensure t
+              :diminish ivy-mode
+              :config
+              (ivy-mode 1)
+              (bind-key "C-c C-r" 'ivy-resume)
+              (setq ivy-use-virtual-buffers t))
+                                                    ;swiper invoke in current buffer
+            (use-package swiper
+              :ensure t
+              :bind (("C-c /" . swiper)))
+              ;;; counsel
+            (use-package counsel
+              :ensure t :bind
+              ("M-x" . counsel-M-x)
+              ("C-c f" . counsel-describe-function)
+              ("C-c v" . counsel-describe-variable)
+              ("C-c k" . counsel-ag)
+              ("C-c C-k" . counsel-projectile-ag))
+                                                    ; projectile
+            (use-package projectile
+              :ensure t
+              :config
+              (projectile-global-mode)
+              (setq projectile-mode-line
+                    '(:eval (format " [%s]" (projectile-project-name))))
+              (setq projectile-remember-window-configs t)
+              (setq projectile-completion-system 'ivy))
+            (use-package counsel-projectile
+              :ensure t
+              :bind ("C-c p" . counsel-projectile)
+                    ("C-c P" . counsel-projectile-switch-project)
+              :config
+                (counsel-projectile-mode))
 
     #+END_SRC
 * Version control
@@ -746,7 +747,7 @@
                ;; get mail
                (setq mu4e-get-mail-command "mbsync office"
                      ;;        mu4e-html2text-command "w3m -T text/html"
-                     mu4e-update-interval 300 
+                     mu4e-update-interval 900 
                      mu4e-headers-auto-update t
                      mu4e-compose-signature-auto-include t
                      mu4e-compose-signature "");;

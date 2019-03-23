@@ -9,7 +9,7 @@ alias p4s="p4 status"
 alias cdt="cd /Volumes/workspace/t1/sw" 
 alias cde="cd /Volumes/workspace/t1/sw/convergence/src/dv/estimator" 
 
-alias bld="mkdir -p bld && cd bld && cmake -G 'Ninja' .. && ninja "
+alias bld="mkdir -p bld && cd bld && cmake  .. && bld "
 alias sshdev="ssh 10.10.20.179"
 
 export PATH=$PATH:/usr/local/bin:/opt/bin:~/.local/bin:/Volumes/workspace/t1/sw/convergence/src/dv/estimator/build
@@ -22,7 +22,7 @@ export P4DIFF=vimdiff
 
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
-
+export CXX=/usr/local/bin/g++-8
 alias tmux="tmux -CC"
 alias ec="/Applications/Emacs.app/Contents/MacOS/bin/emacsclient -c --socket-name ~/.email.d/server/server"
 
