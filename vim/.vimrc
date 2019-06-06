@@ -27,25 +27,21 @@ set ignorecase
 set smartcase
 set incsearch
 " set hlsearch
-
-" set splitbelow
+set splitbelow
+set splitright
 			
 set rtp+=~/.vim/bundle/Vundle.vim
-" call vundle#begin()
+call vundle#begin()
 
-" Plugin 'VundleVim/Vundle.vim'
-" Plugin 'tpope/vim-fugitive'
-" Plugin 'tpope/vim-eunuch'
-" Plugin 'tpope/vim-surround'
-" Plugin 'tpope/vim-commentary'
-" Plugin 'airblade/vim-gitgutter'
-" Plugin 'vim-airline/vim-airline'
-" Plugin 'vim-airline/vim-airline-themes'
-" Plugin 'ctrlpvim/ctrlp.vim'
-" Plugin 'ervandew/supertab'
-" " Plugin 'w0rp/ale'
-" " Plugin 'valloric/youcompleteme'
-" call vundle#end()            " required
+ Plugin 'VundleVim/Vundle.vim'
+ Plugin 'tpope/vim-fugitive'
+ Plugin 'tpope/vim-eunuch'
+ Plugin 'tpope/vim-surround'
+ Plugin 'tpope/vim-commentary'
+ Plugin 'airblade/vim-gitgutter'
+ Plugin 'vim-airline/vim-airline'
+ Plugin 'vim-airline/vim-airline-themes'
+call vundle#end()            " required
 filetype plugin indent on    " required
 
 " tags
