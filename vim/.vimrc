@@ -29,7 +29,9 @@ set incsearch
 " set hlsearch
 set splitbelow
 set splitright
-			
+
+colorscheme elflord
+
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
@@ -39,15 +41,18 @@ call vundle#begin()
  Plugin 'tpope/vim-surround'
  Plugin 'tpope/vim-commentary'
  Plugin 'airblade/vim-gitgutter'
- Plugin 'vim-airline/vim-airline'
- Plugin 'vim-airline/vim-airline-themes'
+ Plugin 'mileszs/ack.vim'
+ " Plugin 'chrisbra/csv.vim'
+ " Plugin 'vim-airline/vim-airline'
+ " Plugin 'vim-airline/vim-airline-themes'
+ Plugin 'ctrlpvim/ctrlp.vim'
 call vundle#end()            " required
 filetype plugin indent on    " required
 
 " tags
 :set tags=./tags,tags;
 
-set nu
+" set nu
 " set mouse=a
 
 syntax on
@@ -80,12 +85,21 @@ let g:airline_theme='dark_minimal'
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_working_path_mode = 'ra'
+let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+if executable('ag')
+  let g:ackprg = 'ag --vimgrep'
+  let g:ctrlp_user_command = 'ag -l --nocolor -g "" %s'
+  let g:ctrlp_use_caching = 0
+endif
+
 
 " Leader key mapping
 noremap <Leader>q :q!<CR>
 noremap <Leader>x :close<CR>
 noremap <Leader>w :w!<CR>
 noremap <Leader>e :e
+noremap <Leader>a :Ack 
+noremap <Leader>g :Git  
 noremap <Leader>f :CtrlP<CR>
 noremap <Leader>F :CtrlPMixed<CR>
 noremap <Leader>/ :Commentary<CR>
@@ -97,7 +111,7 @@ imap <C-g> <Esc>
 noremap <C-g> <Esc>
 map <C-/> :Commentary<CR>
 
-noremap <C-p> :CtrlPMixed<CR>
+" noremap <C-p> :CtrlPMixed<CR>
 " vim fugitive mappings
 map <Leader>gs :Gstatus<CR>
 map <Leader>gc :Gcommit<CR>
@@ -128,3 +142,54 @@ noremap <Leader>t :terminal<CR>
 " let g:syntastic_auto_loc_list = 1
 " let g:syntastic_check_on_open = 1
 " let g:syntastic_check_on_wq = 0
+"
+" au InsertEnter * hi statusline guifg=black guibg=#d7afff ctermfg=black ctermbg=magenta
+" au InsertLeave * hi statusline guifg=black guibg=#8fbfdc ctermfg=black ctermbg=cyan
+" hi statusline guifg=black guibg=#8fbfdc ctermfg=black ctermbg=cyan
+
+" let g:currentmode={
+"     \ 'n'  : 'Normal',
+"     \ 'no' : 'Normal·Operator Pending',
+"     \ 'v'  : 'Visual',
+"     \ 'V'  : 'V·Line',
+"     \ '^V' : 'V·Block',
+"     \ 's'  : 'Select',
+"     \ 'S'  : 'S·Line',
+"     \ '^S' : 'S·Block',
+"     \ 'i'  : 'Insert',
+"     \ 'R'  : 'Replace',
+"     \ 'Rv' : 'V·Replace',
+"     \ 'c'  : 'Command',
+"     \ 'cv' : 'Vim Ex',
+"     \ 'ce' : 'Ex',
+"     \ 'r'  : 'Prompt',
+"     \ 'rm' : 'More',
+"     \ 'r?' : 'Confirm',
+"     \ '!'  : 'Shell',
+"     \ 't'  : 'Terminal'
+"     \}
+
+" set laststatus=2
+" set noshowmode
+" set statusline=
+" set statusline+=%0*\ %n\                                 " Buffer number
+" set statusline+=%1*\ %<%F%m%r%h%w\                       " File path, modified, readonly, helpfile, preview
+" set statusline+=%3*│                                     " Separator
+" set statusline+=%2*\ %Y\                                 " FileType
+" set statusline+=%3*│                                     " Separator
+" set statusline+=%2*\ %{''.(&fenc!=''?&fenc:&enc).''}     " Encoding
+" set statusline+=\ (%{&ff})                               " FileFormat (dos/unix..)
+" set statusline+=%=                                       " Right Side
+" set statusline+=%2*\ col:\ %02v\                         " Colomn number
+" set statusline+=%3*│                                     " Separator
+" set statusline+=%1*\ ln:\ %02l/%L\ (%3p%%)\              " Line number / total lines, percentage of document
+" set statusline+=%0*\ %{toupper(g:currentmode[mode()])}\  " The current mode
+
+" hi User1 ctermfg=007 ctermbg=239 guibg=#4e4e4e guifg=#adadad
+" hi User2 ctermfg=007 ctermbg=236 guibg=#303030 guifg=#adadad
+" hi User3 ctermfg=236 ctermbg=236 guibg=#303030 guifg=#303030
+" hi User4 ctermfg=239 ctermbg=239 guibg=#4e4e4e guifg=#4e4e4e
+let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+let &t_SR = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=2\x7\<Esc>\\"
+let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\" 
+
