@@ -29,6 +29,7 @@ set incsearch
 " set hlsearch
 set splitbelow
 set splitright
+syntax on
 
 colorscheme elflord
 
@@ -39,9 +40,12 @@ call vundle#begin()
  Plugin 'tpope/vim-fugitive'
  Plugin 'tpope/vim-eunuch'
  Plugin 'tpope/vim-surround'
- Plugin 'tpope/vim-commentary'
+ " Plugin 'tpope/vim-commentary'
+ Plugin 'scrooloose/nerdcommenter'
  Plugin 'airblade/vim-gitgutter'
  Plugin 'mileszs/ack.vim'
+ Plugin 'benmills/vimux'
+ Plugin 'christoomey/vim-tmux-navigator'
  " Plugin 'chrisbra/csv.vim'
  " Plugin 'vim-airline/vim-airline'
  " Plugin 'vim-airline/vim-airline-themes'
@@ -55,7 +59,9 @@ filetype plugin indent on    " required
 " set nu
 " set mouse=a
 
-syntax on
+
+" Fix Cursor in TMUX
+
 "ALe
 
 " let g:ale_sign_error = '>>'
@@ -107,6 +113,7 @@ noremap <Leader>v :vsplit<CR>
 noremap <Leader>V :split<CR>
 noremap <Leader>c :bnext<CR>
 noremap <Leader>C :bprevious<CR>
+map <Leader>vp :VimuxPromptCommand<CR>
 imap <C-g> <Esc>
 noremap <C-g> <Esc>
 map <C-/> :Commentary<CR>
@@ -133,63 +140,23 @@ map <Leader>n  :Explore<CR>
 map <C-t> :vertical terminal<CR><C-w>L<CR>
 noremap <Leader>t :terminal<CR>
 
-" syntastic
-" set statusline+=%#warningmsg#
-" set statusline+=%{SyntasticStatuslineFlag()}
-" set statusline+=%*
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
 
-" let g:syntastic_always_populate_loc_list = 1
-" let g:syntastic_auto_loc_list = 1
-" let g:syntastic_check_on_open = 1
-" let g:syntastic_check_on_wq = 0
-"
-" au InsertEnter * hi statusline guifg=black guibg=#d7afff ctermfg=black ctermbg=magenta
-" au InsertLeave * hi statusline guifg=black guibg=#8fbfdc ctermfg=black ctermbg=cyan
-" hi statusline guifg=black guibg=#8fbfdc ctermfg=black ctermbg=cyan
 
-" let g:currentmode={
-"     \ 'n'  : 'Normal',
-"     \ 'no' : 'Normal·Operator Pending',
-"     \ 'v'  : 'Visual',
-"     \ 'V'  : 'V·Line',
-"     \ '^V' : 'V·Block',
-"     \ 's'  : 'Select',
-"     \ 'S'  : 'S·Line',
-"     \ '^S' : 'S·Block',
-"     \ 'i'  : 'Insert',
-"     \ 'R'  : 'Replace',
-"     \ 'Rv' : 'V·Replace',
-"     \ 'c'  : 'Command',
-"     \ 'cv' : 'Vim Ex',
-"     \ 'ce' : 'Ex',
-"     \ 'r'  : 'Prompt',
-"     \ 'rm' : 'More',
-"     \ 'r?' : 'Confirm',
-"     \ '!'  : 'Shell',
-"     \ 't'  : 'Terminal'
-"     \}
+let g:ctrlp_working_path_mode = 'r'
+let g:ctrlp_max_height = 90
+let g:ctrlp_max_depth = 40
+let g:ctrlp_match_window = 'bottom,order:ttb,min:1,max:90,results:90'
 
-" set laststatus=2
-" set noshowmode
-" set statusline=
-" set statusline+=%0*\ %n\                                 " Buffer number
-" set statusline+=%1*\ %<%F%m%r%h%w\                       " File path, modified, readonly, helpfile, preview
-" set statusline+=%3*│                                     " Separator
-" set statusline+=%2*\ %Y\                                 " FileType
-" set statusline+=%3*│                                     " Separator
-" set statusline+=%2*\ %{''.(&fenc!=''?&fenc:&enc).''}     " Encoding
-" set statusline+=\ (%{&ff})                               " FileFormat (dos/unix..)
-" set statusline+=%=                                       " Right Side
-" set statusline+=%2*\ col:\ %02v\                         " Colomn number
-" set statusline+=%3*│                                     " Separator
-" set statusline+=%1*\ ln:\ %02l/%L\ (%3p%%)\              " Line number / total lines, percentage of document
-" set statusline+=%0*\ %{toupper(g:currentmode[mode()])}\  " The current mode
-
-" hi User1 ctermfg=007 ctermbg=239 guibg=#4e4e4e guifg=#adadad
-" hi User2 ctermfg=007 ctermbg=236 guibg=#303030 guifg=#adadad
-" hi User3 ctermfg=236 ctermbg=236 guibg=#303030 guifg=#303030
-" hi User4 ctermfg=239 ctermbg=239 guibg=#4e4e4e guifg=#4e4e4e
-let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
-let &t_SR = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=2\x7\<Esc>\\"
-let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\" 
+" Fix Cursor in TMUX
+if exists('$TMUX')
+  let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+  let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+else
+  let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+  let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+endif
 

@@ -24,7 +24,7 @@ export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 export CXX=/usr/local/bin/g++-8 
 export CC=/usr/local/bin/gcc-8
-alias tmux="tmux -CC"
+# alias tmux="tmux -CC"
 alias ec="/Applications/Emacs.app/Contents/MacOS/bin/emacsclient -c --socket-name ~/.email.d/server/server"
 alias sublime="/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl"
 # if [ -e ~/.emacs.d/server/server ]
