@@ -1,4 +1,4 @@
-set tabstop=2
+" set tabstop=2
 set softtabstop=2
 set shiftwidth=2
 set expandtab
@@ -21,7 +21,7 @@ set showcmd
 set showmatch
 set showmode
 set textwidth=0
-set autochdir
+" set autochdir
 set confirm
 set ignorecase
 set smartcase
@@ -31,7 +31,9 @@ set splitbelow
 set splitright
 syntax on
 
-colorscheme elflord
+colorscheme slate
+set wildignore+=*/.git/*,*/node_modules/*,*/bower_components/*,*/bld/*,*/bldr/*,*/thirdparty/*
+set path+=**
 
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
@@ -40,51 +42,23 @@ call vundle#begin()
  Plugin 'tpope/vim-fugitive'
  Plugin 'tpope/vim-eunuch'
  Plugin 'tpope/vim-surround'
- " Plugin 'tpope/vim-commentary'
- Plugin 'scrooloose/nerdcommenter'
+ Plugin 'tpope/vim-commentary'
  Plugin 'airblade/vim-gitgutter'
- Plugin 'mileszs/ack.vim'
  Plugin 'benmills/vimux'
  Plugin 'christoomey/vim-tmux-navigator'
+ Plugin 'junegunn/vim-easy-align'
+ Plugin 'ludovicchabant/vim-gutentags'
  " Plugin 'chrisbra/csv.vim'
  " Plugin 'vim-airline/vim-airline'
  " Plugin 'vim-airline/vim-airline-themes'
- Plugin 'ctrlpvim/ctrlp.vim'
 call vundle#end()            " required
 filetype plugin indent on    " required
 
 " tags
 :set tags=./tags,tags;
-
 " set nu
 " set mouse=a
 
-
-" Fix Cursor in TMUX
-
-"ALe
-
-" let g:ale_sign_error = '>>'
-" let g:ale_sign_warning = '--'
-" " highlight clear ALEErrorSign
-" " highlight clear ALEWarningSign
-" " let g:airline#extensions#ale#enabled = 1
-
-
-" " you complete me
-" let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/youcompleteme/third_party/ycmd/.ycm_extra_conf.py'
-" let g:ycm_autoclose_preview_window_after_insertion = 1
-" let g:ycm_autoclose_preview_window_after_completion = 1
-" let g:ycm_show_diagnostics_ui = 1
-" let g:ycm_enable_diagnostic_signs = 1 
-" let g:ycm_enable_diagnostic_highlighting = 0
-
-
-" Disapble Arrow Keys
-" noremap <Up> <Nop> 
-" noremap <Down> <Nop>
-" noremap <Left> <Nop>
-" noremap <Right> <Nop>
 
 let g:airline_theme='dark_minimal'
 
@@ -122,7 +96,12 @@ map <C-/> :Commentary<CR>
 " vim fugitive mappings
 map <Leader>gs :Gstatus<CR>
 map <Leader>gc :Gcommit<CR>
-map <Leader>gd :Git diff<CR>
+map <Leader>gd :Gdiff<CR>
+map <Leader>ghs :GitGutterStageHunk<CR>
+map <Leader>gco :Git checkout 
+autocmd FileType fugitive noremap <buffer> <silent> dt 0wv$hy:tabedit <C-r>"<CR>:Gdiff<CR><C-w>l
+
+
 autocmd StdinReadPre * let s:std_in=1
 
 " netrw
@@ -137,8 +116,8 @@ let g:netrw_localrmdir='rm -rf'
 map <Leader>n  :Explore<CR>
 
 " Vim8.1 terminal
-map <C-t> :vertical terminal<CR><C-w>L<CR>
-noremap <Leader>t :terminal<CR>
+" map <C-T> :vertical terminal<CR><C-w>L<CR>
+noremap <Leader>t :vertical terminal<CR>
 
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
@@ -160,3 +139,5 @@ else
   let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 endif
 
+autocmd BufRead,BufNewFile *.md setlocal spell
+autocmd FileType gitcommit setlocal spell
