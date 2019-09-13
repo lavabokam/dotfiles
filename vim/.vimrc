@@ -48,6 +48,10 @@ call vundle#begin()
  Plugin 'christoomey/vim-tmux-navigator'
  Plugin 'junegunn/vim-easy-align'
  Plugin 'ludovicchabant/vim-gutentags'
+ Plugin 'jpalardy/vim-slime'
+ Plugin 'godlygeek/tabular'
+ Plugin 'plasticboy/vim-markdown'
+
  " Plugin 'chrisbra/csv.vim'
  " Plugin 'vim-airline/vim-airline'
  " Plugin 'vim-airline/vim-airline-themes'
@@ -103,6 +107,7 @@ autocmd FileType fugitive noremap <buffer> <silent> dt 0wv$hy:tabedit <C-r>"<CR>
 
 
 autocmd StdinReadPre * let s:std_in=1
+let g:vim_markdown_folding_disabled = 1
 
 " netrw
 " let g:netrw_banner = 0
@@ -114,6 +119,10 @@ let g:netrw_liststyle = 3
 let g:netrw_localrmdir='rm -rf'
 
 map <Leader>n  :Explore<CR>
+" slime
+let g:slime_target = "tmux"
+let g:slime_paste_file = tempname()
+let g:slime_default_config = { "socket_name": get(split($TMUX, ","), 0), "target_pane": "{right-of}"}
 
 " Vim8.1 terminal
 " map <C-T> :vertical terminal<CR><C-w>L<CR>
