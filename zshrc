@@ -1,7 +1,7 @@
 
 export ZSH="/Users/lava/.oh-my-zsh"
 ZSH_THEME="af-magic"
-plugins=(git colored-man colorize pip python brew osx zsh-syntax-highlighting)
+plugins=(git  colorize pip python brew osx )
 source $ZSH/oh-my-zsh.sh
 
 alias gs="git status" 
@@ -10,7 +10,6 @@ alias cdt="cd /Volumes/workspace/t1/sw"
 alias cde="cd /Volumes/workspace/t1/sw/convergence/src/dv/estimator/bld" 
 
 alias bld="mkdir -p bld && cd bld && cmake  .. && bld "
-alias sshdev="ssh 10.10.20.179"
 
 export PATH=$PATH:/usr/local/bin:/opt/bin:~/.local/bin:/Volumes/workspace/t1/sw/convergence/src/dv/estimator/build
 
