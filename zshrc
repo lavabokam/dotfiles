@@ -1,7 +1,7 @@
 
 export ZSH="/Users/lava/.oh-my-zsh"
 ZSH_THEME="af-magic"
-plugins=(git  colorize pip python brew osx )
+plugins=(git colorize pip python brew osx )
 source $ZSH/oh-my-zsh.sh
 
 alias gs="git status" 
