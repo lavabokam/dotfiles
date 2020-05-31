@@ -51,7 +51,11 @@ call vundle#begin()
  Plugin 'jpalardy/vim-slime'
  Plugin 'godlygeek/tabular'
  Plugin 'plasticboy/vim-markdown'
-
+ Plugin 'scrooloose/nerdtree'
+ Plugin 'vhdirk/vim-cmake'
+ Plugin 'skywind3000/asyncrun.vim'
+ Plugin 'mileszs/ack.vim'
+ Plugin 'neoclide/coc.nvim'
  " Plugin 'chrisbra/csv.vim'
  " Plugin 'vim-airline/vim-airline'
  " Plugin 'vim-airline/vim-airline-themes'
@@ -76,7 +80,7 @@ if executable('ag')
   let g:ctrlp_use_caching = 0
 endif
 
-
+let b:build_dir = "__bld"
 " Leader key mapping
 noremap <Leader>q :q!<CR>
 noremap <Leader>x :close<CR>
@@ -91,6 +95,7 @@ noremap <Leader>v :vsplit<CR>
 noremap <Leader>V :split<CR>
 noremap <Leader>c :bnext<CR>
 noremap <Leader>C :bprevious<CR>
+noremap <Leader>s :set spell!<CR>
 map <Leader>vp :VimuxPromptCommand<CR>
 imap <C-g> <Esc>
 noremap <C-g> <Esc>
@@ -101,7 +106,8 @@ map <C-/> :Commentary<CR>
 map <Leader>gs :Gstatus<CR>
 map <Leader>gc :Gcommit<CR>
 map <Leader>gd :Gdiff<CR>
-map <Leader>ghs :GitGutterStageHunk<CR>
+map <Leader>gsh :GitGutterStageHunk<CR>
+map <Leader>gnh :GitGutterNextHunk<CR>
 map <Leader>gco :Git checkout 
 autocmd FileType fugitive noremap <buffer> <silent> dt 0wv$hy:tabedit <C-r>"<CR>:Gdiff<CR><C-w>l
 
@@ -118,7 +124,8 @@ let g:netrw_liststyle = 3
 " let g:netrw_chgwin=1
 let g:netrw_localrmdir='rm -rf'
 
-map <Leader>n  :Explore<CR>
+" map <Leader>n  :Explore<CR>
+map <Leader>n :NERDTreeToggle<CR> 
 " slime
 let g:slime_target = "tmux"
 let g:slime_paste_file = tempname()
@@ -139,6 +146,10 @@ let g:ctrlp_max_height = 90
 let g:ctrlp_max_depth = 40
 let g:ctrlp_match_window = 'bottom,order:ttb,min:1,max:90,results:90'
 
+" Column 
+set colorcolumn=80
+highlight ColorColumn ctermbg=0 guibg=lightgrey
+
 " Fix Cursor in TMUX
 if exists('$TMUX')
   let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
@@ -147,6 +158,12 @@ else
   let &t_SI = "\<Esc>]50;CursorShape=1\x7"
   let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 endif
+
+" Folding
+" set foldmethod=syntax
+
+au BufWinLeave * mkview
+au BufWinEnter * silent loadview
 
 autocmd BufRead,BufNewFile *.md setlocal spell
 autocmd FileType gitcommit setlocal spell
