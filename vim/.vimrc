@@ -55,7 +55,9 @@ call vundle#begin()
  Plugin 'vhdirk/vim-cmake'
  Plugin 'skywind3000/asyncrun.vim'
  Plugin 'mileszs/ack.vim'
- Plugin 'neoclide/coc.nvim'
+ Plugin 'neoclide/coc.nvim',  {'do': { -> coc#util#install()}}
+ Plugin 'neovimhaskell/haskell-vim'
+ Plugin 'alx741/vim-hindent' " Optional
  " Plugin 'chrisbra/csv.vim'
  " Plugin 'vim-airline/vim-airline'
  " Plugin 'vim-airline/vim-airline-themes'
@@ -79,6 +81,8 @@ if executable('ag')
   let g:ctrlp_user_command = 'ag -l --nocolor -g "" %s'
   let g:ctrlp_use_caching = 0
 endif
+
+" let g:gutentags_trace = 1
 
 let b:build_dir = "__bld"
 " Leader key mapping
