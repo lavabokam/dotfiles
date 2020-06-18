@@ -21,7 +21,7 @@ set showcmd
 set showmatch
 set showmode
 set textwidth=0
-" set autochdir
+set autochdir
 set confirm
 set ignorecase
 set smartcase
@@ -31,8 +31,8 @@ set splitbelow
 set splitright
 syntax on
 
-colorscheme slate
-set wildignore+=*/.git/*,*/node_modules/*,*/bower_components/*,*/bld/*,*/bldr/*,*/thirdparty/*
+set bg=dark
+set wildignore+=*/.git/*,*/node_modules/*,*/bower_components/*,*/thirdparty/*
 set path+=**
 
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -58,10 +58,13 @@ call vundle#begin()
  Plugin 'neoclide/coc.nvim',  {'do': { -> coc#util#install()}}
  Plugin 'neovimhaskell/haskell-vim'
  Plugin 'alx741/vim-hindent' " Optional
+ Plugin 'morhetz/gruvbox'
+ Plugin 'junegunn/fzf'
  " Plugin 'chrisbra/csv.vim'
  " Plugin 'vim-airline/vim-airline'
  " Plugin 'vim-airline/vim-airline-themes'
 call vundle#end()            " required
+
 filetype plugin indent on    " required
 
 " tags
@@ -72,15 +75,6 @@ filetype plugin indent on    " required
 
 let g:airline_theme='dark_minimal'
 
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlP'
-let g:ctrlp_working_path_mode = 'ra'
-let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
-if executable('ag')
-  let g:ackprg = 'ag --vimgrep'
-  let g:ctrlp_user_command = 'ag -l --nocolor -g "" %s'
-  let g:ctrlp_use_caching = 0
-endif
 
 " let g:gutentags_trace = 1
 
@@ -138,6 +132,8 @@ let g:slime_default_config = { "socket_name": get(split($TMUX, ","), 0), "target
 " Vim8.1 terminal
 " map <C-T> :vertical terminal<CR><C-w>L<CR>
 noremap <Leader>t :vertical terminal<CR>
+tnoremap <Esc> <C-\><C-N>
+noremap <Leader>= :vertical resize 80<CR>
 
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
@@ -145,15 +141,12 @@ nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
 
-let g:ctrlp_working_path_mode = 'r'
-let g:ctrlp_max_height = 90
-let g:ctrlp_max_depth = 40
-let g:ctrlp_match_window = 'bottom,order:ttb,min:1,max:90,results:90'
 
 " Column 
 set colorcolumn=80
 highlight ColorColumn ctermbg=0 guibg=lightgrey
-
+let g:gruvbox_contrast_dark="hard"
+colorscheme gruvbox
 " Fix Cursor in TMUX
 if exists('$TMUX')
   let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
@@ -166,8 +159,11 @@ endif
 " Folding
 " set foldmethod=syntax
 
-au BufWinLeave * mkview
-au BufWinEnter * silent loadview
-
+" au BufWinLeave * mkview
+" au BufWinEnter * silent loadview
+au BufNewFile,BufRead Jenkinsfile setf groovy
+au BufNewFile,BufRead *.Jenkinsfile setf groovy
 autocmd BufRead,BufNewFile *.md setlocal spell
 autocmd FileType gitcommit setlocal spell
+
+" set -gx FZF_DEFAULT_COMMAND  'rg --files --no-ignore-vcs --hidden'
