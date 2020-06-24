@@ -55,9 +55,9 @@ call vundle#begin()
  Plugin 'vhdirk/vim-cmake'
  Plugin 'skywind3000/asyncrun.vim'
  Plugin 'mileszs/ack.vim'
- Plugin 'neoclide/coc.nvim',  {'do': { -> coc#util#install()}}
- Plugin 'neovimhaskell/haskell-vim'
- Plugin 'alx741/vim-hindent' " Optional
+ " Plugin 'neoclide/coc.nvim',  {'do': { -> coc#util#install()}}
+ " Plugin 'neovimhaskell/haskell-vim'
+ " Plugin 'alx741/vim-hindent' " Optional
  Plugin 'morhetz/gruvbox'
  Plugin 'junegunn/fzf'
  " Plugin 'chrisbra/csv.vim'
