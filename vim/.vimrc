@@ -46,13 +46,10 @@ call vundle#begin()
  Plugin 'airblade/vim-gitgutter'
  Plugin 'benmills/vimux'
  Plugin 'christoomey/vim-tmux-navigator'
- Plugin 'junegunn/vim-easy-align'
  Plugin 'ludovicchabant/vim-gutentags'
  Plugin 'jpalardy/vim-slime'
- Plugin 'godlygeek/tabular'
- Plugin 'plasticboy/vim-markdown'
  Plugin 'scrooloose/nerdtree'
- Plugin 'vhdirk/vim-cmake'
+ " Plugin 'vhdirk/vim-cmake'
  Plugin 'skywind3000/asyncrun.vim'
  Plugin 'mileszs/ack.vim'
  " Plugin 'neoclide/coc.nvim',  {'do': { -> coc#util#install()}}
@@ -69,7 +66,7 @@ filetype plugin indent on    " required
 
 " tags
 :set tags=./tags,tags;
-" set nu
+set nu
 " set mouse=a
 
 
