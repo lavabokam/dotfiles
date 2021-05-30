@@ -42,7 +42,6 @@ call vundle#begin()
  Plugin 'tpope/vim-fugitive'
  Plugin 'tpope/vim-eunuch'
  Plugin 'tpope/vim-surround'
- Plugin 'tpope/vim-commentary'
  Plugin 'airblade/vim-gitgutter'
  Plugin 'benmills/vimux'
  Plugin 'christoomey/vim-tmux-navigator'
@@ -50,19 +49,12 @@ call vundle#begin()
  Plugin 'jpalardy/vim-slime'
  Plugin 'scrooloose/nerdtree'
  " Plugin 'vhdirk/vim-cmake'
- Plugin 'skywind3000/asyncrun.vim'
- Plugin 'mileszs/ack.vim'
- " Plugin 'neoclide/coc.nvim',  {'do': { -> coc#util#install()}}
- " Plugin 'neovimhaskell/haskell-vim'
- " Plugin 'alx741/vim-hindent' " Optional
+ " Plugin 'mileszs/ack.vim'
  Plugin 'morhetz/gruvbox'
- Plugin 'junegunn/fzf'
- " Plugin 'chrisbra/csv.vim'
- " Plugin 'vim-airline/vim-airline'
- " Plugin 'vim-airline/vim-airline-themes'
+ " Plugin 'junegunn/fzf'
 call vundle#end()            " required
 
-filetype plugin indent on    " required
+filetype plugin  on    " required
 
 " tags
 :set tags=./tags,tags;
@@ -70,12 +62,10 @@ set nu
 " set mouse=a
 
 
-let g:airline_theme='dark_minimal'
 
 
 " let g:gutentags_trace = 1
 
-let b:build_dir = "__bld"
 " Leader key mapping
 noremap <Leader>q :q!<CR>
 noremap <Leader>x :close<CR>
@@ -96,7 +86,6 @@ imap <C-g> <Esc>
 noremap <C-g> <Esc>
 map <C-/> :Commentary<CR>
 
-" noremap <C-p> :CtrlPMixed<CR>
 " vim fugitive mappings
 map <Leader>gs :Gstatus<CR>
 map <Leader>gc :Gcommit<CR>
@@ -163,4 +152,3 @@ au BufNewFile,BufRead *.Jenkinsfile setf groovy
 autocmd BufRead,BufNewFile *.md setlocal spell
 autocmd FileType gitcommit setlocal spell
 
-" set -gx FZF_DEFAULT_COMMAND  'rg --files --no-ignore-vcs --hidden'
