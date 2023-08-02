@@ -15,7 +15,6 @@ shift + ctrl - l : yabai -m window --warp east
 # enabled in Sys Pref > Keyboard > Shortcuts > Mission Control > Switch To Desktop X
 
 # send window to desktop and follow focus
-# shift + cmd - z : yabai -m window --space next; yabai -m space --focus next
 shift + cmd - 1 : yabai -m window --space  1; yabai -m space --focus 1
 shift + cmd - 2 : yabai -m window --space  2; yabai -m space --focus 2
 shift + cmd - 3 : yabai -m window --space  3; yabai -m space --focus 3
@@ -31,21 +30,23 @@ shift + cmd - 9 : yabai -m window --space  9; yabai -m space --focus 9
 #cmd - 0x29 : yabai -m display --focus next
 # cmd + cmd - 3  : yabai -m display --focus 3
 
+alt - m : yabai -m window --space  next; yabai -m window --focus prev;
+alt - n : yabai -m window --space  prev; yabai -m space --focus prev
+alt - b : yabai -m window --minimize ; yabai -m window --focus next
 # send window to monitor and follow focus
-shift + cmd - 0x2B : yabai -m window --display prev; yabai -m display --focus prev
-shift + cmd - 0x29 : yabai -m window --display next; yabai -m display --focus next
-# cmd + cmd - 1  : yabai -m window --display 1; yabai -m display --focus 1
+#ctrl + alt - 0x2B : yabai -m window --display prev; yabai -m display --focus prev
+#ctrl + alt - 0x2D : yabai -m window --display next; yabai -m display --focus next
 
 # toggle window zoom
-#ctrl - d : yabai -m window --toggle zoom-parent
+ctrl - d : yabai -m window --toggle zoom-parent
 ctrl - f : yabai -m window --toggle zoom-fullscreen
 
 # float / unfloat window and center on screen
-#shift + cmd - space : yabai -m window --toggle float
+ctrl + cmd - space : yabai -m window --toggle float
 
 # Focus window up/down in stack
-cmd - o : yabai -m window --focus stack.next
-cmd - p : yabai -m window --focus stack.prev
+#cmd - o : yabai -m window --focus stack.next
+#cmd - p : yabai -m window --focus stack.prev
 
 # Add the active window  to the window or stack to the {direction}
 # Note that this only works when the active window does *not* already belong to a stack
@@ -60,4 +61,6 @@ cmd - p : yabai -m window --focus stack.prev
 cmd + shift - g : open -a "Google Chrome" 
 ctrl - return : open -a "Alacritty" -n
 
-cmd + shift - r : skhd --reload;  yabai --reload
+ctrl + alt - r : yabai --stop-service; skhd --stop-service; yabai --start-service ; skhd --start-service  
+ctrl + alt - v : /Applications/FortiClient.app/Contents/MacOS/FortiClient  connect -s hydvpn -m -q
+
