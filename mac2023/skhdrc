@@ -15,24 +15,24 @@ shift + ctrl - l : yabai -m window --warp east
 # enabled in Sys Pref > Keyboard > Shortcuts > Mission Control > Switch To Desktop X
 
 # send window to desktop and follow focus
-shift + cmd - 1 : yabai -m window --space  1; yabai -m space --focus 1
-shift + cmd - 2 : yabai -m window --space  2; yabai -m space --focus 2
-shift + cmd - 3 : yabai -m window --space  3; yabai -m space --focus 3
-shift + cmd - 4 : yabai -m window --space  4; yabai -m space --focus 4
-shift + cmd - 5 : yabai -m window --space  5; yabai -m space --focus 5
-shift + cmd - 6 : yabai -m window --space  6; yabai -m space --focus 6
-shift + cmd - 7 : yabai -m window --space  7; yabai -m space --focus 7
-shift + cmd - 8 : yabai -m window --space  8; yabai -m space --focus 8
-shift + cmd - 9 : yabai -m window --space  9; yabai -m space --focus 9
+shift + ctrl - 1 : yabai -m window --space  1; yabai -m space --focus 1
+shift + ctrl - 2 : yabai -m window --space  2; yabai -m space --focus 2
+shift + ctrl - 3 : yabai -m window --space  3; yabai -m space --focus 3
+shift + ctrl - 4 : yabai -m window --space  4; yabai -m space --focus 4
+shift + ctrl - 5 : yabai -m window --space  5; yabai -m space --focus 5
+shift + ctrl - 6 : yabai -m window --space  6; yabai -m space --focus 6
+shift + ctrl - 7 : yabai -m window --space  7; yabai -m space --focus 7
+shift + ctrl - 8 : yabai -m window --space  8; yabai -m space --focus 8
+shift + ctrl - 9 : yabai -m window --space  9; yabai -m space --focus 9
 
 # focus monitor
 #cmd - 0x2B : yabai -m display --focus prev
 #cmd - 0x29 : yabai -m display --focus next
 # cmd + cmd - 3  : yabai -m display --focus 3
 
-alt - m : yabai -m window --space  next; yabai -m window --focus prev;
-alt - n : yabai -m window --space  prev; yabai -m space --focus prev
-alt - b : yabai -m window --minimize ; yabai -m window --focus next
+ctrl - m : yabai -m window --space  next; yabai -m space --focus next
+ctrl - n : yabai -m window --space  prev; yabai -m space --focus prev
+ctrl - , : yabai -m window --minimize ; yabai -m window --focus next
 # send window to monitor and follow focus
 #ctrl + alt - 0x2B : yabai -m window --display prev; yabai -m display --focus prev
 #ctrl + alt - 0x2D : yabai -m window --display next; yabai -m display --focus next
@@ -58,9 +58,13 @@ ctrl + cmd - space : yabai -m window --toggle float
 
 # applications
 
-cmd + shift - g : open -a "Google Chrome" 
+alt + shift - g : open -a "Google Chrome" 
 ctrl - return : open -a "Alacritty" -n
 
-ctrl + alt - r : yabai --stop-service; skhd --stop-service; yabai --start-service ; skhd --start-service  
-ctrl + alt - v : /Applications/FortiClient.app/Contents/MacOS/FortiClient  connect -s hydvpn -m -q
+ctrl + cmd - r : yabai --stop-service; skhd --stop-service; yabai --start-service ; skhd --start-service  
+ctrl + cmd - v : osascript /Volumes/work/dotfiles/mac2023/hydvpn-connect.scpt
 
+# ctrl - s [
+#     *           : yabai -m window --focus east
+#     "Alacritty" : skhd --key "ctrl - s"
+# ]

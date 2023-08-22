@@ -1,0 +1,11 @@
+add_newline = false
+format = """
+$hostname\
+$localip\
+$time\
+$nix_shell\
+$directory\
+$git_branch\
+$git_status\
+$status\
+$character"""
