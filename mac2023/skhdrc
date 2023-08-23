@@ -25,6 +25,7 @@ shift + ctrl - 7 : yabai -m window --space  7; yabai -m space --focus 7
 shift + ctrl - 8 : yabai -m window --space  8; yabai -m space --focus 8
 shift + ctrl - 9 : yabai -m window --space  9; yabai -m space --focus 9
 
+
 # focus monitor
 #cmd - 0x2B : yabai -m display --focus prev
 #cmd - 0x29 : yabai -m display --focus next
@@ -32,7 +33,7 @@ shift + ctrl - 9 : yabai -m window --space  9; yabai -m space --focus 9
 
 ctrl - m : yabai -m window --space  next; yabai -m space --focus next
 ctrl - n : yabai -m window --space  prev; yabai -m space --focus prev
-ctrl - , : yabai -m window --minimize ; yabai -m window --focus next
+ctrl - 0x2B : yabai -m window --minimize
 # send window to monitor and follow focus
 #ctrl + alt - 0x2B : yabai -m window --display prev; yabai -m display --focus prev
 #ctrl + alt - 0x2D : yabai -m window --display next; yabai -m display --focus next
@@ -58,11 +59,12 @@ ctrl + cmd - space : yabai -m window --toggle float
 
 # applications
 
-alt + shift - g : open -a "Google Chrome" 
-ctrl - return : open -a "Alacritty" -n
+ctrl + alt - g : open -a "Google Chrome" 
+ctrl + alt - return : code -n
+ctrl - return : open -a "Alacritty" 
 
-ctrl + cmd - r : yabai --stop-service; skhd --stop-service; yabai --start-service ; skhd --start-service  
-ctrl + cmd - v : osascript /Volumes/work/dotfiles/mac2023/hydvpn-connect.scpt
+ctrl + alt - r : yabai --stop-service; skhd --stop-service; yabai --start-service ; skhd --start-service  
+ctrl + alt - v : osascript /Volumes/work/dotfiles/mac2023/hydvpn-connect.scpt
 
 # ctrl - s [
 #     *           : yabai -m window --focus east
