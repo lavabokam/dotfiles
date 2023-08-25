@@ -61,7 +61,7 @@ ctrl + cmd - space : yabai -m window --toggle float
 
 ctrl + alt - g : open -a "Google Chrome" 
 ctrl + alt - return : code -n
-ctrl - return : open -a "Alacritty" 
+ctrl - return : open -a "Alacritty" -n
 
 ctrl + alt - r : yabai --stop-service; skhd --stop-service; yabai --start-service ; skhd --start-service  
 ctrl + alt - v : osascript /Volumes/work/dotfiles/mac2023/hydvpn-connect.scpt
