@@ -12,6 +12,7 @@
         packages = {
           default = pkgs.callPackage ./shell.nix { pkgs = pkgs; };
         };
+        devShells.default = import ./shell.nix { inherit pkgs; };
       }
     );   
 }
