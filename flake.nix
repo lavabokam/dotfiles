@@ -10,7 +10,7 @@
       in
       {
         packages = {
-          default = pkgs.callPackage ./default.nix { pkgs = pkgs; };
+          default = pkgs.callPackage ./shell.nix { pkgs = pkgs; };
         };
       }
     );   
