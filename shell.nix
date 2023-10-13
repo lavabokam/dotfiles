@@ -4,7 +4,8 @@ pkgs.mkShell {
     pkgs.git
     pkgs.lazygit
     pkgs.zsh
-
+    pkgs.bash
+    pkgs.vim
   ];
   shellHook = ''
     echo "Start Developing..."
