@@ -1,9 +1,10 @@
 { pkgs ? import <nixpkgs> {} }:
-mkShell {
+pkgs.mkShell {
   buildInputs = [
-    git
-    lazygit
-    zsh
+    pkgs.git
+    pkgs.lazygit
+    pkgs.zsh
+
   ];
   shellHook = ''
     echo "Start Developing..."
