@@ -60,8 +60,12 @@ ctrl + cmd - space : yabai -m window --toggle float
 # applications
 
 ctrl + alt - g : open -a "Google Chrome" 
-ctrl + alt - return : code -n
-ctrl - return : open -a "Alacritty" -n
+ctrl + alt - return : nvim
+ctrl - return : kitty -d /Volumes/work/ --instance-group kitty -1
+#/Users/lava/.nix-profile/bin/alacritty 
+#open -a "Alacritty" -n
+#ctrl - return : open -a "Alacritty" -n
+
 
 ctrl + alt - r : yabai --stop-service; skhd --stop-service; yabai --start-service ; skhd --start-service  
 ctrl + alt - v : osascript /Volumes/work/dotfiles/mac2023/hydvpn-connect.scpt
