@@ -1,12 +1,14 @@
 add_newline = false
 format = """
-$hostname\
 $localip\
 $time\
-$nix_shell\
 $directory\
 $git_branch\
 $git_status\
 $status\
 $character"""
 
+
+[git_branch]
+symbol = '🌱 '
+truncation_symbol = ''

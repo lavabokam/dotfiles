@@ -52,7 +52,6 @@ set encoding=utf-8
 filetype plugin indent on
 syntax on
 colorscheme koehler
-noremap <Leader>q :q!<CR>
 noremap <Leader>x :close<CR>
 noremap <Leader>w :w!<CR>
 noremap <Leader>e :e

@@ -15,15 +15,25 @@ shift + ctrl - l : yabai -m window --warp east
 # enabled in Sys Pref > Keyboard > Shortcuts > Mission Control > Switch To Desktop X
 
 # send window to desktop and follow focus
-shift + ctrl - 1 : yabai -m window --space  1; yabai -m space --focus 1
-shift + ctrl - 2 : yabai -m window --space  2; yabai -m space --focus 2
-shift + ctrl - 3 : yabai -m window --space  3; yabai -m space --focus 3
-shift + ctrl - 4 : yabai -m window --space  4; yabai -m space --focus 4
-shift + ctrl - 5 : yabai -m window --space  5; yabai -m space --focus 5
-shift + ctrl - 6 : yabai -m window --space  6; yabai -m space --focus 6
-shift + ctrl - 7 : yabai -m window --space  7; yabai -m space --focus 7
-shift + ctrl - 8 : yabai -m window --space  8; yabai -m space --focus 8
-shift + ctrl - 9 : yabai -m window --space  9; yabai -m space --focus 9
+# shift + ctrl - 1 : yabai -m window --space  1; yabai -m space --focus 1
+# shift + ctrl - 2 : yabai -m window --space  2; yabai -m space --focus 2
+# shift + ctrl - 3 : yabai -m window --space  3; yabai -m space --focus 3
+# shift + ctrl - 4 : yabai -m window --space  4; yabai -m space --focus 4
+# shift + ctrl - 5 : yabai -m window --space  5; yabai -m space --focus 5
+# shift + ctrl - 6 : yabai -m window --space  6; yabai -m space --focus 6
+# shift + ctrl - 7 : yabai -m window --space  7; yabai -m space --focus 7
+# shift + ctrl - 8 : yabai -m window --space  8; yabai -m space --focus 8
+# shift + ctrl - 9 : yabai -m window --space  9; yabai -m space --focus 9
+
+shift + ctrl - 1 :  yabai -m space --focus 1
+shift + ctrl - 2 :  yabai -m space --focus 2
+shift + ctrl - 3 :  yabai -m space --focus 3
+shift + ctrl - 4 :  yabai -m space --focus 4
+shift + ctrl - 5 :  yabai -m space --focus 5
+shift + ctrl - 6 :  yabai -m space --focus 6
+shift + ctrl - 7 :  yabai -m space --focus 7
+shift + ctrl - 8 :  yabai -m space --focus 8
+shift + ctrl - 9 :  yabai -m space --focus 9
 
 
 # focus monitor
@@ -59,9 +69,9 @@ ctrl + cmd - space : yabai -m window --toggle float
 
 # applications
 
-ctrl + alt - g : open -a "Google Chrome" 
-ctrl + alt - return : nvim
-ctrl - return : kitty -d /Volumes/work/ --instance-group kitty -1
+# ctrl + alt - g : open -a "Google Chrome" 
+ctrl + alt - return : emacs
+ctrl - return : kitty -d /Volumes/work/  -1
 #/Users/lava/.nix-profile/bin/alacritty 
 #open -a "Alacritty" -n
 #ctrl - return : open -a "Alacritty" -n
