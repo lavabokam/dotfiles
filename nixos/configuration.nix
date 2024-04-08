@@ -53,8 +53,9 @@
   users.users.lava = {
     isNormalUser = true;
     description = "lava";
+    shell = pkgs.nushell;
     extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [ vscode google-chrome obsidian ];
+    packages = with pkgs; [ vscode google-chrome ];
   };
 
   # Enable automatic login for the user.
@@ -62,6 +63,7 @@
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -93,6 +95,15 @@
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
+
+
+  # Bluetooth
+  hardware.bluetooth = {
+    enable = true;
+    settings.General = { Experimental = true ;} ;
+  };
+  services.blueman.enable = true;
+  hardware.pulseaudio.enable = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
