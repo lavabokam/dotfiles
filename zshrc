@@ -1,8 +1,6 @@
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-#[ -f "/Users/lava/.ghcup/env" ] && source "/Users/lava/.ghcup/env"
-#
-source <($HOME/.nix-profile/bin/starship init zsh --print-full-init)
-alias work='cd /Volumes/work/'
+#source <($HOME/.nix-profile/bin/starship init zsh --print-full-init)
+eval "$($HOME/.nix-profile/bin/starship init zsh)"
+#alias work='cd /Volumes/work/'
 alias tmux='tmux -S /tmp/lava.tmux'
 alias hexword="hexdump -v -e '\"%08_ax: \"' -e ' 1/1 \"%08x \" \" \n\"'"
 alias phttps="python3 -m http.server"
