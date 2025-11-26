@@ -1,116 +1,78 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
-{ config, pkgs, ... }:
-
-{
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
-
-  # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-
-  networking.hostName = "nixos"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-  # Enable networking
-  networking.networkmanager.enable = true;
-
-  # Set your time zone.
+{ modulesPath, config, pkgs, lib, ... }: {
+  imports = [ "${modulesPath}/virtualisation/amazon-image.nix" ];
+  ec2.efi = true;
+  networking.hostName = "lava01";
   time.timeZone = "Asia/Kolkata";
+  nixpkgs.config.allowUnfree = true;
+  nix.settings.experimental-features = ["nix-command" "flakes"];
+  nix.settings.extra-sandbox-paths = ["/nix/var/cache/sccache"];
 
-  # Select internationalisation properties.
-  i18n.defaultLocale = "en_IN";
-
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "en_IN";
-    LC_IDENTIFICATION = "en_IN";
-    LC_MEASUREMENT = "en_IN";
-    LC_MONETARY = "en_IN";
-    LC_NAME = "en_IN";
-    LC_NUMERIC = "en_IN";
-    LC_PAPER = "en_IN";
-    LC_TELEPHONE = "en_IN";
-    LC_TIME = "en_IN";
-  };
-
-  # Configure keymap in X11
-  services.xserver = {
-    layout = "us";
-    xkbVariant = "";
-    xkbOptions = "ctrl:nocaps";
-  };
-
-  # Define a user account. Don't forget to set a password with ‘passwd’.
+  virtualisation.docker.enable = true;
+  environment.systemPackages = with pkgs; [
+    coreutils
+    wget
+    curl
+    gnutar
+    gzip
+    vim
+    git
+    htop
+    tmux
+    unzip
+    rust-analyzer
+    gcc
+    python3
+    openssl
+    pkg-config
+  ];
   users.users.lava = {
     isNormalUser = true;
-    description = "lava";
-    shell = pkgs.nushell;
-    extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [ vscode google-chrome ];
+    extraGroups = ["wheel" "docker" ];
+    packages = with pkgs; [
+      lazygit
+      ripgrep
+      fd
+    ];
   };
+  
 
-  # Enable automatic login for the user.
-  services.getty.autologinUser = "lava";
-
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  environment.systemPackages = with pkgs; [ vim wget curl htop git alacritty 
-  #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  #  wget
-  ];
-  services.xserver = { enable = true; 
-    desktopManager = { xterm.enable = false; };
-    displayManager = { defaultSession = "none+i3"; autoLogin.enable = true; autoLogin.user = "lava"; };
-    windowManager.i3 = { enable = true; extraPackages = with pkgs ; [ i3status  rofi i3lock i3blocks ] ; };
-  };
-  programs.dconf.enable = true;  
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
-
-
-  # Bluetooth
-  hardware.bluetooth = {
+  services.code-server = {
     enable = true;
-    settings.General = { Experimental = true ;} ;
+    user = "lava";
+    port =  7890;
+    host = "127.0.01";
+    hashedPassword = "$argon2i$v=19$m=4096,t=3,p=1$NFVnV0xaSzlkTGo0aWVuY3FKN1c0WWZFWHFNPQ$3fOChtFo6Npc+FpaT2dKFC5qA9Hbz1zlamg3/WyN5IY";
+    extraPackages = with pkgs; [ cargo rust-analyzer python3 ripgrep fd git ];
   };
-  services.blueman.enable = true;
-  hardware.pulseaudio.enable = true;
+  services.caddy = {
+    enable = true;
+    email = "lava@dheyo.ai";
+    virtualHosts."lava01.dheyo.ai".extraConfig = ''
+	reverse_proxy  127.0.0.1:7890
+    '';
+  };
 
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "23.11"; # Did you read the comment?
+  services.postgresql = {
+     enable = true;
+     ensureDatabases = ["dwardb"];
+     authentication = pkgs.lib.mkOverride 10 ''
+          local all all trust
+          host all all 127.0.0.1/32 trust
+          host all all ::1/128 trust
+        '';
+   };
+  services.redis.servers.dwar = {
+  enable = true;
+  port = 6379;
+#  user = "lava";
+#  group = "lava";
+};
 
+  networking.firewall.allowedTCPPorts = [ 443 8080 ]; 
+  security.sudo.wheelNeedsPassword = false;
+  systemd.tmpfiles.rules = [
+    "d /nix/var/cache/sccache 0770 lava  nixbld -"
+  ];
+  
+  system.stateVersion = "25.05";
 }
