@@ -26,6 +26,10 @@
     bash
     wget
     qdrant
+    postgresql
     vscode
+    obsidian
+    zed-editor
+    ffmpeg
   ];
 }

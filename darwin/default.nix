@@ -65,4 +65,24 @@
       };
     };
   };
+
+  # Custom Launchd service for PostgreSQL
+  launchd.user.agents.postgresql = {
+    serviceConfig = {
+      ProgramArguments = [
+        "${pkgs.writeShellScript "postgres-start" ''
+          set -e
+          DATADIR="/Users/${username}/.postgres-data"
+          if [ ! -s "$DATADIR/PG_VERSION" ]; then
+            ${pkgs.postgresql}/bin/initdb -D "$DATADIR"
+          fi
+          exec ${pkgs.postgresql}/bin/postgres -D "$DATADIR"
+        ''}"
+      ];
+      KeepAlive = true;
+      RunAtLoad = true;
+      StandardOutPath = "/tmp/postgresql.out.log";
+      StandardErrorPath = "/tmp/postgresql.err.log";
+    };
+  };
 }
