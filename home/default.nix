@@ -31,5 +31,8 @@
     obsidian
     zed-editor
     ffmpeg
+#    netron
+    google-cloud-sdk
+    awscli2
   ];
 }
